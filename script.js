@@ -43,3 +43,23 @@ function openNewTabWithModifiedURL() {
   // Open the new URL in a new tab
   window.open(new_url, "_blank");
 }
+
+// Define a function that modifies and opens a new tab with the URL from the clipboard
+function modifyAndOpenURLFromClipboard() {
+  try {
+    // Paste the clipboard data into the hidden input element
+    var hiddenInput = pasteClipboardData();
+    // Get the value of the input element, which is the URL from the clipboard
+    var url = hiddenInput.value;
+    // Use a regular expression to find the input in the URL
+    var input = url.match(/150px\/(.+)\.jpeg/)[1];
+    // Construct the new URL based on the input
+    var new_url = "https://flim-1-0-2.s3.eu-central-1.amazonaws.com/full/" + input + ".png";
+    // Remove the hidden input element from the body
+    document.body.removeChild(hiddenInput);
+    // Open the new URL in a new tab without displaying it on the page
+    window.open(new_url, "_blank");
+  } catch (error) {
+    console.error(error.message);
+  }
+}
