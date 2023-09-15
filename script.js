@@ -34,3 +34,12 @@ function modifyURLFromHiddenInput() {
   } catch (error) {
     console.error(error.message);
   }
+}
+
+// Define a function that opens a new tab with the modified URL
+function openNewTabWithModifiedURL() {
+  // Get the modified URL from the paragraph element with id="new-url"
+  var new_url = document.getElementById("new-url").innerHTML;
+  // Open the new URL in a new tab
+  window.open(new_url, "_blank");
+}
