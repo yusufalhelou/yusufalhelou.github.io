@@ -12,7 +12,11 @@ function pasteClipboardData() {
   hiddenInput.focus();
   // Execute the paste command
   document.execCommand("paste");
-  // Return the input element
+  // Get the clipboard data from the hidden input element
+  var clipboardData = hiddenInput.value;
+  // Set the value of the input element with id="clipboard-data" to the clipboard data
+  document.getElementById("clipboard-data").value = clipboardData;
+  // Return the hidden input element
   return hiddenInput;
 }
 
