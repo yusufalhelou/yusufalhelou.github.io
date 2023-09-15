@@ -17,7 +17,7 @@ function pasteClipboardData() {
 }
 
 // Define a function that takes the URL from the hidden input element and modifies it
-function modifyURLFromHiddenInput() {
+function modifyURLFromClipboard() {
   try {
     // Paste the clipboard data into the hidden input element
     var hiddenInput = pasteClipboardData();
