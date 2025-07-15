@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launching Soon!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        @keyframes breathe {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            21% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            58% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes text-inhale {
+            0%, 100% { opacity: 0; }
+            1% { opacity: 1; }
+            20% { opacity: 1; }
+            21% { opacity: 0; }
+        }
+
+        @keyframes text-hold {
+            0%, 100% { opacity: 0; }
+            21% { opacity: 0; }
+            22% { opacity: 1; }
+            57% { opacity: 1; }
+            58% { opacity: 0; }
+        }
+
+        @keyframes text-exhale {
+            0%, 100% { opacity: 0; }
+            58% { opacity: 0; }
+            59% { opacity: 1; }
+            99% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .breathing-circle {
+            animation: breathe 19s ease-in-out infinite;
+            position: relative;
+        }
+
+        .breathing-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        .breathing-text.inhale {
+            animation: text-inhale 19s ease-in-out infinite;
+        }
+        .breathing-text.hold {
+            animation: text-hold 19s ease-in-out infinite;
+        }
+        .breathing-text.exhale {
+            animation: text-exhale 19s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center p-4 text-center">
+    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+        Launching Soon!
+    </h1>
+    <p class="text-2xl md:text-3xl font-semibold text-gray-700 mb-8">
+        For now, take a deep breath!
+    </p>
+
+    <div id="breathing-circle" class="breathing-circle w-24 h-24 bg-gray-300 rounded-full mb-8 shadow-lg flex items-center justify-center">
+        <span class="breathing-text inhale">INHALING</span>
+        <span class="breathing-text hold">HOLD</span>
+        <span class="breathing-text exhale">EXHALING</span>
+    </div>
+
+    <p class="text-lg text-gray-600 mt-12">
+        @YusufAlhelou
+    </p>
+
+    <script>
+    </script>
+</body>
+</html>
