@@ -1,0 +1,42 @@
+[
+    {
+        "image": "https://placehold.co/600x400/0A0A0A/E0E0E0?text=Pharmacy+App+Design",
+        "title": "Pharmacy App Design",
+        "category": ["Pharmacy", "Web"],
+        "type": "Project",
+        "link": "https://www.example.com/pharmacy-app",
+        "date": "2023-01-15",
+        "description": "A comprehensive mobile application designed for pharmacies to manage prescriptions and inventory.",
+        "tags": ["UI/UX", "Mobile App", "Healthcare", "Presentation"]
+    },
+    {
+        "image": "https://placehold.co/400x500/0A0A0A/D0D0D0?text=Abstract+Digital+Art",
+        "title": "Abstract Digital Art",
+        "category": ["Artwork"],
+        "type": "Experimental",
+        "link": "https://www.example.com/abstract-art",
+        "date": "2024-03-20",
+        "description": "An exploration of generative art using various digital tools and algorithms.",
+        "tags": ["Generative Art", "Digital Painting"]
+    },
+    {
+        "image": "https://placehold.co/800x300/0A0A0A/C0C0C0?text=E-commerce+Web+Redesign",
+        "title": "E-commerce Website Redesign",
+        "category": ["Web"],
+        "type": "Project",
+        "link": "https://www.example.com/ecommerce",
+        "date": "2023-09-01",
+        "description": "Redesign of an existing e-commerce platform to improve user experience and conversion rates.",
+        "tags": ["E-commerce", "Web Design", "UX Optimization"]
+    },
+    {
+        "image": "https://placehold.co/500x700/0A0A0A/B0B0B0?text=Drug+Delivery+System",
+        "title": "Drug Delivery System",
+        "category": ["Pharmacy"],
+        "type": "Project",
+        "link": "https://www.example.com/drug-delivery",
+        "date": "2024-02-10",
+        "description": "Development of a new system for efficient and secure drug delivery to patients.",
+        "tags": ["Logistics", "Healthcare Tech"]
+    }
+]
