@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Holo Card</title>
+    <link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
+    <style>
+        @charset "UTF-8";
+        :root {
+            --mx: 50%;
+            --my: 50%;
+            --s: 1;
+            --o: 0;
+            --tx: 0px;
+            --ty: 0px;
+            --rx: 0deg;
+            --ry: 0deg;
+            --pos: 50% 50%;
+            --posx: 50%;
+            --posy: 50%;
+            --hyp: 0;
+
+            /* Custom colors for the gradient shine, inspired by original */
+            --shine-color1: rgba(0, 231, 255, 0.4);
+            --shine-color2: rgba(255, 0, 231, 0.4);
+            --sparkle-color1: rgba(255, 0, 132, 0.15); /* #ff008450 */
+            --sparkle-color2: rgba(252, 164, 0, 0.1);  /* #fca40040 */
+            --sparkle-color3: rgba(255, 255, 0, 0.08); /* #ffff0030 */
+            --sparkle-color4: rgba(0, 255, 138, 0.05); /* #00ff8a20 */
+            --sparkle-color5: rgba(0, 207, 255, 0.1);  /* #00cfff40 */
+            --sparkle-color6: rgba(204, 76, 250, 0.15); /* #cc4cfa50 */
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            place-items: center; /* Center the card */
+            background: transparent; /* Transparent background */
+            overflow: hidden; /* Prevent scrollbars */
+            font-family: "Inter", sans-serif;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px; /* For 3D rotation */
+        }
+
+        .card {
+            --radius: 4.55% / 3.5%;
+            z-index: calc(var(--s) * 100);
+            transform: translate3d(0, 0, 0.1px);
+            will-change: transform, visibility;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 300px; /* Adjust card size as needed */
+            height: 420px; /* Standard card aspect ratio */
+            border-radius: var(--radius);
+            /* Removed all box-shadow for the card */
+            box-shadow: none;
+            transition: transform 0.5s ease, box-shadow 0.2s ease;
+            cursor: grab;
+            isolation: isolate; /* Needed for blend modes */
+        }
+
+        .card.interacting {
+            z-index: calc(var(--s) * 120);
+            cursor: grabbing;
+        }
+
+        .card.active {
+            z-index: 999; /* Bring to front when active */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.2); /* Zoom in effect */
+            /* Removed box-shadow for active state */
+            box-shadow: none;
+            cursor: zoom-out;
+            animation: none !important; /* Disable card animation when active */
+        }
+
+        .card__translater,
+        .card__rotator {
+            display: grid;
+            perspective: 600px;
+            transform-origin: center;
+            will-change: transform;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card__translater {
+            transform: translate3d(var(--tx), var(--ty), 0) scale(var(--s));
+        }
+
+        .card__rotator {
+            --glow: #69d1e9;
+            transform: rotateY(var(--ry)) rotateX(var(--rx)); /* Swapped RX and RY for more natural rotation */
+            transform-style: preserve-3d;
+            border-radius: var(--radius);
+            outline: none;
+            /* Removed all box-shadow for the rotator */
+            box-shadow: none;
+            transition: box-shadow 0.2s ease; /* Smooth transition for shadow changes */
+        }
+
+        /* Removed box-shadow for interacting and active states of rotator */
+        .card.interacting .card__rotator,
+        .card.active .card__rotator {
+            box-shadow: none;
+        }
+
+
+        .card__rotator :global(*) {
+            width: 100%;
+            display: grid;
+            grid-area: 1/1;
+            border-radius: var(--radius);
+            image-rendering: optimizeQuality;
+            transform-style: preserve-3d;
+        }
+
+        /* Removed .card__back CSS rule */
+
+        .card__front,
+        .card__front * {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .card__front {
+            opacity: 1;
+            transition: opacity 0.2s ease-out;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius);
+            overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+        }
+
+        .card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the card area */
+            border-radius: var(--radius);
+            /* Removed image-rendering properties for smoother scaling */
+        }
+
+        /* The main shine effect, mimicking the original's ::before */
+        .card__shine {
+            content: ""; /* Needed for pseudo-element behavior */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-repeat: no-repeat;
+            opacity: var(--o); /* Controlled by JS */
+            mix-blend-mode: color-dodge;
+            transition: all .33s ease; /* Smooth transition for shine */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: 1; /* Ensure it's above the image but below the sparkles */
+
+            background-position: var(--posx) var(--posy); /* Dynamic position */
+            background-size: 300% 300%; /* Larger size for movement */
+            background-image: linear-gradient(
+                115deg,
+                transparent 0%,
+                var(--shine-color1) 25%,
+                transparent 47%,
+                transparent 53%,
+                var(--shine-color2) 75%,
+                transparent 100%
+            );
+            filter: brightness(0.7) contrast(1.0); /* Subtle filter */
+        }
+
+        /* The sparkle/complex holo effect, mimicking the original's ::after */
+        .card__shine:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-repeat: no-repeat;
+            opacity: calc(var(--o) * 0.75); /* Controlled by JS, slightly less opaque */
+            mix-blend-mode: color-dodge;
+            transition: all .33s ease; /* Smooth transition */
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: 2; /* Ensure it's above the main shine */
+
+            /* Approximating sparkles and holo.png with gradients */
+            background-image:
+                /* Sparkle-like effect (simplified) */
+                radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.3) 0%, transparent 10%),
+                /* Holo-like color shifts */
+                linear-gradient(125deg,
+                    var(--sparkle-color1) 15%,
+                    var(--sparkle-color2) 30%,
+                    var(--sparkle-color3) 40%,
+                    var(--sparkle-color4) 60%,
+                    var(--sparkle-color5) 70%,
+                    var(--sparkle-color6) 85%);
+
+            background-position: var(--posx) var(--posy), center; /* Dynamic and static positions */
+            background-size: 160%, 160%; /* Original size for sparkles */
+            background-blend-mode: overlay, normal; /* Overlay for sparkles, normal for gradient */
+            filter: brightness(1.0) contrast(1.0); /* Subtle filter */
+        }
+
+        /* Animations for idle state */
+        .card.animated {
+            animation: holoCard 12s ease infinite; /* Changed iteration count to infinite */
+        }
+        .card.animated .card__shine {
+            animation: holoGradient 12s ease infinite; /* Changed iteration count to infinite */
+        }
+        .card.animated .card__shine:after {
+            animation: holoSparkle 12s ease infinite; /* Changed iteration count to infinite */
+        }
+
+        /* Explicitly stop animations when zoomed in */
+        .card.active,
+        .card.active .card__shine,
+        .card.active .card__shine:after {
+            animation: none !important;
+        }
+
+        @keyframes holoSparkle {
+            0%, 100% {
+                opacity: calc(var(--o) * 0.75); background-position: 50% 50%; filter: brightness(1.2) contrast(1.25);
+            }
+            5%, 8% {
+                opacity: calc(var(--o) * 1); background-position: 40% 40%; filter: brightness(.8) contrast(1.2);
+            }
+            13%, 16% {
+                opacity: calc(var(--o) * 0.5); background-position: 50% 50%; filter: brightness(1.2) contrast(.8);
+            }
+            35%, 38% {
+                opacity: calc(var(--o) * 1); background-position: 60% 60%; filter: brightness(1) contrast(1);
+            }
+            55% {
+                opacity: calc(var(--o) * 0.33); background-position: 45% 45%; filter: brightness(1.2) contrast(1.25);
+            }
+        }
+
+        @keyframes holoGradient {
+            0%, 100% {
+                opacity: calc(var(--o) * 0.5);
+                background-position: 50% 50%;
+                filter: brightness(.5) contrast(1);
+            }
+            5%, 9% {
+                opacity: calc(var(--o) * 1);
+                background-position: 100% 100%;
+                filter: brightness(.75) contrast(1.25);
+            }
+            13%, 17% {
+                opacity: calc(var(--o) * 0.88);
+                background-position: 0% 0%;
+            }
+            35%, 39% {
+                opacity: calc(var(--o) * 1);
+                background-position: 100% 100%;
+                filter: brightness(.5) contrast(1);
+            }
+            55% {
+                opacity: calc(var(--o) * 1);
+                background-position: 0% 0%;
+                filter: brightness(.75) contrast(1.25);
+            }
+        }
+
+        @keyframes holoCard {
+            0%, 100% {
+                transform: rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+            }
+            5%, 8% {
+                transform: rotateZ(0deg) rotateX(6deg) rotateY(-20deg);
+            }
+            13%, 16% {
+                transform: rotateZ(0deg) rotateX(-9deg) rotateY(32deg);
+            }
+            35%, 38% {
+                transform: rotateZ(3deg) rotateX(12deg) rotateY(20deg);
+            }
+            55% {
+                transform: rotateZ(-3deg) rotateX(-12deg) rotateY(-27deg);
+            }
+        }
+
+        /* Message Box for alerts */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .message-box button {
+            background-color: #69d1e9;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .message-box button:hover {
+            background-color: #4ac0d9;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .card {
+                width: 250px;
+                height: 350px;
+            }
+            .card.active {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card" data-rarity="rare holo v" data-supertype="pokemon">
+            <div class="card__translater">
+                <div class="card__rotator">
+                    <div class="card__front">
+                        <img class="card__image" src="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/BlackCompressed.png" alt="Custom Holo Card Image" onerror="this.onerror=null;this.src='https://placehold.co/300x420/000000/FFFFFF?text=Image+Not+Found';">
+                        <div class="card__shine"></div>
+                    </div>
+                    <!-- Removed .card__back div -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="messageBox" class="message-box">
+        <p id="messageText"></p>
+        <button id="messageButton">OK</button>
+    </div>
+
+    <script>
+        // Utility function for message box
+        function showMessageBox(message) {
+            const messageBox = document.getElementById('messageBox');
+            const messageText = document.getElementById('messageText');
+            const messageButton = document.getElementById('messageButton');
+
+            messageText.textContent = message;
+            messageBox.style.display = 'flex';
+
+            messageButton.onclick = () => {
+                messageBox.style.display = 'none';
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const card = document.querySelector('.card');
+            const rotator = card.querySelector('.card__rotator');
+            const shine = card.querySelector('.card__shine');
+
+            let isDragging = false;
+            let isZoomed = false;
+            let startX, startY;
+            let currentRotX = 0;
+            let currentRotY = 0;
+            let lastTouchX = 0;
+            let lastTouchY = 0;
+
+            // Set initial rotation and shine opacity for idle animation
+            card.style.setProperty('--rx', '0deg');
+            card.style.setProperty('--ry', '0deg');
+            card.style.setProperty('--o', '0.3'); // Subtle shine for idle animation
+            card.classList.add('animated');
+
+            // Function to update card styles based on mouse/touch position
+            const updateCardStyles = (x, y) => {
+                const cardRect = card.getBoundingClientRect();
+                const centerX = cardRect.left + cardRect.width / 2;
+                const centerY = cardRect.top + cardRect.height / 2;
+
+                // Calculate mouse position relative to card center (-1 to 1)
+                const mouseX = (x - centerX) / (cardRect.width / 2);
+                const mouseY = (y - centerY) / (cardRect.height / 2);
+
+                // Calculate rotation based on mouse position
+                const rotX = -mouseY * 15; // Max 15 degrees rotation
+                const rotY = mouseX * 15;
+
+                // Calculate shine position based on mouse position
+                const shinePosX = (mouseX + 1) * 50; // 0 to 100
+                const shinePosY = (mouseY + 1) * 50; // 0 to 100
+
+                // Calculate hypotenuse for brightness effect
+                const hyp = Math.sqrt(mouseX * mouseX + mouseY * mouseY);
+
+                // Update CSS variables
+                card.style.setProperty('--mx', `${shinePosX}%`);
+                card.style.setProperty('--my', `${shinePosY}%`);
+                card.style.setProperty('--rx', `${rotX}deg`);
+                card.style.setProperty('--ry', `${rotY}deg`);
+                card.style.setProperty('--posx', `${shinePosX}%`);
+                card.style.setProperty('--posy', `${shinePosY}%`);
+                card.style.setProperty('--hyp', hyp);
+                
+                // Opacity is now managed by event listeners based on interaction state
+            };
+
+            // Mouse events for hover and drag
+            card.addEventListener('mousemove', (e) => {
+                // Always update styles and stop animation on mousemove
+                updateCardStyles(e.clientX, e.clientY);
+                card.classList.remove('animated'); // Stop idle animation
+                // Set to full shine on interaction
+                card.style.setProperty('--o', '1'); 
+
+                if (isDragging) {
+                    const deltaX = e.clientX - startX;
+                    const deltaY = e.clientY - startY;
+
+                    currentRotY += deltaX * 0.2;
+                    currentRotX -= deltaY * 0.2;
+
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (!isZoomed) { /* Only reset and re-animate if not zoomed */
+                    // Reset styles when mouse leaves
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                    currentRotX = 0; // Reset current rotation values
+                    currentRotY = 0;
+                    card.style.setProperty('--o', '0.3'); // Return to subtle idle shine
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500); // Original delay from script.js
+                } else {
+                    // If zoomed, maintain current rotation on mouseleave
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    // When zoomed and interaction stops, shine disappears
+                    card.style.setProperty('--o', '0'); 
+                }
+            });
+
+            card.addEventListener('mousedown', (e) => {
+                if (e.button === 0) { // Left click
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    card.classList.add('interacting');
+                    card.style.transition = 'none'; // Disable transition during drag
+                    card.classList.remove('animated'); // Stop idle animation
+                    card.style.setProperty('--o', '1'); // Full shine on interaction
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    card.classList.remove('interacting');
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.2s ease'; // Re-enable transition
+                    // Add animated class back after a delay if not zoomed
+                    if (!isZoomed) {
+                        setTimeout(() => {
+                            card.classList.add('animated');
+                        }, 2500);
+                    }
+                }
+            });
+
+            // Touch events for mobile
+            card.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    lastTouchX = e.touches[0].clientX;
+                    lastTouchY = e.touches[0].clientY;
+                    card.classList.add('interacting');
+                    card.style.transition = 'none';
+                    card.classList.remove('animated'); // Stop idle animation
+                    card.style.setProperty('--o', '1'); // Full shine on interaction
+                    updateCardStyles(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            });
+
+            card.addEventListener('touchmove', (e) => {
+                if (isDragging && e.touches.length === 1) {
+                    const touchX = e.touches[0].clientX;
+                    const touchY = e.touches[0].clientY;
+
+                    const deltaX = touchX - lastTouchX;
+                    const deltaY = touchY - lastTouchY;
+
+                    currentRotY += deltaX * 0.2;
+                    currentRotX -= deltaY * 0.2;
+
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+
+                    lastTouchX = touchX;
+                    lastTouchY = touchY;
+
+                    updateCardStyles(touchX, touchY);
+                }
+            });
+
+            card.addEventListener('touchend', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    card.classList.remove('interacting');
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.2s ease';
+                }
+                if (!isZoomed) { /* Only hide shine if not zoomed */
+                    card.style.setProperty('--o', '0.3'); // Return to subtle idle shine
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500);
+                } else {
+                    // If zoomed, maintain current rotation on touchend
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    // When zoomed and interaction stops, shine disappears
+                    card.style.setProperty('--o', '0'); 
+                }
+            });
+
+            // Device orientation for mobile holo effect
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', (e) => {
+                    // Stop idle animation on orientation change
+                    card.classList.remove('animated'); 
+                    // Set to full shine on interaction via tilt
+                    card.style.setProperty('--o', '1'); 
+
+                    const alpha = e.alpha; // Z-axis rotation (0-360)
+                    const beta = e.beta;   // X-axis rotation (-180 to 180)
+                    const gamma = e.gamma; // Y-axis rotation (-90 to 90)
+
+                    // Normalize values to -1 to 1 range for consistency with mouseX/mouseY
+                    const normGamma = gamma / 90; // -1 to 1
+                    const normBeta = beta / 180; // -1 to 1
+
+                    // Map to rotation and shine position
+                    const rotX = -normBeta * 15;
+                    const rotY = normGamma * 15;
+
+                    const shinePosX = (normGamma + 1) * 50;
+                    const shinePosY = (normBeta + 1) * 50;
+
+                    const hyp = Math.sqrt(normGamma * normGamma + normBeta * normBeta);
+
+                    card.style.setProperty('--mx', `${shinePosX}%`);
+                    card.style.setProperty('--my', `${shinePosY}%`);
+                    card.style.setProperty('--rx', `${rotX}deg`);
+                    card.style.setProperty('--ry', `${rotY}deg`);
+                    card.style.setProperty('--posx', `${shinePosX}%`);
+                    card.style.setProperty('--posy', `${shinePosY}%`);
+                    card.style.setProperty('--hyp', hyp);
+                });
+            } else {
+                // Fallback for devices that don't support DeviceOrientationEvent
+                showMessageBox("Your device does not support device orientation events for the tilt effect.");
+            }
+
+            // Click to take a closer look functionality
+            card.addEventListener('click', () => {
+                // Prevent zooming if currently dragging
+                if (isDragging) {
+                    return;
+                }
+
+                isZoomed = !isZoomed;
+                card.classList.toggle('active', isZoomed);
+
+                if (isZoomed) {
+                    card.style.setProperty('--o', '0'); // Shine off by default when zoomed in
+                    card.classList.remove('animated'); // Stop idle animation when zoomed
+                } else {
+                    // Reset rotation and hide shine when unzoomed
+                    currentRotX = 0; // Reset rotation for unzoom
+                    currentRotY = 0; // Reset rotation for unzoom
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    card.style.setProperty('--o', '0.3'); // Return to subtle idle shine
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
