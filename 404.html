@@ -6,10 +6,10 @@
     <title>404 - Page Not Found</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #e6f2ff; /* Light pharmacy blue */
+            background-color: #e6f2ff;
             font-family: 'Roboto Mono', monospace;
             display: flex;
             justify-content: center;
@@ -17,38 +17,46 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            /* Removed overflow: hidden; to allow scrolling */
             background-image:
                 radial-gradient(circle at 10% 20%, rgba(255,255,255,0.8) 0.1px, transparent 1px),
                 radial-gradient(circle at 90% 80%, rgba(255,255,255,0.8) 0.1px, transparent 1px);
             background-size: 50px 50px;
         }
 
+        .rx-container {
+            width: 100%;
+            max-width: 650px;
+            transform-origin: center;
+            transform: scale(0.9); /* Kept fixed scale as a design choice */
+            padding: 10px;
+            /* Added margin auto for horizontal centering within flex container */
+            margin: auto; 
+        }
+
         .rx-form {
-        background-color: #fefefe;
-        color: #333;
-        padding: 50px 50px 40px;
-        border-radius: 4px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 
-                    inset 0 0 15px rgba(0, 0, 0, 0.05);
-        max-width: 650px;
-        width: 90%;
-        border: 1px solid #d0e3f0;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        line-height: 1.6;
-        letter-spacing: 0.02em;
-        /* Prescription paper lines */
-        background-image: 
-            linear-gradient(to bottom, transparent 95%, #f0f0f0 95%),
-            linear-gradient(to right, #f5f5f5 1px, transparent 1px);
-        background-size: 100% 30px, 20px 100%;
-        transform: rotate(0.5deg);
-        transition: transform 0.3s ease;
-        /* Vertical prescription line on the right */
-        border-right: 1px dashed #0077cc;
-    }
+            background-color: #fefefe;
+            color: #333;
+            padding: 40px 40px 30px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 
+                        inset 0 0 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            border: 1px solid #d0e3f0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            background-image: 
+                linear-gradient(to bottom, transparent 95%, #f0f0f0 95%),
+                linear-gradient(to right, #f5f5f5 1px, transparent 1px);
+            background-size: 100% 30px, 20px 100%;
+            transform: rotate(0.5deg);
+            transition: transform 0.3s ease;
+            border-right: 1px dashed #0077cc;
+        }
 
         .rx-form:hover {
             transform: rotate(0deg);
@@ -56,38 +64,38 @@
 
         .rx-header {
             position: absolute;
-            top: 15px;
+            top: 10px;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 30px;
+            padding: 0 25px;
             align-items: center;
         }
 
         .rx-symbol {
             font-weight: 700;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             color: #0052a5;
-            font-family: 'Libre Baskerville', serif;
+            font-family: 'Libre Baskerville', 'Noto Serif', serif;
             opacity: 0.9;
             position: relative;
             top: -5px;
         }
 
         .rx-number {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #666;
             font-weight: bold;
         }
 
         .pharmacy-stamp {
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 15px;
+            right: 25px;
             opacity: 0.7;
             transform: rotate(5deg);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #b30000;
             font-weight: bold;
             border: 1px solid #b30000;
@@ -96,9 +104,9 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 40px 0 20px;
+            margin: 30px 0 15px;
             color: #b30000;
             line-height: 1.3;
             font-family: 'Libre Baskerville', serif;
@@ -117,10 +125,10 @@
         }
 
         .sig-code {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: bold;
             color: #555;
-            margin: 20px 0;
+            margin: 15px 0;
             line-height: 1;
             user-select: none;
             position: relative;
@@ -128,28 +136,19 @@
             font-family: 'Libre Baskerville', serif;
         }
 
-        .sig-code::before {
-            content: "℞";
-            position: absolute;
-            font-size: 3rem;
-            color: #0052a5;
-            left: -40px;
-            top: 15px;
-        }
-
         .sig-code::after {
-            content: "disp.";
+            content: " ";
             position: absolute;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #666;
-            bottom: -15px;
-            right: -40px;
+            bottom: -12px;
+            right: -35px;
             font-style: italic;
         }
 
         .rx-instructions {
-            font-size: 1.05rem;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            margin-bottom: 15px;
             line-height: 1.6;
             max-width: 80%;
             text-align: center;
@@ -157,66 +156,66 @@
 
         .rx-details {
             width: 100%;
-            margin: 25px 0;
-            font-size: 0.85rem;
+            margin: 20px 0;
+            font-size: 0.8rem;
             color: #555;
             text-align: left;
-            padding: 15px 20px;
+            padding: 12px 15px;
             background: transparent;
             border-radius: 3px;
             border-left: 3px solid #0052a5;
         }
 
         .rx-details div {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
         }
 
         .rx-details strong {
-            width: 90px;
+            width: 80px;
             display: inline-block;
             color: #0052a5;
         }
 
-       .go-back-button {
-        background-color: #0077cc;
-        color: white;
-        padding: 12px 30px 12px 25px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 1rem;
-        margin-top: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 2px 10px rgba(0, 119, 204, 0.3);
-    }
+        .go-back-button {
+            background-color: #0077cc;
+            color: white;
+            padding: 10px 25px 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 119, 204, 0.3);
+        }
 
-    .go-back-button:hover {
-        background-color: #0066b3;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 119, 204, 0.4);
-        padding-right: 35px;
-        padding-left: 20px;
-    }
+        .go-back-button:hover {
+            background-color: #0066b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 119, 204, 0.4);
+            padding-right: 30px;
+            padding-left: 15px;
+        }
 
-    .go-back-button::after {
-        content: "→";
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 0;
-        transition: all 0.3s ease;
-    }
+        .go-back-button::after {
+            content: "→";
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
 
-    .go-back-button:hover::after {
-        opacity: 1;
-        right: 10px;
-    }
+        .go-back-button:hover::after {
+            opacity: 1;
+            right: 8px;
+        }
 
         .go-back-button:active {
             transform: translateY(0);
@@ -228,90 +227,112 @@
         }
 
         .pharmacist-signature {
-            margin-top: 30px;
-            padding-top: 15px;
+            margin-top: 25px;
+            padding-top: 12px;
             border-top: 1px dashed #aaa;
             width: 70%;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #333;
             font-family: 'Libre Baskerville', serif;
             font-weight: 700;
             letter-spacing: 1px;
             align-self: flex-end;
             text-align: right;
-            padding-right: 20px;
+            padding-right: 15px;
         }
 
-
         .dea-number {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #999;
-            margin-top: 3px;
+            margin-top: 2px;
             font-style: italic;
         }
 
         .npi-number {
             position: absolute;
-            bottom: 15px;
-            left: 30px;
-            font-size: 0.7rem;
+            bottom: 10px;
+            left: 25px;
+            font-size: 0.6rem;
             color: #ccc;
         }
 
         @media (max-width: 600px) {
+            .rx-container {
+                transform: scale(0.85);
+                padding: 5px;
+            }
+            
             .rx-form {
-                padding: 40px 30px;
+                padding: 30px 25px;
             }
             
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
+                margin: 25px 0 12px;
             }
             
             .sig-code {
-                font-size: 3.5rem;
-            }
-            
-            .sig-code::before {
-                left: -30px;
-                font-size: 2rem;
-                top: 10px;
+                font-size: 3rem;
+                margin: 10px 0;
             }
             
             .sig-code::after {
-                right: -30px;
-                bottom: -10px;
+                right: -25px;
+                bottom: -8px;
+                font-size: 0.8rem;
+            }
+            
+            .rx-instructions {
+                font-size: 0.9rem;
+                max-width: 90%;
+            }
+            
+            .rx-details {
+                font-size: 0.75rem;
+                padding: 10px 12px;
+            }
+            
+            .rx-details strong {
+                width: 70px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .rx-container {
+                transform: scale(0.75);
             }
         }
     </style>
 </head>
 <body>
-    <div class="rx-form">
-        <div class="rx-header">
-            <div class="rx-symbol">℞</div>
-            <!-- Added an ID to the RX number span for easy access -->
-            <div class="rx-number" id="rx-number-display">RX# 404-2023</div>
+    <div class="rx-container">
+        <div class="rx-form">
+            <div class="rx-header">
+                <div class="rx-symbol" aria-label="Prescription symbol">℞</div>
+                <div class="rx-number" id="rx-number-display">RX# 404-2023</div>
+            </div>
+            <div class="pharmacy-stamp">NOT DISPENSED</div>
+            
+            <div class="sig-code">X_X</div>
+            <h1>404 - Page Not Found</h1>
+            <p class="rx-instructions">The requested URL is not in our formulary. Please check the url or return to homepage.</p>
+            
+            <div class="rx-details">
+                <div><strong>Date:</strong> <span id="current-date"></span></div>
+                <div><strong>Patient:</strong> Web Visitor</div>
+                <div><strong>Diagnosis:</strong> HTTP 404 Error</div>
+                <div><strong>Sig:</strong> Take one homepage daily as needed</div>
+                <div><strong>Disp:</strong> 1 website navigation</div>
+                <div><strong>Refills:</strong> 0 remaining</div>
+            </div>
+            
+            <button class="go-back-button" onclick="window.location.href = '/'">Dispense Homepage</button>
+            <div class="pharmacist-signature">
+                Yusuf Alhelou, PharmD
+                <div class="dea-number"> </div>
+            </div>
+            <div class="npi-number"></div>
         </div>
-        <div class="pharmacy-stamp">NOT DISPENSED</div>
-        
-        <div class="sig-code">X_X</div>
-        <h1>404 - Page Not Found</h1>
-        <p class="rx-instructions">The requested URL is not in our formulary. Please check the address or return to homepage.</p>
-        
-        <div class="rx-details">
-            <div><strong>Date:</strong> <span id="current-date"></span></div>
-            <div><strong>Patient:</strong> Web Visitor</div>
-            <div><strong>Diagnosis:</strong> HTTP 404 Error</div>
-            <div><strong>Sig:</strong> Take one homepage daily as needed</div>
-            <div><strong>Disp:</strong> 1 website navigation</div>
-            <div><strong>Refills:</strong> 0 remaining</div>
-        </div>
-        
-        <button class="go-back-button" onclick="window.location.href = '/'">Dispense Homepage</button>
-        <div class="pharmacist-signature">
-            Yusuf Alhelou, PharmD
-            <div class="dea-number"></div>
-        </div>
-        <div class="npi-number"> </div>
     </div>
 
     <script>
@@ -347,6 +368,27 @@
                 stamp.style.transform = 'rotate(5deg) scale(1)';
             }, 300);
         }, 5000);
+
+        // Removed the adjustScale function and its event listener
+        // function adjustScale() {
+        //     const container = document.querySelector('.rx-container');
+        //     const form = document.querySelector('.rx-form');
+        //     const viewportHeight = window.innerHeight;
+        //     const formHeight = form.offsetHeight;
+            
+        //     if (formHeight > viewportHeight * 0.9) {
+        //         const scale = (viewportHeight * 0.9) / formHeight;
+        //         container.style.transform = `scale(${Math.min(scale, 0.9)})`;
+        //     } else {
+        //         container.style.transform = 'scale(0.9)';
+        //     }
+        // }
+
+        // Initial adjustment (no longer needed with removed function)
+        // adjustScale();
+        
+        // Adjust on window resize (no longer needed with removed function)
+        // window.addEventListener('resize', adjustScale);
     </script>
 </body>
 </html>
