@@ -203,12 +203,12 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        
+
         .sources-modal.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .sources-modal-content {
             position: relative;
             color: var(--color-sub);
@@ -222,11 +222,11 @@
             transform: scale(0.95);
             transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-        
+
         .sources-modal.active .sources-modal-content {
             transform: scale(1);
         }
-        
+
         .source-item {
             background-color: rgba(255, 255, 255, 0.05);
             border-radius: 1.5rem;
@@ -234,11 +234,11 @@
             margin-bottom: 1rem;
             transition: background-color 0.2s ease;
         }
-        
+
         .source-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .source-url {
             color: rgba(255, 255, 255, 0.6);
             word-break: break-all;
@@ -621,7 +621,8 @@
                     allShorts = allContent.filter(item => item.durationSeconds <= 180);
 
                     loadingMessage.remove();
-                    renderContent(allVideos);
+                    // Call sortContent() to apply the default 'newest' sort order
+                    sortContent();
 
                 } catch (error) {
                     console.error("Failed to fetch content from JSON file:", error);
@@ -748,6 +749,7 @@
                 if (currentSortBy === 'oldest') {
                     sortedContent.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
                 } else {
+                    // Default to 'newest' if not explicitly 'oldest'
                     sortedContent.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
                 }
                 renderContent(sortedContent);
@@ -833,7 +835,7 @@
                 });
             });
 
-            // Initial data fetch
+            // Initial data fetch and sort
             fetchAndFilterAllContent();
         });
     </script>
