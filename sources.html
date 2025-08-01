@@ -812,8 +812,7 @@
                     toggleButtons.forEach(btn => btn.classList.remove('bg-gray-800'));
                     e.target.classList.add('bg-gray-800');
                     currentContentType = e.target.dataset.type;
-                    const contentToRender = currentContentType === 'videos' ? allVideos : allShorts;
-
+                    
                     // Show or hide the shorts message based on the selected content type
                     if (currentContentType === 'shorts') {
                         shortsMessage.classList.remove('hidden');
@@ -821,7 +820,9 @@
                         shortsMessage.classList.add('hidden');
                     }
 
-                    renderContent(contentToRender);
+                    // CRUCIAL FIX: Call sortContent() instead of renderContent()
+                    // This ensures the current sorting preference is applied immediately.
+                    sortContent();
                 });
             });
 
