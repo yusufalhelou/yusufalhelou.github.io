@@ -64,6 +64,24 @@
             position: relative;
         }
 
+        .gif-container {
+            width: 90%;
+            max-width: 300px;
+            height: auto;
+            aspect-ratio: 300 / 215;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: -10px;
+            display: block;
+        }
+
         .breathing-text {
             position: absolute;
             top: 50%;
@@ -88,7 +106,7 @@
     </style>
 </head>
 <body class="bg-white min-h-screen flex flex-col items-center justify-center p-4 text-center">
-    <p class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12">
+    <p class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-10">
         For now, take a deep breath!
     </p>
 
@@ -98,7 +116,11 @@
         <span class="breathing-text exhale">EXHALING</span>
     </div>
 
-    <p class="text-xl text-gray-600 mt-16">
+    <div class="gif-container">
+        <img src="https://media1.tenor.com/m/yby3YGS-yEcAAAAC/build-tom-and-jerry.gif" alt="Tom and Jerry working">
+    </div>
+    
+    <p class="text-xl text-gray-600 mt-10">
         @YusufAlhelou
     </p>
 
