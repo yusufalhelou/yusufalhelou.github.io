@@ -239,6 +239,105 @@
             color: rgba(255, 255, 255, 0.6);
             word-break: break-all;
         }
+		
+		/* Mobile-specific styles */
+        @media (max-width: 640px) {
+		  /* Mobile styling (two lines) */
+  @media (max-width: 640px) {
+    .name-display h1 {
+      display: flex;
+      flex-direction: column;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    
+    .name-display .further-reading {
+      font-size: 0.9rem;
+      margin-top: 0.1rem;
+    }
+  }
+		
+            .header-fixed-controls {
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .name-display {
+                font-size: 0.75rem; 	
+                max-width: 80vw;
+				
+            }
+            
+            #home-button {
+                padding: 0.4rem;
+            
+            }
+            
+            #home-button svg {
+                height: 1rem;
+                width: 1rem;
+            }
+            
+            #video-section {
+                padding-top: 70px;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .content-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0;
+            }
+			
+            .toggle-buttons, .sorting-buttons {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .toggle-buttons::-webkit-scrollbar, 
+            .sorting-buttons::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .content-toggle-btn, .sort-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+                white-space: nowrap;
+            }
+            
+            .sorting-buttons span {
+                display: none;
+            }
+            
+            #video-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .video-card {
+                border-radius: 1rem;
+            }
+            
+            .sources-modal-content {
+                padding: 1rem;
+                border-radius: 1rem;
+            }
+            
+            #modal-video-title {
+                font-size: 1rem;
+                max-width: 80%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
 
     </style>
 </head>
@@ -257,7 +356,7 @@
     
     <header class="header-fixed-controls">
         <a class="name-display text-lg font-bold">
-            <h1>Yusuf Alhelou – 🔗Sources <span class="font-normal text-opacity-50"> & Further Reading</span></h1>
+            <h1><span class="text-lg font-bold">Yusuf Alhelou – 🔗Sources</span><span class="font-normal text-1g text-opacity-50 further-reading"> & Further Reading</span></h1>
         </a>
         <button id="home-button" 
                 onclick="window.location.href = '/'"
