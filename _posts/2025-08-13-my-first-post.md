@@ -1,4 +1,3 @@
-```markdown
 ---
 layout: post
 title: "My First Post"
@@ -11,4 +10,3 @@ This is the content of my first blog post. You can write in Markdown here!
 ### Subheading
 
 You can use Markdown to format text, add lists, and more.
-```
