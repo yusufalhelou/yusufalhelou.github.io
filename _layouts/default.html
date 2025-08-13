@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Yusuf" />
+<link rel="manifest" href="/site.webmanifest" />
+    <title>Yusuf Alhelou</title>
+    <meta name="description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
+
+        @keyframes breathe {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            21% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            58% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes text-inhale {
+            0%, 100% { opacity: 0; }
+            1% { opacity: 1; }
+            20% { opacity: 1; }
+            21% { opacity: 0; }
+        }
+
+        @keyframes text-hold {
+            0%, 100% { opacity: 0; }
+            21% { opacity: 0; }
+            22% { opacity: 1; }
+            57% { opacity: 1; }
+            58% { opacity: 0; }
+        }
+
+        @keyframes text-exhale {
+            0%, 100% { opacity: 0; }
+            58% { opacity: 0; }
+            59% { opacity: 1; }
+            99% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .breathing-circle {
+            animation: breathe 19s ease-in-out infinite;
+            position: relative;
+        }
+
+        .gif-container {
+            width: 90%;
+            max-width: 300px;
+            height: auto;
+            aspect-ratio: 300 / 215;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: -10px;
+            display: block;
+        }
+
+        .breathing-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.8rem; /* Increased for better legibility within the larger circle */
+            font-weight: bold;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        .breathing-text.inhale {
+            animation: text-inhale 19s ease-in-out infinite;
+        }
+        .breathing-text.hold {
+            animation: text-hold 19s ease-in-out infinite;
+        }
+        .breathing-text.exhale {
+            animation: text-exhale 19s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center p-4 text-center">
+    <p class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-10">
+        For now, take a deep breath!
+    </p>
+
+    <div id="breathing-circle" class="breathing-circle w-36 h-36 md:w-48 md:h-48 bg-gray-300 rounded-full mb-12 shadow-lg flex items-center justify-center">
+        <span class="breathing-text inhale">INHALING</span>
+        <span class="breathing-text hold">HOLD</span>
+        <span class="breathing-text exhale">EXHALING</span>
+    </div>
+
+    <div class="gif-container">
+        <img src="https://media1.tenor.com/m/yby3YGS-yEcAAAAC/build-tom-and-jerry.gif" alt="Tom and Jerry working">
+    </div>
+    
+    <p class="text-xl text-gray-600 mt-10">
+        @YusufAlhelou
+    </p>
+
+    <script>
+    </script>
+</body>
+</html>
