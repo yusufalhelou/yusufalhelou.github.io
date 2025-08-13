@@ -7,6 +7,7 @@
         "link": "https://51pharmd.github.io/msgs",
         "date": "2024-12-18",
         "description": "To thank someone who left a kind mark... to share a memory or write a reflection that lingers. [Made with ❤️ For My University Class]",
-        "tags": ["Made with ❤️ For My University Class"]
+        "tags": ["Made with ❤️ For My University Class"],
+        "showDescription": true
     }
 ]
