@@ -1,17 +1,13 @@
 ---
 layout: default
 ---
-<section id="post-content" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen flex flex-col justify-center items-center">
+
+<section id="post-content" class="py-16 px-4 md:px-8 lg:px-16">
     <div class="max-w-4xl mx-auto">
         <h1 class="section-title">{{ page.title }}</h1>
         <p class="text-gray-400 mb-8">Published on {{ page.date | date: "%B %-d, %Y" }}</p>
-        <div class="prose max-w-none text-lg text-gray-200 leading-relaxed"> {# Added text-gray-200 and leading-relaxed #}
+        <div class="prose max-w-none text-lg">
             {{ content }}
-        </div>
-        <div class="mt-12 text-center">
-            <a href="/" class="text-white hover:text-gray-400 transition-colors duration-200">
-                &larr; Back to Home
-            </a>
         </div>
     </div>
 </section>
