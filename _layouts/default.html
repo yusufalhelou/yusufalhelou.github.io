@@ -2,129 +2,2723 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Yusuf" />
-<link rel="manifest" href="/site.webmanifest" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Yusuf" />
+	<link rel="manifest" href="/site.webmanifest" />
     <title>Yusuf Alhelou</title>
     <meta name="description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+	<!-- Open Graph Tags (for Facebook, LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:title" content="Yusuf Alhelou">
+    <meta property="og:description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
+    <meta property="og:url" content="https://www.yusufalhelou.com/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/YusufAlhelouWebsiteBanner.png">
+    <meta property="og:type" content="website">
+	
+    <!-- Twitter Card Tags (for Twitter/X) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Yusuf Alhelou">
+    <meta name="twitter:description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/YusufAlhelouWebsiteBanner.png">
+
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+	
+	/* Prevent tap highlight on iOS Safari */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Remove focus outlines only from touch taps, keep for keyboard users */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
+        :root {
+            --color-main: #010101; /* Black */
+            --color-sub: #ffffff; /* White */
+            --color-light-gray: #f8f8f8; /* For lighter sections */
+            --color-accent: #0166c9; /* Blue accent color for non-hover states */
+            --color-hover-accent: rgb(102, 15, 17); /* Dark red/maroon for hover states */
+        }
+
+        /* Text Selection Styling */
+        ::selection {
+            background: var(--color-sub); /* White background for selection */
+            color: var(--color-main);    /* Black text for selection */
+        }
+        ::-moz-selection { /* Firefox compatibility */
+            background: var(--color-sub);
+            color: var(--color-main);
+        }
+
+        html {
+            /* Now the HTML element handles the main scrolling */
+            overflow-y: scroll; /* Allow vertical scrolling */
+            overflow-x: hidden; /* Still prevent horizontal scroll */
+            height: 100%; /* Ensure html takes full height for scroll calculation */
+
+            /* Hide scrollbar for all browsers on the HTML element */
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+            /* --- NEW: CSS Scroll Snap for full-page transitions --- */
+            scroll-snap-type: y mandatory; /* Enable vertical snapping, and it must snap */
+            scroll-behavior: smooth; /* Smooth scroll behavior for navigation links */
+        }
+
+        /* Hide scrollbar in WebKit browsers (Chrome, Safari) for the HTML element */
+        html::-webkit-scrollbar {
+            display: none;
+        }
+
         body {
-            font-family: "Inter", sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            /* Removed background-color from body to allow benzene pattern to show */
+            background-color: transparent; /* Ensure body itself is transparent */
+            color: var(--color-sub); /* White text */
+            line-height: 1.5;
+            min-height: 100vh; /* Ensure body content pushes scrollbar if needed */
+            margin: 0; /* Remove default body margin */
+            padding: 0; /* Remove default body padding */
+            cursor: none; /* Hide default cursor */
+            font-weight: 400; /* Default sleek font weight for body text */
+            /* Default benzene pattern stroke color (subtle white) */
+            --benzene-pattern-stroke-color: rgba(255, 255, 255, 0.07);
         }
 
-        @keyframes breathe {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            21% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            58% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
+        /* New container for the dynamically generated SVG pattern */
+        #benzene-pattern-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Ensure patterns don't spill out */
+            z-index: 1; /* Position behind all content */
+            pointer-events: none; /* Allow clicks to pass through */
+            background-color: transparent; /* Remove the background color */
+            color: var(--benzene-pattern-stroke-color); /* This sets currentColor for the SVG background */
+			transition: color 0.6s ease;
         }
 
-        @keyframes text-inhale {
-            0%, 100% { opacity: 0; }
-            1% { opacity: 1; }
-            20% { opacity: 1; }
-            21% { opacity: 0; }
+        #benzene-pattern-container svg {
+            position: absolute; /* Allow precise positioning of individual SVGs */
         }
 
-        @keyframes text-hold {
-            0%, 100% { opacity: 0; }
-            21% { opacity: 0; }
-            22% { opacity: 1; }
-            57% { opacity: 1; }
-            58% { opacity: 0; }
+
+        /* --- Loading Screen Styles (Moved from loading-tablet-page) --- */
+        #preloader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            transition: opacity 1.5s ease-out; /* Smooth fade out at the end */
         }
 
-        @keyframes text-exhale {
-            0%, 100% { opacity: 0; }
-            58% { opacity: 0; }
-            59% { opacity: 1; }
-            99% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        .breathing-circle {
-            animation: breathe 19s ease-in-out infinite;
-            position: relative;
-        }
-
-        .gif-container {
-            width: 90%;
-            max-width: 300px;
-            height: auto;
-            aspect-ratio: 300 / 215;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .gif-container img {
-            width: 100%;
-            height: auto;
-            position: relative;
-            top: -10px;
-            display: block;
-        }
-
-        .breathing-text {
+        #tablet {
+            width: 25vw; /* Responsive size */
+            height: 25vw; /* Responsive size */
+            max-width: 120px; /* Max size for desktop */
+            max-height: 120px; /* Max size for desktop */
+            background-color: white;
+            border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.8rem; /* Increased for better legibility within the larger circle */
-            font-weight: bold;
-            color: #333;
-            opacity: 0;
-            transition: opacity 0.1s ease-in-out;
+            opacity: 1;
+            /* Outer bevel effect using multiple box-shadows - now opaque white */
+            box-shadow:
+                0 0 0 6px rgba(255, 255, 255, 1), /* Thicker opaque white outer edge */
+                0 0 0 13px rgba(255, 255, 255, 0.8), /* Even thicker, softer opaque white edge */
+                0 4px 10px rgba(0, 0, 0, 0.3), /* Bottom shadow for depth, slightly larger */
+                0 -4px 10px rgba(255, 255, 255, 0.15); /* Top highlight for bevel, slightly larger */
+            /* Glow effect */
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+            animation: tablet-glow 2s infinite alternate ease-in-out;
+            /* Transition for tablet's quick disappearance */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
         }
 
-        .breathing-text.inhale {
-            animation: text-inhale 19s ease-in-out infinite;
+        @keyframes tablet-glow {
+            0% { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
+            100% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1)); }
         }
-        .breathing-text.hold {
-            animation: text-hold 19s ease-in-out infinite;
+
+        #tablet::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 7px; /* Width of the ridge */
+            height: 90%; /* Responsive length relative to tablet height */
+            background-color: rgba(0, 0, 0, 0.2); /* Subtle dark ridge */
+            border-radius: 2px;
         }
-        .breathing-text.exhale {
-            animation: text-exhale 19s ease-in-out infinite;
+
+        /* Styles for the dynamically created disintegration dots */
+        .disintegration-dot {
+            position: absolute;
+            background-color: white; /* Dots are white */
+            border-radius: 50%; /* Make them round */
+            opacity: 1;
+            animation: dot-spread-fade 1.8s forwards; /* Animation for dots, adjusted duration */
+            transform: translate(-50%, -50%); /* Ensure origin is center of dot */
+        }
+
+        @keyframes dot-spread-fade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            10% { /* Slight initial pop/fade-in */
+                opacity: 0.9;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2); /* Move and disappear, shrink less */
+            }
+        }
+
+        /* Keyframes for the final preloader disappearance (similar to original reference) */
+        @keyframes preloaderClip {
+            0% {
+                clip-path: polygon(evenodd, 0% 0%, 100% 0%, 100% 100%, 0% 100%, var(--left) var(--bottom), var(--left) var(--top), var(--right) var(--top), var(--right) var(--bottom), var(--left) var(--bottom), 0% 100%);
+            }
+            100% {
+                clip-path: polygon(evenodd, 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 100%);
+            }
+        }
+        /* End Loading Screen Styles */
+
+        /* Custom Cursor Styling */
+         #custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out, opacity 0.1s ease-out, width 0.1s ease-out, height 0.1s ease-out, background-color 0.3s ease;
+            opacity: 0;
+            will-change: transform;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #custom-cursor.grow-default {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        #custom-cursor.grow-play {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 0, 0, 0.15) !important;
+        }
+
+        #custom-cursor #cursor-default-icon,
+        #custom-cursor #cursor-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        #custom-cursor #cursor-default-icon {
+            opacity: 1;
+            font-size: 20px;
+        }
+
+        #custom-cursor #cursor-play-icon {
+            height: 45px;
+            width: 45px;
+        }
+
+        #custom-cursor.grow-default #cursor-default-icon {
+            opacity: 1;
+            font-size: 45px;
+        }
+
+        #custom-cursor.grow-play #cursor-default-icon {
+            opacity: 0;
+        }
+
+        #custom-cursor.grow-play #cursor-play-icon {
+            opacity: 1;
+        }
+
+		#custom-cursor.grow-music {
+			width: 80px;
+			height: 80px;
+			background-color: rgba(128, 0, 128, 0.15) !important; /* Purple color */
+		}
+
+		#custom-cursor.grow-music #cursor-default-icon {
+			opacity: 0;
+		}
+
+		#custom-cursor.grow-music #cursor-music-icon {
+			opacity: 1;
+		}
+		
+		#custom-cursor #cursor-music-icon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: #010101;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			height: 45px;
+			width: 45px;
+		}
+		
+        /* Fixed Header/Top Controls */
+        .header-fixed-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1003;
+        }
+
+        .name-display {
+		    z-index: 900;
+            font-size: 0.85rem;
+            font-weight: 400; /* Adjusted for sleekness */
+            color: var(--color-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.8rem 1.2rem;
+            transition: color 0.5s ease; /* Added transition for color change */
+        }
+
+        .menu-toggle-text {
+            font-size: 0.85rem;
+            font-weight: 400; /* Adjusted for sleekness */
+            color: var(--color-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            z-index: 1002;
+            padding: 0.8rem 1.2rem;
+            transition: color 0.5s ease; /* Added transition for color change */
+        }
+
+        /* Fixed Footer/Bottom Controls */
+        .footer-fixed-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 900;
+        }
+
+		html.menu-open {
+            overflow: hidden;
+        }
+
+        .scroll-percentage {
+            font-size: 0.7rem;
+            font-weight: 400; /* Kept at 400 for readability */
+            color: var(--color-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.8rem 1.2rem;
+            transition: color 0.5s ease, opacity 0.3s ease-in-out; /* Added opacity transition */
+            opacity: 0; /* Hidden by default */
+        }
+
+        .back-to-top {
+            font-size: 0.7rem;
+            font-weight: 400; /* Kept at 400 for readability */
+            color: var(--color-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: color 0.3s ease, opacity 0.3s ease-in-out; /* Added opacity transition */
+            padding: 0.8rem 1.2rem;
+            opacity: 0; /* Hidden by default */
+        }
+
+        .back-to-top:hover {
+            color: var(--color-hover-accent); /* Changed to new hover accent color */
+        }
+
+        /* Off-canvas menu overlay */
+        .offcanvas-menu-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--color-sub); /* Default color for menu text (white) */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 1001;
+            transform: translateX(100%);
+            transition: transform 0.4s ease-in-out, background-color 0.5s ease, color 0.5s ease; /* Added color transition */
+            opacity: 0;
+            pointer-events: none;
+            padding: 4rem;
+        }
+
+        .offcanvas-menu-overlay.active {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Menu navigation links styling */
+        .offcanvas-menu-overlay .main-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .offcanvas-menu-overlay .main-nav-links a {
+            font-size: 1.8rem;
+            font-weight: 400; /* Adjusted to a thinner weight for sleekness */
+            color: var(--color-sub); /* Explicitly set default color to white */
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block; /* Ensures the element wraps its content */
+            transition: color 0.3s ease;
+            padding: 0; /* Explicitly remove padding */
+            margin: 0; /* Explicitly remove margin */
+            width: fit-content; /* Forces width to content */
+        }
+
+        .offcanvas-menu-overlay .main-nav-links a:hover {
+            color: var(--color-hover-accent); /* Changed to new hover accent color */
+        }
+
+        /* Social media grid */
+        .social-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.5rem;
+            width: 100%;
+        }
+
+        .social-links-grid a {
+            font-size: 0.85rem;
+            font-weight: 400; /* Kept at 400 for sleekness */
+            color: var(--color-sub);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .social-links-grid a:hover {
+            color: var(--color-hover-accent); /* Changed to new hover accent color */
+        }
+
+        /* Styling for the Font Awesome icons and the custom arrow SVG */
+        .social-links-grid a .icon-fa,
+        .social-links-grid a .arrow-svg {
+            margin-left: 0.3rem;
+            width: 0.9em; /* Adjust size for icons */
+            height: 0.9em; /* Adjust size for icons */
+            display: inline-flex; /* Use flex to center icons if needed */
+            justify-content: center;
+            align-items: center;
+            vertical-align: middle;
+            transition: none; /* Ensure no transition on transform */
+        }
+
+        /* Responsive adjustments for the menu width */
+        @media (max-width: 768px) {
+            .offcanvas-menu-overlay {
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .offcanvas-menu-overlay {
+                width: 50%;
+            }
+        }
+
+        /* Content sections padding to prevent overlap with fixed header/footer */
+        /* Make all main content sections fill the viewport height */
+        .hero-section,
+        #blog,
+        #portfolio,
+        #contact,
+        #final-section {
+		    position: relative; /* This gives the button a proper anchor */
+            min-height: 100vh; /* Changed from height to min-height */
+            /* Removed overflow-y: auto; */
+            /* Removed scrollbar-width and -ms-overflow-style as they are for the section's internal scrollbar, which we are removing */
+            scroll-snap-align: start; /* Keep this for snapping */
+        }
+
+        /* Hide scrollbar in WebKit browsers (Chrome, Safari) for these sections */
+        .hero-section::-webkit-scrollbar,
+        #blog::-webkit-scrollbar,
+        #portfolio::-webkit-scrollbar,
+        #contact::-webkit-scrollbar,
+        #final-section::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        /* Adjust padding for all sections to account for fixed header/footer */
+        .hero-section {
+            padding-top: 80px;
+            padding-bottom: 80px;
+            display: flex; /* Keep flex for hero content centering */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--color-main); /* Hero section maintains its own background */
+            padding-left: 1rem;
+            padding-right: 1rem;
+            overflow: hidden; /* Crucial for cropping the capsule */
+        }
+
+        #blog,
+        #portfolio {
+            padding-top: 80px;
+            padding-bottom: 80px;
+            padding-left: 1rem; /* Ensure horizontal padding */
+            padding-right: 1rem; /* Ensure horizontal padding */
+        }
+
+        #contact {
+            padding-top: 80px;
+            padding-bottom: 80px;
+            position: relative; /* Needed for absolute positioning of pulsating circles */
+            overflow: hidden; /* Hide circles overflowing */
+            /* Explicitly set background and color to prevent inversion */
+            background-color: rgba(1, 1, 1, 0.9); /* Dark background */
+            color: var(--color-sub); /* White text */
+        }
+
+        #final-section {
+            padding-top: 80px;
+            padding-bottom: 80px;
+            display: flex; /* Keep flex for internal layout */
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--color-sub);
+            color: var(--color-main);
+            padding-left: 1.5rem; /* Original padding */
+            padding-right: 1.5rem; /* Original padding */
+        }
+
+
+        .hero-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 700; /* Kept bold for heading emphasis */
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+            color: var(--color-sub);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-weight: 300; /* Lighter for sleekness */
+            color: #ccc;
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700; /* Kept bold for heading emphasis */
+            text-align: center;
+            margin-bottom: 2.5rem;
+            margin-top: 3.5rem;
+            color: var(--color-sub);
+        }
+
+        /* Adjusting section backgrounds for dark theme to allow pattern to show through */
+        #blog {
+            background-color: rgba(1, 1, 1, 0.9); /* Slightly transparent black */
+            color: var(--color-sub);
+        }
+
+        #portfolio {
+            background-color: rgba(26, 26, 26, 0.9); /* Slightly transparent dark grey */
+        }
+
+        /* New styles for filters */
+        .filter-controls-container {
+            background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent background */
+            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-left: auto;
+            margin-right: auto;
+            max-width: fit-content; /* Adjust width to content */
+        }
+
+        .filter-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-sub);
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            border: 1px solid transparent; /* Subtle border */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .filter-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--color-accent);
+        }
+
+        .filter-btn.active {
+            background-color: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+            box-shadow: 0 2px 8px rgba(1, 102, 201, 0.4);
+        }
+
+        .filter-btn.active:hover {
+            background-color: var(--color-hover-accent);
+            border-color: var(--color-hover-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(102, 15, 17, 0.4);
+        }
+
+        /* New styles for the portfolio grid */
+        .portfolio-grid-new {
+            column-count: 1; /* Default to 1 column on small screens */
+            column-gap: 0; /* No gap between columns */
+            max-width: 1200px; /* Max width for the grid */
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) { /* sm */
+            .portfolio-grid-new {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 1024px) { /* lg */
+            .portfolio-grid-new {
+                column-count: 3;
+            }
+        }
+
+        .portfolio-item-new {
+            background-color: #2a2a2a;
+            border-radius: 0rem; /* Slightly more rounded */
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 0; /* No space between items in columns */
+            break-inside: avoid; /* Prevent items from breaking across columns */
+            display: inline-block; /* Required for column-count to work correctly */
+            width: 100%; /* Ensure it takes full width of its column */
+            vertical-align: top; /* Align items to the top of their column */
+            position: relative; /* For overlay positioning */
+            cursor: pointer; /* Indicate clickability */
+            z-index: 2; /* Ensure it's above the pattern */
+        }
+
+        .portfolio-item-new:hover {
+            transform: translateY(-8px); /* More pronounced lift on hover */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .portfolio-item-new img {
+            width: 100%;
+            height: auto; /* Allow height to adjust based on image aspect ratio */
+            display: block; /* Remove extra space below image */
+            border-bottom: 0px solid #3a3a3a;
+            border-top-left-radius: 0rem; /* Match parent border-radius */
+            border-top-right-radius: 0rem;
+        }
+		
+		.portfolio-item-new .item-description {
+			font-size: 0.9rem;          
+			line-height: 1.4;           
+			color: #b0b0b0;             
+			margin: 0.5rem 0 1rem;      
+			opacity: 0.8;               
+			
+			/* Responsive design on smaller screens */
+			@media (max-width: 768px) {
+				font-size: 0.85rem;
+			}
+		}
+
+        .portfolio-content-new {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay */
+            display: flex;
+            flex-direction: column; /* Keep column for overall content stacking */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.2rem;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease;
+            border-radius: 0rem; 
+        }
+
+        .portfolio-item-new:hover .portfolio-content-new {
+            opacity: 1; /* Show on hover */
+        }
+
+        .portfolio-content-new h3 {
+            font-size: 1.2rem; /* Slightly larger title */
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: var(--color-sub);
+        }
+
+        /* New container for tags to enable row layout */
+        .item-tags-container {
+            display: flex;
+            flex-wrap: wrap; /* Allow tags to wrap to the next line */
+            justify-content: center; /* Center tags horizontally */
+            margin-top: 0.5rem; /* Space between title and tags */
+        }
+
+        /* Styling for both category and individual tags */
+        .portfolio-content-new .item-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            margin-top: 0.4rem;
+
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background-color: rgba(1, 102, 201, 0.1);
+            border-radius: 0.3rem;
+            margin-right: 0.5rem; /* Space between tags in a row */
+            margin-bottom: 0.2rem; /* Space between rows of tags */
+        }
+
+        .contact-section {
+            padding: 4rem 1.5rem;
+            text-align: center;
+            /* Ensure these are explicitly set and not affected by body.invert-fixed-colors */
+            background-color: rgba(1, 1, 1, 0.9); /* Dark background */
+            color: var(--color-sub); /* White text */
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative; /* Ensure form content is above circles */
+            z-index: 10; /* Bring form content to front */
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.8rem;
+            border: 1px solid #444;
+            border-radius: 0.5rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400; /* Regular weight for input text */
+            background-color: #222;
+            color: var(--color-sub);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: #888;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--color-hover-accent); /* Changed to new hover accent color */
+            box-shadow: 0 0 0 2px rgba(102, 15, 17, 0.3); /* Adjusted shadow color */
+        }
+
+        .contact-form button {
+            background-color: var(--color-accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 3px 6px rgba(1, 102, 201, 0.3);
+        }
+
+        .contact-form button:hover {
+            background-color: var(--color-hover-accent);
+            transform: translateY(-1px);
+            box-shadow: 0 44px 8px rgba(102, 15, 17, 0.4); /* Adjusted shadow color */
+        }
+
+        /* Styling for form messages */
+        #form-messages {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            position: relative; /* Ensure message is above circles */
+            z-index: 10;
+        }
+
+        #form-messages.show {
+            opacity: 1;
+        }
+
+        #form-messages.success {
+            color: #4CAF50; /* Green for success */
+        }
+
+        #form-messages.error {
+            color: #f44336; /* Red for error */
+        }
+
+        /* New: Form Success Icon Styling */
+        #form-success-icon {
+            font-size: 4rem; /* Large size for the heart */
+            color: #4CAF50; /* Green color for success */
+            text-align: center;
+            margin-top: 1rem; /* Space below the button */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; /* Do not block clicks */
+            position: relative;
+            z-index: 10;
+        }
+
+        #form-success-icon.show-icon {
+            opacity: 1;
+        }
+
+
+        /* The original footer is now just for copyright, positioned below content */
+        .copyright-footer {
+            padding: 0.5rem 1.5rem; /* Thinned the ribbon and adjusted padding */
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 400; /* Regular weight */
+            background-color: transparent; /* Transparent by default */
+            color: inherit; /* Inherit color from parent (#final-section) */
+            transition: background-color 0.5s ease, color 0.5s ease; /* Added transition for color change */
+            width: 100%; /* Ensure it spans the width of the final section */
+        }
+
+        /* Styles for the new final section (white background, black text) */
+        #final-section {
+            padding: 4rem 1.5rem;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            height: 100vh; /* Explicitly set height to 100vh */
+            display: flex; /* Use flexbox */
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--color-sub);
+            color: var(--color-main);
+        }
+
+        #final-section .section-content {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column on small screens */
+            gap: 2rem; /* Gap between left menu and right content */
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            /* Adjust margin-bottom to create space above the footer if needed,
+               or let justify-content: space-between handle it.
+               For now, removing explicit margin-bottom to let flexbox manage. */
+        }
+
+        @media (min-width: 768px) {
+            #final-section .section-content {
+                grid-template-columns: 1fr 1fr; /* Two columns on larger screens */
+            }
+        }
+
+        #final-section .left-menu-options {
+            text-align: left;
+        }
+
+        #final-section .left-menu-options ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #final-section .left-menu-options ul li a {
+            font-size: clamp(1.5rem, 3.5vw, 2rem); /* Smaller font for main menu items */
+            font-weight: 400;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: inherit;
+            display: inline-block; /* Only text space clickable */
+            padding: 0.2rem 0;
+            transition: color 0.3s ease;
+        }
+
+        #final-section .left-menu-options ul li a:hover {
+            color: var(--color-hover-accent); /* Changed to new hover accent color */
+        }
+
+        #final-section .right-content-column { /* Single column for all right-hand content */
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem; /* Significantly reduced gap between sections ( , MAIL, SNS) */
+            text-align: left;
+        }
+
+        #final-section .right-content-column h3 {
+            font-size: 0.75rem; /* Even smaller font size for headings */
+            font-weight: 600;
+            margin-bottom: 0.1rem; /* Further reduced margin below headings */
+            color: inherit;
+            text-transform: uppercase; /* Uppercase for headings */
+        }
+
+        #final-section .right-content-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #final-section .right-content-column ul li {
+            margin-bottom: 0; /* Removed margin for list items to compact them */
+            line-height: 1.2; /* Adjust line height for tighter spacing */
+        }
+
+        #final-section .right-content-column ul li a {
+            font-size: 0.75rem; /* Even smaller font size for links */
+            font-weight: 400;
+            text-decoration: none;
+            color: inherit;
+            display: inline-block; /* Only text space clickable */
+            transition: color 0.3s ease;
+        }
+
+        #final-section .right-content-column ul li a:hover {
+            color: var(--color-hover-accent); /* Changed to new hover accent color */
+        }
+
+        /* Styling for the Font Awesome icons and the custom arrow SVG within this section */
+        #final-section .right-content-column .icon-fa,
+        #final-section .right-content-column .arrow-svg {
+            margin-left: 0.2rem; /* Slightly smaller margin for icons */
+            width: 0.7em; /* Even smaller icon size for this section */
+            height: 0.7em;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            vertical-align: middle;
+            transition: none; /* No transform on hover */
+        }
+
+        #final-section .right-content-column .arrow-svg svg {
+            fill: currentColor;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Styles for fixed elements when final section is in view */
+        body.invert-fixed-colors .name-display,
+        body.invert-fixed-colors .menu-toggle-text,
+        body.invert-fixed-colors .scroll-percentage,
+        body.invert-fixed-colors .back-to-top {
+            color: var(--color-main) !important; /* Change to black, ensure override */
+        }
+		
+	body.invert-fixed-colors #benzene-pattern-container {
+  --benzene-pattern-stroke-color: rgba(0, 0, 0, 0.12); /* Dark pattern on white */
+}
+
+body.invert-fixed-colors #benzene-pattern-container svg {
+  color: var(--benzene-pattern-stroke-color);
+}
+
+
+        /* Invert copyright footer background and text color when body is inverted */
+        body.invert-fixed-colors .copyright-footer {
+            background-color: var(--color-sub) !important; /* Change to white */
+            color: var(--color-main) !important; /* Change text to black */
+        }
+
+        /* Invert off-canvas menu background and text color */
+        body.invert-fixed-colors .offcanvas-menu-overlay {
+            background-color: rgba(0, 0, 0, 0.1) !important; /* Darker transparent background */
+            color: var(--color-main) !important; /* Change text inside overlay to black */
+        }
+
+        /* Explicitly make main menu links and their icons black when inverted */
+        body.invert-fixed-colors .offcanvas-menu-overlay .main-nav-links a,
+        body.invert-fixed-colors .offcanvas-menu-overlay .main-nav-links a .icon-fa,
+        body.invert-fixed-colors .offcanvas-menu-overlay .main-nav-links a .arrow-svg svg {
+            color: var(--color-main) !important; /* Force black */
+            stroke: var(--color-main) !important; /* Ensure SVG stroke also changes */
+            fill: var(--color-main) !important; /* Ensure SVG fill also changes */
+            transition: color 0.3s ease, stroke 0.3s ease, fill 0.3s ease; /* Ensure smooth transition */
+        }
+
+        /* Explicitly make social links within the off-canvas menu black when inverted */
+        body.invert-fixed-colors .offcanvas-menu-overlay .social-links-grid a,
+        body.invert-fixed-colors .offcanvas-menu-overlay .social-links-grid a .icon-fa,
+        body.invert-fixed-colors .offcanvas-menu-overlay .social-links-grid a .arrow-svg svg {
+            color: var(--color-main) !important; /* Force black */
+            stroke: var(--color-main) !important; /* Ensure SVG stroke also changes */
+            fill: var(--color-main) !important; /* Ensure SVG fill also changes */
+            transition: color 0.3s ease, stroke 0.3s ease, fill 0.3s ease; /* Ensure smooth transition */
+        }
+
+        /* Ensure hover color still works on inverted menu links */
+        body.invert-fixed-colors .offcanvas-menu-overlay .main-nav-links a:hover,
+        body.invert-fixed-colors .offcanvas-menu-overlay .social-links-grid a:hover {
+            color: var(--color-hover-accent) !important; /* Keep hover accent color */
+        }
+
+    
+        body.invert-fixed-colors #custom-cursor #cursor-default-icon {
+            color: #010101 !important; /* cursor-default-icon icon to black */
+        }
+
+        body.invert-fixed-colors #custom-cursor {
+            background-color: rgba(0, 0, 0, 0.1) ; /* Darker frosted glass for cursor */
+        }
+
+		.vinyl-button {
+		  position: absolute;
+		  bottom: 7rem;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  width: 140px;
+		  height: 140px;
+		  cursor: pointer;
+		  z-index: 1000;
+		  opacity: 0;
+		  transition: opacity 0.3s ease, transform 0.3s ease;
+		  pointer-events: none;
+		  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.15)); /* Soft outer glow */
+		}
+		.vinyl-button.show {
+		  opacity: 1;
+		  pointer-events: auto;
+		}
+
+		.vinyl-outer-ring {
+		  position: relative;
+		  width: 100%;
+		  height: 100%;
+		  background-color: black;
+		  border-radius: 50%;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  box-shadow: 
+			0 0 12px rgba(0, 0, 0, 0.4),
+			0 0 20px rgba(255, 255, 255, 0.1) inset; /* Inner glow */
+		  border: 1px solid rgba(30, 30, 30, 0.9);
+		  transform: perspective(600px) rotateX(5deg) rotateY(-4deg);
+		  transform-style: preserve-3d;
+		  transition: 
+			transform 0.6s ease,
+			box-shadow 0.3s ease;
+		}
+
+		/* Hover/active effects */
+		.vinyl-button:hover .vinyl-outer-ring,
+		.vinyl-button.playing .vinyl-outer-ring {
+		  transform: perspective(600px) rotateX(5deg) rotateY(-4deg) scale(1.03);
+		  box-shadow: 
+			0 0 15px rgba(0, 0, 0, 0.5),
+			0 0 25px rgba(255, 255, 255, 0.15) inset,
+			0 0 8px rgba(255, 255, 255, 0.2); /* Enhanced glow when active */
+		}
+
+		/* Grooves texture with light reflection */
+		.vinyl-outer-ring::before {
+		  content: '';
+		  position: absolute;
+		  inset: 6px;
+		  border-radius: 50%;
+		  pointer-events: none;
+		  background-image: 
+			repeating-radial-gradient(
+			  circle,
+			  rgba(255, 255, 255, 0.04) 0px,
+			  rgba(255, 255, 255, 0.06) 1px,
+			  transparent 2px
+			),
+			radial-gradient(
+			  circle at 30% 30%,
+			  rgba(255, 255, 255, 0.1) 0%,
+			  transparent 40%
+			); /* Light source highlight */
+		  background-size: cover;
+		}
+
+		/* Light reflections and sheen */
+		.vinyl-outer-ring::after {
+		  content: '';
+		  position: absolute;
+		  inset: 0;
+		  border-radius: 50%;
+		  pointer-events: none;
+		  background: 
+			radial-gradient(
+			  circle at 70% 30%,
+			  rgba(255, 255, 255, 0.15) 0%,
+			  transparent 70%
+			), /* Main light reflection */
+			linear-gradient(
+			  135deg,
+			  rgba(255, 255, 255, 0.08) 0%,
+			  transparent 60%
+			);
+		  background-blend-mode: overlay;
+		  mix-blend-mode: soft-light;
+		}
+
+		/* Center label with glossy effect */
+		.vinyl-cover {
+		  width: 60px;
+		  height: 60px;
+		  border-radius: 50%;
+		  background-size: cover;
+		  background-position: center;
+		  position: relative;
+		  z-index: 2;
+		  box-shadow: 
+			0 0 10px rgba(0, 0, 0, 0.3) inset,
+			0 2px 4px rgba(255, 255, 255, 0.2); /* Glossy finish */
+		}
+
+		/* Animated colored ring (now with glow) */
+		.vinyl-ring {
+		  position: absolute;
+		  inset: 0;
+		  border: 1px solid rgba(102, 15, 17, 0.6);
+		  opacity: 0;
+		  transition: opacity 0.3s ease;
+		  pointer-events: none;
+		  box-shadow: 
+			0 0 10px rgba(102, 15, 17, 0.4),
+			0 0 20px rgba(102, 15, 17, 0.2) inset;
+		}
+		.vinyl-button.playing .vinyl-ring {
+		  opacity: 1;
+		  animation: vinyl-glow 2s infinite alternate;
+		}
+
+		@keyframes vinyl-glow {
+		  0% { box-shadow: 0 0 10px rgba(102, 15, 17, 0.4); }
+		  100% { box-shadow: 0 0 15px rgba(102, 15, 17, 0.7); }
+		}
+
+		.lyric-quote.clickable {
+		  cursor: pointer;
+		  text-decoration: underline;
+		}
+
+        /* --- Pulsating Circles Styles (Made more prominent) --- */
+        .pulsating-circles-container {
+            position: absolute;
+            top: 8.75rem; /* Calculated from section padding-top + h2 margin-top + h2 half font-size */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; /* Take full width of parent to allow circles to expand */
+            height: 100%; /* Take full height of parent */
+            pointer-events: none; /* Allow clicks to pass through to form */
+            z-index: 1; /* Position behind form content */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pulsating-circle {
+            position: absolute;
+            width: 50px; /* Initial size */
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Increased border width and opacity */
+            opacity: 0; /* Start invisible */
+            animation: pulse 4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smoother animation curve */
+        }
+
+        /* Apply different delays for staggered effect */
+        .pulsating-circle:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .pulsating-circle:nth-child(2) {
+            animation-delay: 1.33s; /* 4s / 3 circles */
+        }
+        .pulsating-circle:nth-child(3) {
+            animation-delay: 2.66s; /* 4s * 2 / 3 circles */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.1);
+                opacity: 0.7; /* Increased initial opacity */
+            }
+            50% {
+                opacity: 0.4; /* Increased mid-point opacity */
+            }
+            100% {
+                transform: scale(4); /* Expand further */
+                opacity: 0;
+            }
+        }
+
+        /* New styles for the hero section text layout */
+        .hero-section {
+            /* Keep existing padding-top/bottom */
+            /* Remove center alignment for flex items */
+            justify-content: flex-start; /* Align content to the start (top) */
+            align-items: flex-start; /* Align content to the start (left) */
+            text-align: left; /* Ensure text is left-aligned */
+            padding-left: 1rem; /* Default padding for small screens */
+            padding-right: 1rem; /* Default padding for small screens */
+        }
+		
+		@media (max-width: 600px) {
+  .hero-section {
+    padding-bottom: 450px; /* Adjust as needed */
+  }
+}
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 6rem); /* Make Hiya much larger */
+            font-weight: 200; /* Thinner weight for sleekness */
+            margin-bottom: 0.2rem; /* Decrease vertical space */
+            line-height: 1; /* Tighter line height */
+            padding-left: 1rem; /* Align with general content starting point */
+            padding-top: 2rem; /* Push down from the top slightly */
+        }
+
+        .hero-profile-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            color: #aaa; /* Slightly darker than main text for subtlety */
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem; /* Small space below Hiya */
+            margin-left: 1rem; /* Default indentation for small screens */
+        }
+
+        .hero-main-text {
+            font-size: clamp(1rem, 2.5vw, 1.5rem); /* Adjust size for main text */
+            font-weight: 300; /* Lighter for sleekness */
+            line-height: 1.4; /* Slightly more relaxed line height */
+            color: #ccc; /* Slightly darker than hero-title for contrast */
+            margin-top: 0.8rem; /* Space below profile tag */
+            margin-left: 1rem; /* Default indentation for small screens */
+            max-width: 700px; /* Limit width for readability */
+			z-index:24;
+			text-shadow: 0 0 6px black, 0 0 12px black;
+
+        }
+
+        .hero-main-text .highlight-italic {
+		    text-shadow: none;
+            font-style: italic;
+            font-weight: 400; /* Slightly bolder for emphasis */
+            /* Removed direct color setting to allow gradient */
+            background: linear-gradient(to right, var(--color-accent), var(--color-sub)); /* Gradient from accent blue to white */
+            -webkit-background-clip: text; /* Clip background to text shape for WebKit browsers */
+            background-clip: text; /* Clip background to text shape */
+            -webkit-text-fill-color: transparent; /* Make text transparent so background shows through */
+            color: transparent; /* Fallback for other browsers */
+        }
+
+        /* Responsive adjustments for indentation and padding */
+        @media (min-width: 768px) { /* md breakpoint */
+            .hero-section {
+                padding-left: 4rem; /* More padding on larger screens */
+                padding-right: 4rem;
+            }
+            .hero-title {
+                padding-left: 0; /* Align with the start of the section on larger screens */
+            }
+            .hero-profile-tag {
+                margin-left: 4rem; /* Indent more on larger screens */
+            }
+            .hero-main-text {
+                margin-left: 4rem; /* Indent more on larger screens */
+            }
+        }
+
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .hero-section {
+                padding-left: 8rem; /* Even more padding on large screens */
+                padding-right: 8rem;
+            }
+            .hero-profile-tag {
+                margin-left: 8rem; /* Indent even more */
+            }
+            .hero-main-text {
+                margin-left: 8rem; /* Indent even more */
+            }
+        }
+		
+        /* Holo Card Styles */
+        .card-container {
+            position: absolute;
+  bottom: 50px; /* Move up slightly from bottom */
+  right: 100px;  /* Move left slightly from right */
+  z-index: 20;  /* Ensure it's above the capsule canvas */
+            overflow: visible;
+			width: calc(300px * 1.1); /* Scaled down width */
+            height: calc(400px * 1.1); /* Scaled down height (maintaining 300x420 aspect ratio) */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px; /* For 3D rotation */
+            pointer-events: auto; /* Allow interaction */
+        }
+		
+		@media (max-width: 768px) {
+  .card-container.zoomed {
+    width: 85vw;
+    height: calc(85vw * 1.333333); /* Aspect ratio: 4:3 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    z-index: 999;
+  }
+}
+
+@media (min-width: 769px) {
+  .card-container.zoomed {
+    height: 80vh;
+    width: calc(80vh / 1.333333); /* Inverse aspect ratio */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    z-index: 999;
+  }
+}
+
+        .card {
+            --radius: 4.55% / 3.5%;
+            z-index: calc(var(--s) * 100);
+            transform: translate3d(0, 0, 0.1px);
+            will-change: transform, visibility;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%; /* Take full width of its container */
+            height: 100%; /* Take full height of its container */
+            border-radius: var(--radius);
+            box-shadow: none; /* Removed all box-shadow for the card */
+            transition: transform 0.5s ease, box-shadow 0.2s ease;
+            cursor: grab;
+            isolation: isolate; /* Needed for blend modes */
+        }
+
+        .card.interacting {
+            z-index: calc(var(--s) * 120);
+            cursor: grabbing;
+        }
+
+        .card.active {
+            z-index: 999; /* Bring to front when active */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.2); /* Zoom in effect */
+            box-shadow: none; /* Removed box-shadow for active state */
+            cursor: zoom-out;
+            animation: none !important; /* Disable card animation when active */
+        }
+
+        .card__translater,
+        .card__rotator {
+            display: grid;
+            perspective: 600px;
+            transform-origin: center;
+            will-change: transform;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card__translater {
+            transform: translate3d(var(--tx), var(--ty), 0) scale(var(--s));
+        }
+
+        .card__rotator {
+            --glow: #69d1e9;
+            transform: rotateY(var(--ry)) rotateX(var(--rx)); /* Swapped RX and RY for more natural rotation */
+            transform-style: preserve-3d;
+            border-radius: var(--radius);
+            outline: none;
+            box-shadow: none; /* Removed all box-shadow for the rotator */
+            transition: box-shadow 0.2s ease; /* Smooth transition for shadow changes */
+        }
+
+        /* Removed box-shadow for interacting and active states of rotator */
+        .card.interacting .card__rotator,
+        .card.active .card__rotator {
+            box-shadow: none;
+        }
+
+        .card__rotator :global(*) {
+            width: 100%;
+            display: grid;
+            grid-area: 1/1;
+            border-radius: var(--radius);
+            image-rendering: optimizeQuality;
+            transform-style: preserve-3d;
+        }
+
+        .card__front,
+        .card__front * {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .card__front {
+            opacity: 1;
+            transition: opacity 0.2s ease-out;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius);
+            overflow: hidden; /* Ensure image doesn't overflow rounded corners */
+        }
+
+        .card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the card area */
+            border-radius: var(--radius);
+        }
+
+        /* Animations for idle state */
+        .card.animated {
+            animation: holoCard 12s ease infinite; /* Changed iteration count to infinite */
+        }
+        
+        /* Explicitly stop animations when zoomed in */
+        .card.active {
+            animation: none !important;
+        }
+
+        @keyframes holoCard {
+            0%, 100% {
+                transform: rotateZ(0deg) rotateX(0deg) rotateY(0deg);
+            }
+            5%, 8% {
+                transform: rotateZ(0deg) rotateX(6deg) rotateY(-20deg);
+            }
+            13%, 16% {
+                transform: rotateZ(0deg) rotateX(-9deg) rotateY(32deg);
+            }
+            35%, 38% {
+                transform: rotateZ(3deg) rotateX(12deg) rotateY(20deg);
+            }
+            55% {
+                transform: rotateZ(-3deg) rotateX(-12deg) rotateY(-27deg);
+            }
+        }
+
+        /* Message Box for alerts */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .message-box button {
+            background-color: #69d1e9;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .message-box button:hover {
+            background-color: #4ac0d9;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 600px) {
+            .card-container {
+                width: calc(300px * 0.9); 
+                height: calc(400px * 0.9);
+            }
+            .card.active {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
         }
     </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col items-center justify-center p-4 text-center">
-    <p class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-10">
-        For now, take a deep breath!
-    </p>
+<body>
+    <!-- Container for the dynamically generated benzene pattern -->
+    <div id="benzene-pattern-container"></div>
 
-    <div id="breathing-circle" class="breathing-circle w-36 h-36 md:w-48 md:h-48 bg-gray-300 rounded-full mb-12 shadow-lg flex items-center justify-center">
-        <span class="breathing-text inhale">INHALING</span>
-        <span class="breathing-text hold">HOLD</span>
-        <span class="breathing-text exhale">EXHALING</span>
+    <!-- Preloader (Moved from loading-tablet-page) -->
+    <div id="preloader">
+        <div id="tablet"></div>
+        <!-- <p id="welcome-text">Hiya!</p> -->
     </div>
 
-    <div class="gif-container">
-        <img src="https://media1.tenor.com/m/yby3YGS-yEcAAAAC/build-tom-and-jerry.gif" alt="Tom and Jerry working">
-    </div>
-    
-    <p class="text-xl text-gray-600 mt-10">
-        @YusufAlhelou
-    </p>
+    <!-- Custom Cursor Element -->
+ <div id="custom-cursor">
+    <span id="cursor-default-icon">|</span>
+    <svg id="cursor-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M8 5v14l11-7z" />
+    </svg>
+	<svg id="cursor-music-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+	  <path d="M12 3v10.55a4 4 0 1 0 2 3.45V7h4V3h-8z" />
+	</svg>
+</div>
 
+    <!-- Fixed Header/Top Controls -->
+    <div class="header-fixed-controls">
+    <a href="/" target="_blank" rel="noopener noreferrer">
+    <div class="name-display">Yusuf Alhelou</div></a>
+	<div class="menu-toggle-text" id="menu-toggle">MENU</div>
+    </div>
+
+    <!-- Off-canvas Menu Overlay -->
+    <div class="offcanvas-menu-overlay" id="offcanvas-menu-overlay">
+        <!-- Main navigation links -->
+        <nav class="main-nav-links">
+            <a href="#home">PROFILE</a>
+            <a href="#blog">POSTS</a>
+            <a href="#portfolio">WORKS</a>
+            <a href="#contact">CONTACT</a>
+        </nav>
+
+        <!-- Social media links grid -->
+        <div class="social-links-grid">
+            <a href="https://linkedin.com/in/YusufAlhelou" target="_blank">LinkedIn <span class="icon-fa"><i class="fa-brands fa-linkedin-in"></i></span></a>
+            <a href="https://youtube.com/@YusufAlhelou" target="_blank">YouTube <span class="icon-fa"><i class="fa-brands fa-youtube"></i></span></a>
+            <a href="https://behance.net/YusufAlhelou" target="_blank">Behance <span class="arrow-svg">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span></a>
+            <a href="https://instagram.com/YusufAlhelou" target="_blank">Instagram <span class="arrow-svg">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span></a>
+            <a href="https://github.com/YusufAlhelou" target="_blank">GitHub <span class="arrow-svg">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span></a>
+            <a href="https://x.com/YusufAlhelou" target="_blank">X <span class="arrow-svg">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span></a>
+        </div>
+    </div>
+
+    <!-- Fixed Footer/Bottom Controls -->
+    <div class="footer-fixed-controls">
+        <div class="scroll-percentage" id="scroll-percentage">SCROLL 0%</div>
+        <div class="back-to-top" id="back-to-top">BACK TO TOP</div>
+    </div>
+
+    <!-- Main Content Sections -->
+    <div id="wrapper">
+        {{ content }}
+    </div>
+
+    <!-- Final Section with White Background and Grid Layout -->
+    <section id="final-section">
+        <div class="section-content">
+            <div class="left-menu-options">
+                <ul>
+                    <li><a href="#home">PROFILE</a></li>
+                    <li><a href="#posts">POSTS</a></li>
+                    <li><a href="#portfolio">WORKS</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                </ul>
+            </div>
+            <div class="right-content-column">
+                <div>
+  <h3> </h3>
+  <ul>
+    <li><div id="current-time"></div></li>
+  </ul>
+</div>
+                <div>
+                    <h3>MAIL</h3>
+                    <ul>
+                        <li><a href="mailto:YusufAlhelou@gmail.com">YusufAlhelou@gmail.com</a></li>
+                    </ul>
+                </div>
+                <div class="vertical-list">
+                    <h3>SNS</h3>
+                    <ul>
+                        <li><a href="https://youtube.com/@YusufAlhelou" target="_blank">YouTube <span class="icon-fa"><i class="fa-brands fa-youtube"></i></span></a></li>
+                        <li><a href="https://linkedin.com/in/YusufAlhelou/" target="_blank">LinkedIn <span class="icon-fa"><i class="fa-brands fa-linkedin-in"></i></span></a></li>
+                        <li><a href="https://instagram.com/YusufAlhelou" target="_blank">Instagram <span class="arrow-svg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span></a></li>
+                        <li><a href="https://x.com/YusufAlhelou" target="_blank">X <span class="arrow-svg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span></a></li>
+                        <li><a href="https://behance.net/YusufAlhelou" target="_blank">Behance <span class="arrow-svg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span></a></li>
+                        <li><a href="https://github.com/YusufAlhelou" target="_blank">GitHub <span class="arrow-svg">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Original Footer (now part of final section) -->
+<div id="music-vinyl" class="vinyl-button">
+  <div class="vinyl-outer-ring">
+    <div class="vinyl-cover" style="background-image: url('https://i.scdn.co/image/ab67616d0000b2731310670cbb82f06474372cfd');"></div>
+    <div class="vinyl-ring"></div>
+  </div>
+</div>
+<audio id="music-player" preload="none" src="https://ia800809.us.archive.org/27/items/controlself/Laura%20Branigan%20-%20Self%20Control.mp3"></audio>
+        <footer class="copyright-footer">
+           <span id="lyric-trigger" class="lyric-quote clickable">I, I live among the creatures of the night</span>
+                <svg class="inline-block align-middle ml-1" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor">
+                    <!-- Central cross-like sparkle -->
+                    <path d="M12 0.5L13.5 10.5L23.5 12L13.5 13.5L12 23.5L10.5 13.5L0.5 12L10.5 10.5L12 0.5Z" fill="currentColor"/>
+                    <!-- Four small dots for twinkle effect -->
+                    <circle cx="4" cy="4" r="1.5" fill="currentColor"/>
+                    <circle cx="20" cy="4" r="1.5" fill="currentColor"/>
+                    <circle cx="4" cy="20" r="1.5" fill="currentColor"/>
+                    <circle cx="20" cy="20" r="1.5" fill="currentColor"/>
+                </svg>
+
+        </footer>
+    </section>
+
+<script>
+  function updateEgyptTime() {
+    const now = new Date();
+    const egyptTime = now.toLocaleTimeString('en-EG', {
+      timeZone: 'Africa/Cairo',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+    document.getElementById("current-time").textContent = egyptTime;
+  }
+
+  setInterval(updateEgyptTime, 1000);
+  updateEgyptTime();
+</script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/0.157.0/three.min.js'></script>
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const offcanvasMenuOverlay = document.getElementById('offcanvas-menu-overlay');
+            const scrollPercentageElement = document.getElementById('scroll-percentage');
+            const backToTopButton = document.getElementById('back-to-top');
+            const finalSection = document.getElementById('final-section');
+            const body = document.body;
+            const benzenePatternContainer = document.getElementById('benzene-pattern-container');
+
+            // --- Contact Form Elements ---
+            const contactForm = document.getElementById('contact-form');
+            const submitButton = document.getElementById('submit-button');
+            const formMessages = document.getElementById('form-messages');
+            const formSuccessIcon = document.getElementById('form-success-icon'); // Get reference to the icon
+
+            // --- Loading Screen Elements (Moved from loading-tablet-page) ---
+            const preloader = document.getElementById('preloader');
+            const tablet = document.getElementById('tablet');
+
+            // --- Loading Screen Functions (Moved from loading-tablet-page) ---
+            let loadedImages = 0;
+            let totalImages = document.images.length;
+            let checkInterval;
+
+            function getResourceProgress() {
+                const resources = performance.getEntriesByType("resource");
+                const total = resources.length;
+                let loaded = 0;
+                if (total === 0) return 100;
+                resources.forEach((resource) => {
+                    if (resource.responseEnd) loaded++;
+                });
+                return Math.round((loaded / total) * 100);
+            }
+
+            function getDocumentProgress() {
+                if (document.readyState === "loading") return 25;
+                if (document.readyState === "interactive") return 75;
+                if (document.readyState === "complete") return 100;
+                return 0;
+            }
+
+            function getImageProgress() {
+                if (totalImages === 0) return 100;
+                return Math.round((loadedImages / totalImages) * 100);
+            }
+
+            function calculateOverallProgress() {
+                let docProgress = getDocumentProgress();
+                let resProgress = getResourceProgress();
+                let imgProgress = getImageProgress();
+                let overallProgress = Math.round(
+                    docProgress * 0.4 + resProgress * 0.4 + imgProgress * 0.2
+                );
+                return overallProgress;
+            }
+
+            function trackImageLoading() {
+                if (totalImages === 0) return;
+                Array.from(document.images).forEach((img) => {
+                    if (img.complete) {
+                        loadedImages++;
+                    } else {
+                        img.addEventListener("load", () => {
+                            loadedImages++;
+                        });
+                        img.addEventListener("error", () => {
+                            loadedImages++;
+                        });
+                    }
+                });
+            }
+
+            function removePreloader() {
+                if (!tablet || !preloader) {
+                    preloader.style.opacity = 0;
+                    preloader.style.pointerEvents = 'none';
+                    return;
+                }
+
+                const tabletHoldDuration = 800;
+                setTimeout(() => {
+                    const numDots = 200;
+                    const tabletRect = tablet.getBoundingClientRect();
+                    const tabletCenterX = tabletRect.left + tabletRect.width / 2;
+                    const tabletCenterY = tabletRect.top + tabletRect.height / 2;
+                    const tabletRadius = tabletRect.width / 2;
+
+                    tablet.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                    tablet.style.opacity = 0;
+                    tablet.style.transform = `translate(-50%, -50%) scale(0.2)`;
+
+                    for (let i = 0; i < numDots; i++) {
+                        const dot = document.createElement('div');
+                        dot.classList.add('disintegration-dot');
+                        const size = Math.random() * 3 + 1;
+                        dot.style.width = `${size}px`;
+                        dot.style.height = `${size}px`;
+
+                        const angle = Math.random() * Math.PI * 2;
+                        const distFromCenter = Math.random() * tabletRadius * 0.9;
+                        const initialXOffset = distFromCenter * Math.cos(angle);
+                        const initialYOffset = distFromCenter * Math.sin(angle);
+
+                        dot.style.left = `${tabletCenterX + initialXOffset}px`;
+                        dot.style.top = `${tabletCenterY + initialYOffset}px`;
+
+                        const spreadDistance = Math.random() * 180 + 70;
+                        const finalX = spreadDistance * Math.cos(angle);
+                        const finalY = spreadDistance * Math.random() > 0.5 ? spreadDistance * Math.sin(angle) : -spreadDistance * Math.sin(angle);
+
+                        dot.style.setProperty('--dx', `${finalX - initialXOffset}px`);
+                        dot.style.setProperty('--dy', `${finalY - initialYOffset}px`);
+
+                        preloader.appendChild(dot);
+                        dot.style.animationDelay = `${Math.random() * 0.2}s`;
+                    }
+
+                    const disintegrationDuration = 1200;
+                    setTimeout(() => {
+                        tablet.style.display = 'none';
+                        document.querySelectorAll('.disintegration-dot').forEach(dot => dot.remove());
+
+                        const welcomeDuration = 0;
+                        setTimeout(() => {
+                            preloader.style.animation = 'preloaderClip 1.5s cubic-bezier(.65,.05,0,1.36) forwards';
+                            preloader.style.pointerEvents = 'none';
+
+                            setTimeout(() => {
+                                preloader.style.display = 'none';
+                            }, 1500);
+                        }, welcomeDuration);
+                    }, disintegrationDuration);
+                }, tabletHoldDuration);
+            }
+
+            // --- Integrate Preloader Logic with Portfolio Page Load ---
+            trackImageLoading();
+            checkInterval = setInterval(() => {
+                let progress = calculateOverallProgress();
+                if (progress >= 100) {
+                    removePreloader();
+                    clearInterval(checkInterval);
+                }
+            }, 100);
+
+            // Toggle off-canvas menu
+            menuToggle.addEventListener('click', () => {
+                const menuOpen = offcanvasMenuOverlay.classList.toggle('active');
+
+                if (menuOpen) {
+                    menuToggle.textContent = 'CLOSE';
+                    document.documentElement.classList.add('menu-open'); // Lock scroll
+                } else {
+                    menuToggle.textContent = 'MENU';
+                    document.documentElement.classList.remove('menu-open'); // Unlock scroll
+                }
+            });
+
+            // Close menu when a link is clicked
+            document.querySelectorAll('#offcanvas-menu-overlay a').forEach(link => {
+                link.addEventListener('click', () => {
+                    offcanvasMenuOverlay.classList.remove('active');
+                    menuToggle.textContent = 'MENU';
+                    document.documentElement.classList.remove('menu-open'); // Re-enable scrolling on navigation
+                });
+            });
+
+            const musicVinyl = document.getElementById('music-vinyl');
+            const musicPlayer = document.getElementById('music-player');
+            const lyricTrigger = document.getElementById('lyric-trigger');
+            const ring = musicVinyl.querySelector('.vinyl-outer-ring');
+
+            let musicStarted = false;
+            let rotationAngle = 0;
+            let isSpinning = false;
+            let rotationSpeed = 0.51; // degrees per frame
+            let animationFrameId = null;
+            const loopStartTime = 3.5; // Start from 0:035
+
+            function rotateVinyl() {
+                if (!isSpinning) return;
+
+                rotationAngle += rotationSpeed;
+                ring.style.transform = `perspective(600px) rotateX(5deg) rotateY(-4deg) rotateZ(${rotationAngle}deg)`;
+                animationFrameId = requestAnimationFrame(rotateVinyl);
+            }
+
+            // Restore saved audio position (if exists) when metadata is ready
+            musicPlayer.addEventListener('loadedmetadata', () => {
+                const savedTime = parseFloat(localStorage.getItem('lastAudioTime'));
+                musicPlayer.currentTime = !isNaN(savedTime) && savedTime > loopStartTime
+                    ? savedTime
+                    : loopStartTime;
+            });
+
+            // Save current position while audio plays
+            musicPlayer.addEventListener('timeupdate', () => {
+                localStorage.setItem('lastAudioTime', musicPlayer.currentTime);
+            });
+
+            // Restart playback from loopStartTime after song ends
+            musicPlayer.addEventListener('ended', () => {
+                musicPlayer.currentTime = loopStartTime;
+                musicPlayer.play();
+            });
+
+            lyricTrigger.addEventListener('click', () => {
+                const isVisible = musicVinyl.classList.contains('show');
+
+                if (isVisible) {
+                    musicVinyl.classList.remove('show');
+                } else {
+                    musicVinyl.classList.add('show');
+                    ring.style.transform = `perspective(600px) rotateX(5deg) rotateY(-4deg) rotateZ(${rotationAngle}deg)`;
+
+                    if (!musicPlayer.paused) {
+                        isSpinning = true;
+                        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                        rotateVinyl();
+                    }
+
+                    if (!musicStarted) {
+                        try {
+                            musicPlayer.play().catch(error => console.warn("Play failed:", error));
+                            musicStarted = true;
+                            isSpinning = true;
+                            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                            rotateVinyl();
+                        } catch (error) {
+                            console.error("Audio error:", error.message);
+                        }
+                    }
+                }
+            });
+
+            musicVinyl.addEventListener('click', () => {
+                if (!musicPlayer.paused) {
+                    musicPlayer.pause();
+                    isSpinning = false;
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                } else {
+                    musicPlayer.play().catch(() => {});
+                    isSpinning = true;
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    rotateVinyl();
+                }
+            });
+
+            // --- New: Scrollable Sections and Intersection Observer ---
+            const scrollableSections = document.querySelectorAll('[data-scrollable-section]');
+            let activeScrollableSection = null; // Stores the currently visible scrollable section
+
+            const sectionObserverOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px', // no margin
+                threshold: 0.5 // Trigger when 50% of the section is visible
+            };
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // If a section is intersecting, set it as the active one
+                        activeScrollableSection = entry.target;
+                    } else {
+                        // If a section is no longer intersecting, and it was the active one, clear it
+                        if (activeScrollableSection === entry.target) {
+                            activeScrollableSection = null;
+                        }
+                    }
+                    // Always update scroll percentage when intersection changes
+                    updateScrollPercentage();
+                });
+            }, sectionObserverOptions);
+
+            // Observe each scrollable section
+            scrollableSections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // Function to update scroll percentage
+            const updateScrollPercentage = () => {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+                let overallPercentage = 0;
+                if (scrollHeight > 0) {
+                    overallPercentage = (scrollTop / scrollHeight) * 100;
+                }
+
+                let displayString = `SCROLL ${Math.round(overallPercentage)}%`;
+
+                if (activeScrollableSection) {
+                    const internalScrollTop = activeScrollableSection.scrollTop;
+                    const internalScrollHeight = activeScrollableSection.scrollHeight - activeScrollableSection.clientHeight;
+
+                    if (internalScrollHeight > 0) { // Only show internal percentage if there's actual scroll
+                        const internalPercentage = (internalScrollTop / internalScrollHeight) * 100;
+                        displayString += ` . ${Math.round(internalPercentage)}%`;
+                    }
+                }
+                scrollPercentageElement.textContent = displayString;
+
+                // Control visibility based on scroll percentage
+                if (overallPercentage === 0) {
+                    scrollPercentageElement.style.opacity = 0;
+                    backToTopButton.style.opacity = 0;
+                } else {
+                    scrollPercentageElement.style.opacity = 1;
+                    backToTopButton.style.opacity = 1;
+                }
+            };
+
+            // Update scroll percentage on scroll (this listener will also trigger updates for internal scroll)
+            window.addEventListener('scroll', updateScrollPercentage);
+
+            // Additionally, add scroll listeners to the individual scrollable sections
+            // to update the internal percentage when they are scrolled
+            scrollableSections.forEach(section => {
+                section.addEventListener('scroll', updateScrollPercentage);
+            });
+
+            // Initial update on load
+            updateScrollPercentage();
+
+            // Back to top functionality
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+			// Custom Cursor Logic
+			const customCursor = document.getElementById('custom-cursor');
+			let mouseX = 0;
+			let mouseY = 0;
+			let cursorX = 0;
+			let cursorY = 0;
+			let isMouseMoving = false;
+			let timeout;
+
+			document.addEventListener('mousemove', (e) => {
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+				isMouseMoving = true;
+				customCursor.style.opacity = 1;
+
+				clearTimeout(timeout);
+				timeout = setTimeout(() => {
+					isMouseMoving = false;
+					customCursor.style.opacity = 0;
+				}, 1000);
+			});
+
+			const animateCursor = () => {
+				if (isMouseMoving) {
+					// This creates the smooth "lerp" (linear interpolation) trailing effect
+					cursorX += (mouseX - cursorX) * 0.1;
+					cursorY += (mouseY - cursorY) * 0.1;
+
+					customCursor.style.left = `${cursorX}px`;
+					customCursor.style.top = `${cursorY}px`;
+				}
+				requestAnimationFrame(animateCursor);
+			};
+
+			animateCursor();
+
+			let lastHoveredElement = null;
+			document.addEventListener('mouseover', (e) => {
+				const target = e.target.closest('a, button, .menu-toggle-text, .back-to-top, input[type="submit"], input[type="button"], .card, .lyric-quote.clickable, #music-vinyl');
+
+				if (target === lastHoveredElement) return;
+
+				customCursor.classList.remove('grow-default', 'grow-play', 'grow-music');
+
+				if (target) {
+					lastHoveredElement = target;
+
+					if (target.classList.contains('open-video-btn') || target.id === 'music-vinyl') {
+						customCursor.classList.add('grow-play');
+					} else if (target.classList.contains('lyric-quote') && target.classList.contains('clickable')) {
+						customCursor.classList.add('grow-music');
+					} else {
+						customCursor.classList.add('grow-default');
+					}
+				} else {
+					lastHoveredElement = null;
+				}
+			});
+
+            // --- Intersection Observer for Header/Footer Color Inversion ---
+            const observerOptions = {
+                root: null, // relative to the viewport
+                rootMargin: '0px 0px 0% 0px', // Trigger when the top of the target crosses the top of the viewport
+                threshold: 0.5 // Trigger as soon as any part of the target crosses the rootMargin line
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.target.id === 'final-section') {
+                        if (entry.isIntersecting) {
+                            body.classList.add('invert-fixed-colors');
+                        } else {
+                            body.classList.remove('invert-fixed-colors');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe the final section
+            observer.observe(finalSection);
+
+            // --- Contact Form Submission Handling ---
+            contactForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevent the default form submission (stops redirection)
+
+                submitButton.textContent = 'Sending...'; // Show loading state
+                submitButton.disabled = true; // Disable button to prevent multiple submissions
+                formMessages.classList.remove('show', 'success', 'error'); // Clear previous text messages
+                formMessages.textContent = ''; // Clear text
+                formSuccessIcon.classList.remove('show-icon'); // Hide the success icon
+
+                const formData = new FormData(contactForm); // Get form data
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        // mode: 'no-cors' is often needed for Apps Script, but the platform might handle it.
+                        // If you encounter CORS issues, uncomment the line below:
+                        // mode: 'no-cors'
+                    });
+
+                    // Google Apps Script typically returns a text response.
+                    // We check if the response was OK (status 200-299)
+                    if (response.ok || response.status === 200) { // Apps Script often returns 200 even with 'no-cors'
+                        formMessages.textContent = 'Thank you for reaching out! I will get back to you soon.'; // Updated message
+                        formMessages.classList.add('show', 'success');
+                        formSuccessIcon.classList.add('show-icon'); // Show the success icon
+                        contactForm.reset(); // Clear form fields
+                    } else {
+                        const errorText = await response.text(); // Try to read error message from response
+                        formMessages.textContent = `Oops! Something went wrong. Please try again. (${errorText})`;
+                        formMessages.classList.add('show', 'error');
+                        formSuccessIcon.classList.remove('show-icon'); // Ensure icon is hidden on error
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    formMessages.textContent = 'Network error. Please check your internet connection and try again.';
+                    formMessages.classList.add('show', 'error');
+                    formSuccessIcon.classList.remove('show-icon'); // Ensure icon is hidden on network error
+                } finally {
+                    submitButton.textContent = 'Send Message'; // Revert button text
+                    submitButton.disabled = false; // Re-enable button
+                    // Hide message and icon after a few seconds
+                    setTimeout(() => {
+                        formMessages.classList.remove('show');
+                        formMessages.textContent = '';
+                        formSuccessIcon.classList.remove('show-icon');
+                    }, 5000); // Message disappears after 5 seconds
+                }
+            });
+
+            // --- Dynamic Benzene Pattern Generation ---
+            // Function to create a single SVG benzene ring
+            function createBenzeneRingSVG(options) {
+                const {
+                    size = 150, // Size of the hexagon (distance from center to vertex)
+                    strokeWidth = 0.9,
+                    circleRadius = 99,
+                    rotation = 90, // Rotation in degrees
+                    color = 'currentColor' // Use CSS variable
+                } = options;
+
+                const height = size * Math.sqrt(3); // Height of the hexagon
+                const viewBoxSize = size * 2; // Viewbox covers from -size to +size
+                const viewBoxHeight = height * 2;
+
+                // Points for a hexagon centered at (size, size * sqrt(3) / 2)
+                // For a hexagon centered at (0,0) with vertex at (size, 0)
+                const points = [
+                    `${size * Math.cos(0)},${size * Math.sin(0)}`,
+                    `${size * Math.cos(Math.PI / 3)},${size * Math.sin(Math.PI / 3)}`,
+                    `${size * Math.cos(2 * Math.PI / 3)},${size * Math.sin(2 * Math.PI / 3)}`,
+                    `${size * Math.cos(Math.PI)},${size * Math.sin(Math.PI)}`,
+                    `${size * Math.cos(4 * Math.PI / 3)},${size * Math.sin(4 * Math.PI / 3)}`,
+                    `${size * Math.cos(5 * Math.PI / 3)},${size * Math.sin(5 * Math.PI / 3)}`
+                ].map(p => {
+                    const [x, y] = p.split(',').map(Number);
+                    // Adjust points to be within a positive viewBox, centered for rotation
+                    return `${x + size},${y + size * Math.sqrt(3) / 2}`;
+                }).join(' ');
+
+                const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                // viewBox should be adjusted to contain the hexagon and circle
+                // A hexagon with size `s` (radius) has width `2s` and height `s * sqrt(3)`
+                // We want to center it, so viewBox will be from 0 to 2*size in width and 0 to 2*size*sqrt(3)/2 in height
+                svg.setAttribute('viewBox', `0 0 ${viewBoxSize} ${height}`);
+                svg.setAttribute('width', size * 2);
+                svg.setAttribute('height', height);
+                svg.style.transform = `rotate(${rotation}deg)`;
+                svg.style.transformOrigin = 'center center'; // Ensure rotation is around its center
+				svg.style.color = 'inherit';
+
+
+                // Group for hexagon and circle, centered
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                g.setAttribute('stroke', color);
+                g.setAttribute('stroke-width', strokeWidth);
+                g.setAttribute('fill', 'none');
+                g.setAttribute('transform', `translate(0, 0)`); // Centered within its own SVG viewBox
+
+                const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+                polygon.setAttribute('points', points);
+                g.appendChild(polygon);
+				polygon.setAttribute('stroke', 'currentColor');     // or a custom color
+polygon.setAttribute('stroke-width', '1.1');         // or any value you like
+polygon.setAttribute('opacity', '2');             // adjust visibility
+
+
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute('cx', size); // Center X of the hexagon
+                circle.setAttribute('cy', size * Math.sqrt(3) / 2); // Center Y of the hexagon
+                circle.setAttribute('r', circleRadius);
+                g.appendChild(circle);
+				circle.setAttribute('stroke', 'currentColor');    // or 'black', '#fff', etc.
+circle.setAttribute('stroke-width', '1.5'); // or a custom value like '2'
+circle.setAttribute('opacity', '4');            // adjust visibility
+
+
+                svg.appendChild(g);
+                return svg;
+            }
+
+            // Function to generate and place the full benzene pattern
+            function generateBenzenePattern() {
+                // Clear existing patterns
+                benzenePatternContainer.innerHTML = '';
+
+                const containerWidth = window.innerWidth;
+                const containerHeight = window.innerHeight;
+
+                // Adjustable parameters
+                const hexagonSize = 150; // Distance from center to vertex of hexagon
+                const strokeWidth = 0.9;
+                const circleRadius = 99;
+                const rotation = 45; // Degrees
+                const spacingX = hexagonSize * 1.225; // Horizontal spacing between centers of adjacent hexagons
+                const spacingY = hexagonSize * Math.sqrt(1.5); // Vertical spacing between rows
+
+                // Calculate how many hexagons fit
+                const numCols = Math.ceil(containerWidth / (hexagonSize * 1.225)) + 1; // Add one for overflow
+                const numRows = Math.ceil(containerHeight / (hexagonSize * Math.sqrt(1.5))) + 1; // Add one for overflow
+
+                for (let row = 0; row < numRows; row++) {
+                    for (let col = 0; col < numCols; col++) {
+                        const xOffset = col * spacingX;
+                        const yOffset = row * spacingY;
+
+                        // Stagger odd rows
+                        const currentX = xOffset + (row % 2 === 1 ? hexagonSize * 0.75 : 0);
+                        const currentY = yOffset;
+
+                        const svg = createBenzeneRingSVG({
+                            size: hexagonSize,
+                            strokeWidth: strokeWidth,
+                            circleRadius: circleRadius,
+                            rotation: rotation
+                        });
+                        svg.style.left = `${currentX - hexagonSize}px`; // Adjust to position based on top-left corner
+                        svg.style.top = `${currentY - hexagonSize * Math.sqrt(3) / 2}px`; // Adjust to position based on top-left corner
+                        benzenePatternContainer.appendChild(svg);
+                    }
+                }
+            }
+
+            // Initial generation of pattern
+            generateBenzenePattern();
+
+            // Regenerate pattern on window resize for responsiveness
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(generateBenzenePattern, 200); // Debounce resize for performance
+            });
+
+            // Define the URL for your GitHub JSON file
+            const GITHUB_WORKS_JSON_URL = 'https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/works.json'; 
+
+            let works = []; // Initialize works as an empty array
+
+            // Function to fetch portfolio items
+            const fetchPortfolioItems = async () => {
+                try {
+                    const response = await fetch(GITHUB_WORKS_JSON_URL);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    works = await response.json(); // Assign fetched data to the global works array
+                    renderPortfolioItems(); // Render items after data is fetched
+                } catch (error) {
+                    console.error("Could not fetch portfolio items:", error);
+                    portfolioGrid.innerHTML = `<div class="text-center text-red-500 text-lg">Failed to load portfolio items. Please check the console for more details.</div>`;
+                }
+            };
+
+            let currentFilterType = 'All'; // Default to All, as requested to be commented out initially
+            let currentFilterCategory = 'All';
+
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const noResultsMessage = document.getElementById('no-results-message');
+            const categoryFilterButtons = document.querySelectorAll('.category-filters .filter-btn');
+
+            // Function to render portfolio items based on filters
+			const renderPortfolioItems = () => {
+				portfolioGrid.innerHTML = ''; // Clear existing items
+
+				let filteredWorks = works.filter(work => {
+					const matchesType = currentFilterType === 'All' || work.type === currentFilterType;
+					const workCategories = Array.isArray(work.category) ? work.category : [work.category];
+					const matchesCategory = currentFilterCategory === 'All' || workCategories.includes(currentFilterCategory);
+					return matchesType && matchesCategory;
+				});
+
+				filteredWorks.sort((a, b) => {
+					const dateA = a.date ? new Date(a.date) : null;
+					const dateB = b.date ? new Date(b.date) : null;
+
+					if (dateA && dateB) {
+						return dateB.getTime() - dateA.getTime();
+					}
+					if (dateA) return -1;
+					if (dateB) return 1;
+					return 0;
+				});
+
+				if (filteredWorks.length === 0) {
+					noResultsMessage.classList.remove('hidden');
+				} else {
+					noResultsMessage.classList.add('hidden');
+					filteredWorks.forEach(work => {
+						const workItem = document.createElement('a');
+						workItem.href = work.link;
+						workItem.target = "_blank";
+						workItem.rel = "noopener noreferrer";
+						workItem.classList.add('portfolio-item-new');
+
+						let itemHTML = `
+							<img src="${work.image}" alt="${work.title}">
+							<div class="portfolio-content-new">
+								<h3>${work.title}</h3>
+						`;
+
+						// CONDITIONAL LOGIC FOR DESCRIPTION
+						if (work.showDescription) {
+							itemHTML += `<p class="item-description">${work.description}</p>`;
+						}
+
+						itemHTML += `<div class="item-tags-container">`;
+
+						const workCategories = Array.isArray(work.category) ? work.category : [work.category];
+						if (workCategories.length > 0) {
+							workCategories.forEach(cat => {
+								itemHTML += `<span class="item-tag">${cat}</span>`;
+							});
+						}
+
+						if (work.tags && work.tags.length > 0) {
+							work.tags.forEach(tag => {
+								itemHTML += `<span class="item-tag">${tag}</span>`;
+							});
+						}
+
+						itemHTML += `</div></div>`;
+						workItem.innerHTML = itemHTML;
+
+						portfolioGrid.appendChild(workItem);
+					});
+				}
+			};
+
+            // Event listeners for category filters
+            categoryFilterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove 'active' from all category buttons
+                    categoryFilterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add 'active' to the clicked button
+                    button.classList.add('active');
+                    currentFilterCategory = button.dataset.filterCategory;
+                    renderPortfolioItems(); // Re-render items
+                });
+            });
+
+            // Initial fetch and render of portfolio items when the page loads
+            fetchPortfolioItems();
+
+            // --- Holo Card JavaScript Logic ---
+            // Utility function for message box
+            function showMessageBox(message) {
+                const messageBox = document.getElementById('messageBox');
+                const messageText = document.getElementById('messageText');
+                const messageButton = document.getElementById('messageButton');
+
+                messageText.textContent = message;
+                messageBox.style.display = 'flex';
+
+                messageButton.onclick = () => {
+                    messageBox.style.display = 'none';
+                };
+            }
+
+            const card = document.querySelector('.card');
+            const rotator = card.querySelector('.card__rotator');
+
+            let isDragging = false;
+            let isZoomed = false;
+            let startX, startY;
+            let currentRotX = 0;
+            let currentRotY = 0;
+            let lastTouchX = 0;
+            let lastTouchY = 0;
+
+            // Set initial rotation for idle animation
+            card.style.setProperty('--rx', '0deg');
+            card.style.setProperty('--ry', '0deg');
+            card.classList.add('animated');
+
+            // Function to update card styles based on mouse/touch position
+            const updateCardStyles = (x, y) => {
+                const cardRect = card.getBoundingClientRect();
+                const centerX = cardRect.left + cardRect.width / 2;
+                const centerY = cardRect.top + cardRect.height / 2;
+
+                // Calculate mouse position relative to card center (-1 to 1)
+                const mouseX = (x - centerX) / (cardRect.width / 2);
+                const mouseY = (y - centerY) / (cardRect.height / 2);
+
+                // Calculate rotation based on mouse position
+                const rotX = -mouseY * 15; // Max 15 degrees rotation
+                const rotY = mouseX * 15;
+                
+                // Update CSS variables
+                card.style.setProperty('--rx', `${rotX}deg`);
+                card.style.setProperty('--ry', `${rotY}deg`);
+            };
+
+            // Mouse events for hover and drag
+            card.addEventListener('mousemove', (e) => {
+                // Always update styles and stop animation on mousemove
+                updateCardStyles(e.clientX, e.clientY);
+                card.classList.remove('animated'); // Stop idle animation
+                
+                if (isDragging) {
+                    const deltaX = e.clientX - startX;
+                    const deltaY = e.clientY - startY;
+
+                    currentRotY += deltaX * 0.2;
+                    currentRotX -= deltaY * 0.2;
+
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (!isZoomed) { /* Only reset and re-animate if not zoomed */
+                    // Reset styles when mouse leaves
+                    card.style.setProperty('--rx', '0deg');
+                    card.style.setProperty('--ry', '0deg');
+                    currentRotX = 0; // Reset current rotation values
+                    currentRotY = 0;
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500); // Original delay from script.js
+                } else {
+                    // If zoomed, maintain current rotation on mouseleave
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                }
+            });
+
+            card.addEventListener('mousedown', (e) => {
+                if (e.button === 0) { // Left click
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    card.classList.add('interacting');
+                    card.style.transition = 'none'; // Disable transition during drag
+                    card.classList.remove('animated'); // Stop idle animation
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    card.classList.remove('interacting');
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.2s ease'; // Re-enable transition
+                    // Add animated class back after a delay if not zoomed
+                    if (!isZoomed) {
+                        setTimeout(() => {
+                            card.classList.add('animated');
+                        }, 2500);
+                    }
+                }
+            });
+
+            // Touch events for mobile
+            card.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    isDragging = true;
+                    lastTouchX = e.touches[0].clientX;
+                    lastTouchY = e.touches[0].clientY;
+                    card.classList.add('interacting');
+                    card.style.transition = 'none';
+                    card.classList.remove('animated'); // Stop idle animation
+                    updateCardStyles(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            });
+
+            card.addEventListener('touchmove', (e) => {
+                if (isDragging && e.touches.length === 1) {
+                    const touchX = e.touches[0].clientX;
+                    const touchY = e.touches[0].clientY;
+
+                    const deltaX = touchX - lastTouchX;
+                    const deltaY = touchY - lastTouchY;
+
+                    currentRotY += deltaX * 0.2;
+                    currentRotX -= deltaY * 0.2;
+
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+
+                    lastTouchX = touchX;
+                    lastTouchY = touchY;
+
+                    updateCardStyles(touchX, touchY);
+                }
+            });
+
+            card.addEventListener('touchend', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    card.classList.remove('interacting');
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.2s ease';
+                }
+                if (!isZoomed) { /* Only hide shine if not zoomed */
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500);
+                } else {
+                    // If zoomed, maintain current rotation on touchend
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                }
+            });
+
+
+            // Click to take a closer look functionality
+            card.addEventListener('click', () => {
+                // Prevent zooming if currently dragging
+                if (isDragging) {
+                    return;
+                }
+
+                isZoomed = !isZoomed;
+                card.classList.toggle('active', isZoomed);
+
+                if (isZoomed) {
+                    card.classList.remove('animated'); // Stop idle animation when zoomed
+                } else {
+                    // Reset rotation and hide shine when unzoomed
+                    currentRotX = 0; // Reset rotation for unzoom
+                    currentRotY = 0; // Reset rotation for unzoom
+                    card.style.setProperty('--rx', `${currentRotX}deg`);
+                    card.style.setProperty('--ry', `${currentRotY}deg`);
+                    // Add animated class back after a delay
+                    setTimeout(() => {
+                        card.classList.add('animated');
+                    }, 2500);
+                }
+            });
+        });
+		
+
     </script>
+    <script>
+        // Three.js Capsule Integration
+        const capsuleCanvas = document.getElementById('capsule-canvas');
+        
+        // Add CSS for the capsule canvas
+        capsuleCanvas.style.position = 'absolute';
+        capsuleCanvas.style.bottom = '-50px'; /* Adjust for cropping */
+        capsuleCanvas.style.right = '-50px'; /* Adjust for cropping */
+        capsuleCanvas.style.width = '300px';
+        capsuleCanvas.style.height = '300px';
+        capsuleCanvas.style.zIndex = '10'; // Capsule z-index
+        capsuleCanvas.style.pointerEvents = 'none';
+        capsuleCanvas.style.display = 'block'; // Ensures no extra space below canvas
+
+        const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            canvas: capsuleCanvas,
+            alpha: true // Enable transparency for the renderer
+        });
+        const camera = new THREE.PerspectiveCamera();
+        const scene = new THREE.Scene();
+
+        scene.background = null; // Set scene background to null for transparency
+        let rendererNeedsResize = true;
+
+        camera.position.z = 10;
+
+        // Define the pill here
+        const pillLength = 3;
+
+        // Main capsule body material reverted to its original light grey/white
+        let geometry = new THREE.CapsuleGeometry(1, pillLength, 32, 32);
+        let material = new THREE.MeshPhongMaterial({
+            color: 0xdddddd // Original light grey/white color for the main capsule body
+        });
+
+        let innerCapsule = new THREE.Mesh(geometry, material);
+        // Changed rotation.z to -25 degrees
+        innerCapsule.rotation.z = THREE.MathUtils.degToRad(-25);
+        // Changed rotation.y to -45 degrees for the still shot
+        innerCapsule.rotation.y = THREE.MathUtils.degToRad(-45);
+        scene.add(innerCapsule);
+
+        let gem2 = new THREE.CapsuleGeometry(1.2, pillLength + 0.2, 32, 32);
+        let mat2 = new THREE.MeshBasicMaterial({
+            color: "#000000",
+            side: THREE.BackSide
+        });
+        let outerCapsule = new THREE.Mesh(gem2, mat2);
+        innerCapsule.add(outerCapsule);
+
+        // Color for the cap and sleeve changed to dark red/maroon (0x660f11)
+        let redMaterial = new THREE.MeshPhongMaterial({
+            color: 0x660f11, // Dark red/maroon color for the cap and sleeve
+            specular: "#eeffff",
+            shininess: 100
+        });
+
+        let capGeometry = new THREE.SphereGeometry(1.06, 32, 32);
+        let capSphere = new THREE.Mesh(capGeometry, redMaterial);
+        capSphere.position.y = pillLength * -0.5;
+        innerCapsule.add(capSphere);
+
+        let sleeveGeometry = new THREE.CylinderGeometry(1.06, 1.06, pillLength * 0.5);
+        let capSleeve = new THREE.Mesh(sleeveGeometry, redMaterial);
+        capSleeve.position.y = pillLength * -0.25;
+        innerCapsule.add(capSleeve);
+
+        const light = new THREE.PointLight(0xffdddd, 100);
+        light.position.set(-4, 4, 5);
+        scene.add(light);
+
+        const light2 = new THREE.PointLight(0xddddff, 100);
+        light2.position.set(4, 4, 5);
+        scene.add(light2);
+
+        // Color of light3 remains dark red/maroon (0x660f11) as per previous request
+        const light3 = new THREE.PointLight(0x660f11, 10);
+        light3.position.set(0, -4, 5);
+        scene.add(light3);
+
+        function resizeCapsuleRenderer() {
+            const width = capsuleCanvas.clientWidth;
+            const height = capsuleCanvas.clientHeight;
+            if (capsuleCanvas.width !== width || capsuleCanvas.height !== height) {
+                renderer.setSize(width, height, false);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                rendererNeedsResize = false; // Reset flag after resizing
+            }
+        }
+
+        // This function will now only render once and not animate
+        let renderCapsule = function () {
+            resizeCapsuleRenderer(); // Call the specific resize function for the capsule
+            renderer.render(scene, camera);
+        };
+
+        window.addEventListener(
+            "resize",
+            () => {
+                rendererNeedsResize = true;
+                renderCapsule(); // Re-render on resize to update the view
+            },
+            false
+        );
+
+        // Ensure the render is called once after the window loads
+        window.onload = function() {
+            renderCapsule();
+        };
+		
+
+    </script>
+	<script>
+  const card = document.querySelector('.card');
+
+  let isZoomed = false;
+  card.addEventListener('click', () => {
+    if (isZoomed) {
+      card.classList.remove('active');
+      card.parentElement.classList.remove('zoomed');
+    } else {
+      card.classList.add('active');
+      card.parentElement.classList.add('zoomed');
+    }
+    isZoomed = !isZoomed;
+  });
+</script>
 </body>
 </html>
