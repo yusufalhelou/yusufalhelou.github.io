@@ -1,0 +1,87 @@
+---
+layout: default
+---
+<section id="home" class="hero-section">
+        <h1 class="hero-title">Hiya</h1>
+        <div class="hero-profile-tag">[PROFILE]</div>
+        <p class="hero-main-text">
+            I'm <span class="highlight-italic">Yusuf Muhsin Alhelou</span>.<br>
+            <span class="highlight-italic">Pharmacist</span> and <span class="highlight-italic">Digital Artist</span>,<br>
+           integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.
+        </p>
+        <!-- Capsule Canvas -->
+        <canvas id="capsule-canvas"></canvas>
+
+        <!-- Holo Card Container -->
+        <!-- <div class="card-container">
+            <div class="card" data-rarity="rare holo v" data-supertype="pokemon">
+                <div class="card__translater">
+                    <div class="card__rotator">
+                        <div class="card__front">
+							<img class="card__image" src="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/BlackCompressed.png" alt="Custom Holo Card Image" onerror="this.onerror=null;this.src='https://placehold.co/300x420/000000/FFFFFF?text=Image+Not+Found';">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Message Box for alerts -->
+        <div id="messageBox" class="message-box">
+            <p id="messageText"></p>
+            <button id="messageButton">OK</button>
+        </div>
+    </section>
+
+    <section id="blog" class="py-16 px-4 md:px-8 lg:px-16" data-scrollable-section>
+        <h2 class="section-title">Posts</h2>
+        <div class="max-w-4xl mx-auto text-center text-lg leading-relaxed">
+            <p class="mb-4">
+                
+            </p>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-16" data-scrollable-section>
+        <h2 class="section-title">Works</h2>
+        <div class="filter-controls-container flex flex-col md:flex-row justify-center items-center gap-4 mb-8 px-4">
+            <!-- Type Filters (Commented out for now as requested) -->
+            <!-- <div class="type-filters flex gap-2">
+                <button class="filter-btn active" data-filter-type="All">All</button>
+                <button class="filter-btn" data-filter-type="Project">Project</button>
+                <button class="filter-btn" data-filter-type="Experimental">Experimental</button>
+            </div> -->
+            <!-- Category Filters -->
+            <div class="category-filters flex flex-wrap justify-center gap-2">
+                <button class="filter-btn active" data-filter-category="All">All</button>
+                <button class="filter-btn" data-filter-category="Pharmacy">Pharmacy</button>
+                <button class="filter-btn" data-filter-category="Artwork">Artwork</button>
+                <button class="filter-btn" data-filter-category="Web">Web</button>
+            </div>
+        </div>
+
+        <div id="portfolio-grid" class="portfolio-grid-new px-4">
+            <!-- Work items will be injected here by JavaScript -->
+            <div id="no-results-message" class="hidden text-center text-gray-400 text-lg">Nothing to See Here</div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section" data-scrollable-section>
+        <h2 class="section-title">Get in Touch</h2>
+        <form class="contact-form" id="contact-form" action="https://script.google.com/macros/s/AKfycby8QS7GXgJl1FpGt8DedAV5OzYMZxNtN7lsI-dp0BhkdAOMVj5If3ZbAdyht5kt4jg/exec" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea rows="5" name="message" placeholder="Your Message" required></textarea>
+            <button type="submit" id="submit-button">Send Message</button>
+        </form>
+        <!-- New: Form Success Icon -->
+        <div id="form-success-icon"><i class="fas fa-heart"></i></div>
+        <!-- Message display area -->
+        <div id="form-messages" class="mt-4 text-center"></div>
+
+        <!-- Pulsating Circles Container -->
+        <div class="pulsating-circles-container">
+            <div class="pulsating-circle"></div>
+            <div class="pulsating-circle"></div>
+            <div class="pulsating-circle"></div>
+        </div>
+    </section>
