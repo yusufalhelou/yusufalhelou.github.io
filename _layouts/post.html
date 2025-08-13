@@ -2,8 +2,12 @@
 layout: default
 ---
 
-<article class="prose max-w-none px-4 py-8 mx-auto">
-    <h1>{{ page.title }}</h1>
-    <p>{{ page.date | date: "%B %-d, %Y" }}</p>
-    {{ content }}
-</article>
+<section id="post-content" class="py-16 px-4 md:px-8 lg:px-16">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="section-title">{{ page.title }}</h1>
+        <p class="text-gray-400 mb-8">Published on {{ page.date | date: "%B %-d, %Y" }}</p>
+        <div class="prose max-w-none text-lg">
+            {{ content }}
+        </div>
+    </div>
+</section>
