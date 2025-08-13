@@ -3,29 +3,33 @@ layout: default
 title: Blog
 ---
 
-<div id="blog-content" class="page-section">
-    <div class="container">
-        <h1>Posts</h1>
-        <ul>
-          {% for post in site.posts %}
-            <li>
-              <a href="{{ post.url }}">{{ post.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-    </div>
-</div>
+<section id="blog-list-section" class="py-16 px-4 md:px-8 lg:px-16" data-scrollable-section>
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="section-title">Latest Articles</h2>
+        <div class="text-lg leading-relaxed mb-8 text-gray-300">
+            <p>Dive into my thoughts and insights on various topics.</p>
+        </div>
 
-<div class="max-w-4xl mx-auto text-center text-lg leading-relaxed">
-    <p class="mb-4">
-        Check out my latest articles below.
-    </p>
-    <ul class="list-none space-y-4 text-left">
-      {% for post in site.posts %}
-        <li class="p-4 bg-gray-800 rounded-lg shadow-md hover:bg-gray-700 transition-colors duration-200">
-          <a href="{{ post.url }}" class="block text-white text-xl font-bold">{{ post.title }}</a>
-          <p class="text-sm text-gray-400">{{ post.date | date: "%B %-d, %Y" }}</p>
-        </li>
-      {% endfor %}
-    </ul>
-</div>
+        <ul class="list-none p-0 m-0 space-y-6 text-left">
+            {% for post in site.posts %}
+                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
+                    <a href="{{ post.url }}" class="block text-white no-underline">
+                        <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
+                        <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
+                        {% if post.description %}
+                            <p class="text-gray-300">{{ post.description }}</p>
+                        {% else %}
+                            <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% unless site.posts.size > 0 %}
+            <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10">
+                No articles yet. Check back soon!
+            </div>
+        {% endunless %}
+    </div>
+</section>
