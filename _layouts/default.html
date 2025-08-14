@@ -2973,119 +2973,155 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let allPosts = [];
-    const postsPerPage = 5; // Set your desired number of posts per page
-    let currentPage = 1;
-    let currentSort = 'newest';
-    let searchQuery = '';
-    
-    // Selectors
-    const postsList = document.getElementById('posts-list');
-    const searchInput = document.getElementById('search-input');
-    const sortBySelect = document.getElementById('sort-by');
-    const paginationContainer = document.getElementById('pagination-container');
-    const noPostsMessage = document.getElementById('no-posts-message');
+    document.addEventListener('DOMContentLoaded', function() {
+        let allPosts = [];
+        const postsPerPage = 5;
+        let currentPage = 1;
+        let currentSort = 'newest';
+        let searchQuery = '';
+        const truncateWordCount = 30;
 
-    // Fetch and initialize
-    fetch('/all-posts.json')
-        .then(response => response.json())
-        .then(posts => {
-            allPosts = posts;
-            renderPosts();
-        })
-        .catch(error => {
-            console.error('Error fetching posts:', error);
-            noPostsMessage.style.display = 'block';
-            noPostsMessage.textContent = 'Could not load posts.';
-        });
+        const postsList = document.getElementById('posts-list');
+        const searchInput = document.getElementById('search-input');
+        const sortBySelect = document.getElementById('sort-by');
+        const paginationContainer = document.getElementById('pagination-container');
+        const noPostsMessage = document.getElementById('no-posts-message');
 
-    // Event Listeners
-    searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase().trim();
-        currentPage = 1;
-        renderPosts();
-    });
-
-    sortBySelect.addEventListener('change', (e) => {
-        currentSort = e.target.value;
-        currentPage = 1;
-        renderPosts();
-    });
-
-    // Main rendering function
-    function renderPosts() {
-        // 1. Filter posts based on search query
-        const filteredPosts = allPosts.filter(post => {
-            const title = post.title.toLowerCase();
-            const description = post.description.toLowerCase();
-            return title.includes(searchQuery) || description.includes(searchQuery);
-        });
-
-        // 2. Sort posts
-        filteredPosts.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-            if (currentSort === 'newest') {
-                return dateB - dateA;
-            } else {
-                return dateA - dateB;
-            }
-        });
-
-        // 3. Handle 'no results' message
-        if (filteredPosts.length === 0) {
-            postsList.innerHTML = '';
-            noPostsMessage.textContent = searchQuery ? 'No results found.' : 'No articles yet. Check back soon!';
-            noPostsMessage.style.display = 'block';
-            paginationContainer.innerHTML = '';
-            return;
-        } else {
-            noPostsMessage.style.display = 'none';
-        }
-
-        // 4. Paginate the filtered and sorted posts
-        const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-        const startIndex = (currentPage - 1) * postsPerPage;
-        const endIndex = startIndex + postsPerPage;
-        const postsToDisplay = filteredPosts.slice(startIndex, endIndex);
-
-        // 5. Render posts to the DOM
-        postsList.innerHTML = postsToDisplay.map(post => `
-            <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
-                <a href="${post.url}" class="block text-white no-underline">
-                    <h3 class="text-2xl font-semibold mb-2">${post.title}</h3>
-                    <p class="text-sm text-gray-400 mb-3">Published on ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                </a>
-                <p class="text-gray-300">${post.description}</p>
-            </li>
-        `).join('');
-
-        // 6. Render pagination buttons
-        renderPaginationButtons(totalPages);
-    }
-
-    function renderPaginationButtons(totalPages) {
-        paginationContainer.innerHTML = '';
-        if (totalPages <= 1) return;
-
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.classList.add('px-4', 'py-2', 'rounded-full', 'font-bold', 'transition-colors', 'duration-200');
-            if (i === currentPage) {
-                button.classList.add('bg-blue-600', 'text-white');
-            } else {
-                button.classList.add('bg-gray-700', 'text-gray-300', 'hover:bg-blue-500', 'hover:text-white');
-            }
-            button.addEventListener('click', () => {
-                currentPage = i;
+        fetch('/all-posts.json')
+            .then(response => response.json())
+            .then(posts => {
+                allPosts = posts;
                 renderPosts();
+            })
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                noPostsMessage.style.display = 'block';
+                noPostsMessage.textContent = 'Could not load posts.';
             });
-            paginationContainer.appendChild(button);
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            currentPage = 1;
+            renderPosts();
+        });
+
+        sortBySelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            currentPage = 1;
+            renderPosts();
+        });
+
+        function truncateText(text, limit) {
+            const words = text.split(' ');
+            if (words.length > limit) {
+                return words.slice(0, limit).join(' ') + '...';
+            }
+            return text;
         }
-    }
-});
+
+        function renderPosts() {
+            const filteredPosts = allPosts.filter(post => {
+                const title = post.title.toLowerCase();
+                const description = post.description.toLowerCase();
+                return title.includes(searchQuery) || description.includes(searchQuery);
+            });
+
+            filteredPosts.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                if (currentSort === 'newest') {
+                    return dateB - dateA;
+                } else {
+                    return dateA - dateB;
+                }
+            });
+
+            if (filteredPosts.length === 0) {
+                postsList.innerHTML = '';
+                noPostsMessage.textContent = searchQuery ? 'No results found.' : 'No articles yet. Check back soon!';
+                noPostsMessage.style.display = 'block';
+                paginationContainer.innerHTML = '';
+                return;
+            } else {
+                noPostsMessage.style.display = 'none';
+            }
+
+            const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const postsToDisplay = filteredPosts.slice(startIndex, endIndex);
+
+            postsList.innerHTML = postsToDisplay.map(post => {
+                const words = post.description.split(' ');
+                const isTruncated = words.length > truncateWordCount;
+                const truncatedDescription = isTruncated ? truncateText(post.description, truncateWordCount) : post.description;
+
+                return `
+                    <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
+                        <a href="${post.url}" class="block text-white no-underline">
+                            <h3 class="text-2xl font-semibold mb-2">${post.title}</h3>
+                            <p class="text-sm text-gray-400 mb-3">Published on ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                        </a>
+                        <div class="description-container">
+                            <div class="js-truncated-block ${isTruncated ? '' : 'hidden'}">
+                                <span class="text-gray-300">${truncatedDescription}</span>
+                                ${isTruncated ? `<button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">Show more</button>` : ''}
+                            </div>
+                            <div class="js-full-block ${isTruncated ? 'hidden' : ''}">
+                                <p class="text-gray-300">${post.description}</p>
+                                ${isTruncated ? `<button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">Show less</button>` : ''}
+                            </div>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+
+            // After rendering the posts, attach event listeners to the new buttons
+            const toggleButtons = document.querySelectorAll('.js-toggle-description');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const descriptionContainer = e.target.closest('.description-container');
+                    if (!descriptionContainer) return;
+
+                    const truncatedBlock = descriptionContainer.querySelector('.js-truncated-block');
+                    const fullBlock = descriptionContainer.querySelector('.js-full-block');
+                    const isTruncatedVisible = !truncatedBlock.classList.contains('hidden');
+
+                    if (isTruncatedVisible) {
+                        truncatedBlock.classList.add('hidden');
+                        fullBlock.classList.remove('hidden');
+                    } else {
+                        fullBlock.classList.add('hidden');
+                        truncatedBlock.classList.remove('hidden');
+                    }
+                });
+            });
+
+            renderPaginationButtons(totalPages);
+        }
+
+        function renderPaginationButtons(totalPages) {
+            paginationContainer.innerHTML = '';
+            if (totalPages <= 1) return;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.classList.add('px-4', 'py-2', 'rounded-full', 'font-bold', 'transition-colors', 'duration-200');
+                if (i === currentPage) {
+                    button.classList.add('bg-blue-600', 'text-white');
+                } else {
+                    button.classList.add('bg-gray-700', 'text-gray-300', 'hover:bg-blue-500', 'hover:text-white');
+                }
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    renderPosts();
+                });
+                paginationContainer.appendChild(button);
+            }
+        }
+    });
 </script>
 </body>
 </html>
