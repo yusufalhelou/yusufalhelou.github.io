@@ -1688,6 +1688,35 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     height: 100%;
     border: 0;
 }
+
+#post-content {
+    word-wrap: break-word; /* For older browsers */
+    overflow-wrap: break-word; /* Standard property */
+}
+
+#post-content img,
+#post-content video,
+#post-content iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+#post-content pre {
+    white-space: pre-wrap; /* Allows long lines to wrap */
+    word-wrap: break-word; /* Prevents overflow with long words */
+    overflow-x: auto; /* Adds a horizontal scrollbar if needed */
+}
+
+#post-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+#post-content table th,
+#post-content table td {
+    white-space: normal;
+}
 		
     </style>
 </head>
