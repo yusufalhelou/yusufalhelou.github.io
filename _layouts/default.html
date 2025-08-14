@@ -1637,6 +1637,41 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     .article-content h3 { font-size: 1.25rem; }
 }
 
+/* General Overflow Prevention */
+.article-content {
+    overflow-wrap: break-word; /* Prevents long words/links from overflowing */
+}
+
+/* Container to make tables scrollable */
+.table-container {
+    overflow-x: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem; /* Optional: adds rounded corners */
+    border: 1px solid #444; /* Optional: adds a border around the scrollable area */
+}
+
+/* Table Styling */
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures table has a minimum width before scrolling starts */
+    background-color: #222; /* Dark background for the table */
+}
+
+.article-content th, .article-content td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #444; /* Cell borders */
+    text-align: left;
+    color: #e0e0e0;
+}
+
+.article-content th {
+    font-weight: 700;
+    background-color: #333; /* Slightly different background for headers */
+    color: var(--color-sub);
+}
+
     </style>
 </head>
 <body>
@@ -2831,6 +2866,24 @@ circle.setAttribute('opacity', '4');            // adjust visibility
     }
     isZoomed = !isZoomed;
   });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all tables within the article content
+        const tables = document.querySelectorAll('.article-content table');
+
+        tables.forEach(table => {
+            // Create a wrapper div with the class 'table-container'
+            const tableContainer = document.createElement('div');
+            tableContainer.className = 'table-container';
+
+            // Insert the wrapper before the table in the DOM
+            table.parentNode.insertBefore(tableContainer, table);
+
+            // Move the table inside the wrapper
+            tableContainer.appendChild(table);
+        });
+    });
 </script>
 </body>
 </html>
