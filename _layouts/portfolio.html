@@ -47,35 +47,36 @@ title: Yusuf Alhelou
                     <a href="{{ post.url }}" class="block text-white no-underline">
                         <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
                         <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
-                        {% if post.description %}
-                            <div class="description-container">
-                                {% assign description_word_count = post.description | number_of_words %}
-                                {% if description_word_count > 30 %}
-                                    <div class="js-truncated-block flex flex-wrap items-baseline">
-                                        <span class="text-gray-300">
-                                            {{ post.description | truncatewords: 30 }}
-                                        </span>
-                                        <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">
-                                            Show more
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="hidden js-full-block">
-                                        <p class="text-gray-300">
-                                            {{ post.description }}
-                                        </p>
-                                        <button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">
-                                            Show less
-                                        </button>
-                                    </div>
-                                {% else %}
-                                    <p class="text-gray-300">{{ post.description }}</p>
-                                {% endif %}
-                            </div>
-                        {% else %}
-                            <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                        {% endif %}
                     </a>
+                    
+                    {% if post.description %}
+                        <div class="description-container">
+                            {% assign description_word_count = post.description | number_of_words %}
+                            {% if description_word_count > 30 %}
+                                <div class="js-truncated-block">
+                                    <span class="text-gray-300">
+                                        {{ post.description | truncatewords: 30 }}
+                                    </span>
+                                    <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">
+                                        Show more
+                                    </button>
+                                </div>
+                                
+                                <div class="hidden js-full-block">
+                                    <p class="text-gray-300">
+                                        {{ post.description }}
+                                    </p>
+                                    <button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">
+                                        Show less
+                                    </button>
+                                </div>
+                            {% else %}
+                                <p class="text-gray-300">{{ post.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
