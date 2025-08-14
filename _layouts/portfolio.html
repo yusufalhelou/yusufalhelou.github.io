@@ -49,17 +49,22 @@ title: Yusuf Alhelou
                         <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
                         {% if post.description %}
                             <div class="description-container">
-                                <p class="text-gray-300 js-truncated-description">
-                                    {{ post.description | truncatewords: 30 }}
-                                </p>
-                                <p class="text-gray-300 hidden js-full-description">
-                                    {{ post.description }}
-                                </p>
                                 {% assign description_word_count = post.description | number_of_words %}
                                 {% if description_word_count > 30 %}
-                                    <button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">
+                                    <span class="text-gray-300 js-truncated-description inline-block">
+                                        {{ post.description | truncatewords: 30 }}
+                                    </span>
+                                    <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description inline-block">
                                         Show more
                                     </button>
+                                    <p class="text-gray-300 hidden js-full-description">
+                                        {{ post.description }}
+                                        <button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">
+                                            Show less
+                                        </button>
+                                    </p>
+                                {% else %}
+                                    <p class="text-gray-300">{{ post.description }}</p>
                                 {% endif %}
                             </div>
                         {% else %}
