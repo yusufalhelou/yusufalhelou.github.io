@@ -51,11 +51,11 @@ title: Yusuf Alhelou
                             <div class="description-container">
                                 {% assign description_word_count = post.description | number_of_words %}
                                 {% if description_word_count > 30 %}
-                                    <div class="js-truncated-block">
-                                        <span class="text-gray-300 inline-block">
+                                    <div class="js-truncated-block flex items-end">
+                                        <span class="text-gray-300">
                                             {{ post.description | truncatewords: 30 }}
                                         </span>
-                                        <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description inline-block">
+                                        <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">
                                             Show more
                                         </button>
                                     </div>
@@ -87,7 +87,6 @@ title: Yusuf Alhelou
         {% endunless %}
     </div>
 </section>
-
 <section id="portfolio" class="py-16" data-scrollable-section>
     <h2 class="section-title">Works</h2>
     <div class="filter-controls-container flex flex-col md:flex-row justify-center items-center gap-4 mb-8 px-4">
