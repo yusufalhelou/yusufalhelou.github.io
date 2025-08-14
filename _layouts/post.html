@@ -2,16 +2,35 @@
 layout: default
 ---
 
-<section id="post-content" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen" style="background-color: rgba(1, 1, 1, 0.9);" data-scrollable-section>
+<style>
+  .article-content h2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    margin-top: 2rem; /* 32px */
+    margin-bottom: 1rem; /* 16px */
+    font-weight: 600;
+  }
+  .article-content a {
+    text-decoration: underline;
+    text-decoration-color: #9ca3af; /* gray-400 */
+  }
+  .article-content a:hover {
+    text-decoration-color: #ffffff;
+  }
+</style>
+
+<section id="post-content" class="py-12 md:py-16 px-4 md:px-8 lg:px-16 min-h-screen" style="background-color: rgba(1, 1, 1, 0.9);" data-scrollable-section>
     <div class="max-w-4xl mx-auto text-white"> 
-        <h1 class="section-title text-center mb-8">{{ page.title }}</h1> 
-        <p class="text-gray-400 text-center mb-12">Published on {{ page.date | date: "%B %-d, %Y" }}</p> 
         
-        <div class="article-content text-lg leading-relaxed space-y-6"> 
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-4">{{ page.title }}</h1> 
+        
+        <p class="text-gray-400 text-center mb-8 md:mb-12">Published on {{ page.date | date: "%B %-d, %Y" }}</p> 
+        
+        <div class="article-content text-base md:text-lg leading-relaxed space-y-6"> 
             {{ content }}
         </div>
         
-        <div class="mt-16 text-center">
+        <div class="mt-12 md:mt-16 text-center">
             <a href="/" class="text-white hover:text-gray-400 transition-colors duration-200 inline-flex items-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 <span>Back to Home</span>
