@@ -2929,5 +2929,36 @@ circle.setAttribute('opacity', '4');            // adjust visibility
         });
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButtons = document.querySelectorAll('.js-toggle-description');
+
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Stop the link from navigating to the post URL
+            e.preventDefault();
+            
+            // Find the parent container
+            const descriptionContainer = e.target.closest('.description-container');
+            if (!descriptionContainer) return;
+
+            const truncated = descriptionContainer.querySelector('.js-truncated-description');
+            const full = descriptionContainer.querySelector('.js-full-description');
+
+            if (truncated.classList.contains('hidden')) {
+                // Currently showing full description, so hide it
+                truncated.classList.remove('hidden');
+                full.classList.add('hidden');
+                e.target.textContent = 'Show more';
+            } else {
+                // Currently showing truncated description, so hide it
+                truncated.classList.add('hidden');
+                full.classList.remove('hidden');
+                e.target.textContent = 'Show less';
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
