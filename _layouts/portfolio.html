@@ -41,51 +41,24 @@ title: Yusuf Alhelou
             <p>Thoughts and insights on various topics.</p>
         </div>
 
-        <ul class="list-none p-0 m-0 space-y-6 text-left w-full">
-            {% for post in site.posts %}
-                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
-                    <a href="{{ post.url }}" class="block text-white no-underline">
-                        <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
-                        <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
-                    </a>
-                    
-                    {% if post.description %}
-                        <div class="description-container">
-                            {% assign description_word_count = post.description | number_of_words %}
-                            {% if description_word_count > 30 %}
-                                <div class="js-truncated-block">
-                                    <span class="text-gray-300">
-                                        {{ post.description | truncatewords: 30 }}
-                                    </span>
-                                    <button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">
-                                        Show more
-                                    </button>
-                                </div>
-                                
-                                <div class="hidden js-full-block">
-                                    <p class="text-gray-300">
-                                        {{ post.description }}
-                                    </p>
-                                    <button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">
-                                        Show less
-                                    </button>
-                                </div>
-                            {% else %}
-                                <p class="text-gray-300">{{ post.description }}</p>
-                            {% endif %}
-                        </div>
-                    {% else %}
-                        <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <input type="text" id="search-input" placeholder="Search posts..." 
+                   class="w-full sm:w-1/2 px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="sort-by" class="px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+            </select>
+        </div>
 
-        {% unless site.posts.size > 0 %}
-            <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10">
-                No articles yet. Check back soon!
+        <ul id="posts-list" class="list-none p-0 m-0 space-y-6 text-left w-full">
+            </ul>
+
+        <div id="pagination-container" class="mt-8 flex justify-center space-x-2">
             </div>
-        {% endunless %}
+
+        <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10 hidden">
+            No articles yet. Check back soon!
+        </div>
     </div>
 </section>
 
