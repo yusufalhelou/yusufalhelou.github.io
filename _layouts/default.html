@@ -2948,26 +2948,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     toggleButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            // Stop the link from navigating to the post URL
             e.preventDefault();
             
-            // Find the parent container
             const descriptionContainer = e.target.closest('.description-container');
             if (!descriptionContainer) return;
 
-            const truncated = descriptionContainer.querySelector('.js-truncated-description');
-            const full = descriptionContainer.querySelector('.js-full-description');
+            const truncatedBlock = descriptionContainer.querySelector('.js-truncated-block');
+            const fullBlock = descriptionContainer.querySelector('.js-full-block');
+            
+            // Check which block is currently visible
+            const isTruncatedVisible = !truncatedBlock.classList.contains('hidden');
 
-            if (truncated.classList.contains('hidden')) {
-                // Currently showing full description, so hide it
-                truncated.classList.remove('hidden');
-                full.classList.add('hidden');
-                e.target.textContent = 'Show more';
+            if (isTruncatedVisible) {
+                // Currently showing truncated, so hide it and show the full block
+                truncatedBlock.classList.add('hidden');
+                fullBlock.classList.remove('hidden');
             } else {
-                // Currently showing truncated description, so hide it
-                truncated.classList.add('hidden');
-                full.classList.remove('hidden');
-                e.target.textContent = 'Show less';
+                // Currently showing full, so hide it and show the truncated block
+                fullBlock.classList.add('hidden');
+                truncatedBlock.classList.remove('hidden');
             }
         });
     });
