@@ -2,31 +2,18 @@
 layout: default
 ---
 
-<style>
-  .article-content h2 {
-    font-size: 1.5rem; /* 24px */
-    line-height: 2rem; /* 32px */
-    margin-top: 2rem; /* 32px */
-    margin-bottom: 1rem; /* 16px */
-    font-weight: 600;
-  }
-  .article-content a {
-    text-decoration: underline;
-    text-decoration-color: #9ca3af; /* gray-400 */
-  }
-  .article-content a:hover {
-    text-decoration-color: #ffffff;
-  }
-</style>
-
-<section id="post-content" class="py-12 md:py-16 px-4 md:px-8 lg:px-16 min-h-screen" style="background-color: rgba(1, 1, 1, 0.9);" data-scrollable-section>
+<section id="post-content" class="py-12 md:py-16 px-4 md:px-8 min-h-screen" style="background-color: rgba(1, 1, 1, 0.9);">
     <div class="max-w-4xl mx-auto text-white"> 
         
-        <h1 class="text-3xl md:text-4xl font-bold text-center mb-4">{{ page.title }}</h1> 
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">
+            {{ page.title }}
+        </h1> 
         
-        <p class="text-gray-400 text-center mb-8 md:mb-12">Published on {{ page.date | date: "%B %-d, %Y" }}</p> 
+        <p class="text-gray-400 text-center mb-8 md:mb-12">
+            Published on {{ page.date | date: "%B %-d, %Y" }}
+        </p> 
         
-        <div class="article-content text-base md:text-lg leading-relaxed space-y-6"> 
+        <div class="article-content"> 
             {{ content }}
         </div>
         
