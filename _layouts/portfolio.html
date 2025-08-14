@@ -48,7 +48,7 @@ title: Yusuf Alhelou
                         <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
                         <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
                         {% if post.description %}
-                            <p class="text-gray-300">{{ post.description }}</p>
+                            <p class="text-gray-300">{{ post.description | truncatewords: 30 }}</p>
                         {% else %}
                             <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
                         {% endif %}
