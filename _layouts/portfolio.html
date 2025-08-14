@@ -88,44 +88,6 @@ title: Yusuf Alhelou
     </div>
 </section>
 
----
-
-### JavaScript
-
-The JavaScript remains the same, as it correctly handles the logic for showing and hiding the full text.
-
-```javascript
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const toggleButtons = document.querySelectorAll('.js-toggle-description');
-
-    toggleButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const descriptionContainer = e.target.closest('.description-container');
-            if (!descriptionContainer) return;
-
-            const truncatedBlock = descriptionContainer.querySelector('.js-truncated-block');
-            const fullBlock = descriptionContainer.querySelector('.js-full-block');
-            
-            // Check which block is currently visible
-            const isTruncatedVisible = !truncatedBlock.classList.contains('hidden');
-
-            if (isTruncatedVisible) {
-                // Currently showing truncated, so hide it and show the full block
-                truncatedBlock.classList.add('hidden');
-                fullBlock.classList.remove('hidden');
-            } else {
-                // Currently showing full, so hide it and show the truncated block
-                fullBlock.classList.add('hidden');
-                truncatedBlock.classList.remove('hidden');
-            }
-        });
-    });
-});
-</script>
-
 <section id="portfolio" class="py-16" data-scrollable-section>
     <h2 class="section-title">Works</h2>
     <div class="filter-controls-container flex flex-col md:flex-row justify-center items-center gap-4 mb-8 px-4">
