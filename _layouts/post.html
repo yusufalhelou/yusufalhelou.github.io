@@ -3,34 +3,26 @@ layout: default
 ---
 
 <!-- Blog/Posts Section -->
-<section id="blog" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen flex flex-col justify-center items-center" data-scrollable-section>
+<section id="post-content" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen flex flex-col justify-center items-center" data-scrollable-section>
     <div class="max-w-4xl mx-auto text-center">
         <h2 class="section-title">Posts</h2>
         <div class="text-lg leading-relaxed mb-8 text-gray-300">
             <p>Dive into my thoughts and insights on various topics.</p>
+    </div>
+         <div class="max-w-4xl mx-auto text-white"> 
+        <h1 class="section-title text-center mb-8">{{ page.title }}</h1> 
+        <p class="text-gray-400 text-center mb-12">Published on {{ page.date | date: "%B %-d, %Y" }}</p> 
+        
+        <div class="article-content text-lg leading-relaxed space-y-6"> 
+            {{ content }}
         </div>
-
-        <ul class="list-none p-0 m-0 space-y-6 text-left w-full"> 
-            {% for post in site.posts %}
-                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
-                    <a href="{{ post.url }}" class="block text-white no-underline">
-                        <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
-                        <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
-                        {% if post.description %}
-                            <p class="text-gray-300">{{ post.description }}</p>
-                        {% else %}
-                            <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                        {% endif %}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        {% unless site.posts.size > 0 %}
-            <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10">
-                No articles yet. Check back soon!
-            </div>
-        {% endunless %}
+        
+        <div class="mt-16 text-center">
+            <a href="/" class="text-white hover:text-gray-400 transition-colors duration-200 inline-flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>Back to Home</span>
+            </a>
+        </div>
     </div>
 </section>
 
