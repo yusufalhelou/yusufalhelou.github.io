@@ -1621,9 +1621,15 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     .article-content h3 { font-size: 1.25rem; }
 }
 
+		/* Disable scroll snap for individual post pages */
+body.is-post-page html {
+    scroll-snap-type: none !important; /* Override mandatory snapping for posts */
+    scroll-behavior: auto !important; /* Allow instant scrolling for posts if needed */
+}
+
     </style>
 </head>
-<body>
+<body class="page-container {% if page.layout == 'post' %}is-post-page{% endif %}" id="page-container">
     <!-- Container for the dynamically generated benzene pattern -->
     <div id="benzene-pattern-container"></div>
 
