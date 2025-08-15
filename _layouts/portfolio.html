@@ -42,19 +42,19 @@ title: Yusuf Alhelou
         </div>
 
         <div class="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <input type="text" id="search-input" placeholder="Search posts..." 
-                   class="w-full sm:w-1/2 px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" id="search-input" placeholder="Search posts..."
+                    class="w-full sm:w-1/2 px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <select id="sort-by" class="px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
             </select>
         </div>
 
-        <ul id="posts-list" class="list-none p-0 m-0 space-y-6 text-left w-full">
-            </ul>
+        <ul id="posts-list" class="list-none p-0 m-0 space-y-6 text-left w-full relative z-10">
+        </ul>
 
         <div id="pagination-container" class="mt-8 flex justify-center space-x-2">
-            </div>
+        </div>
 
         <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10 hidden">
             No articles yet. Check back soon!
