@@ -3296,44 +3296,36 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const postContent = document.getElementById('post-content');
-        const header = document.querySelector('.header-fixed-controls');
-        const footer = document.querySelector('.footer-fixed-controls');
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-        if (postContent) {
-            // Add transitions for a smooth effect
-            if (header) {
+        if (isMobile) {
+            const postContent = document.getElementById('post-content');
+            const header = document.querySelector('.header-fixed-controls');
+            const footer = document.querySelector('.footer-fixed-controls');
+
+            if (postContent) {
+                // Add transitions for a smooth effect
                 header.style.transition = 'background-color 0.5s ease';
-            }
-            if (footer) {
                 footer.style.transition = 'background-color 0.5s ease';
-            }
 
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        console.log('Post content is in view. Changing background color.');
-                        if (header) {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Directly set the background color with !important to force the change
                             header.style.setProperty('background-color', '#414141', 'important');
-                        }
-                        if (footer) {
                             footer.style.setProperty('background-color', '#414141', 'important');
-                        }
-                    } else {
-                        console.log('Post content is out of view. Reverting background color.');
-                        if (header) {
+                        } else {
+                            // Revert back to the original transparent background color
                             header.style.setProperty('background-color', '#41414100', 'important');
-                        }
-                        if (footer) {
                             footer.style.setProperty('background-color', '#41414100', 'important');
                         }
-                    }
+                    });
+                }, {
+                    threshold: 0.0 // Adjust this value as needed
                 });
-            }, {
-                threshold: 0.1
-            });
 
-            observer.observe(postContent);
+                observer.observe(postContent);
+            }
         }
     });
 </script>
