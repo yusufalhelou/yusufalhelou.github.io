@@ -2365,7 +2365,8 @@ document.addEventListener('mouseover', (e) => {
     if (target) {
         lastHoveredElement = target;
 
-        // New condition to check for the .name-display class
+        if (target.tagName === 'A' && target.closest('#posts-list')) {
+            customCursor.classList.add('grow-link');
         if (target.classList.contains('name-display')) {
             customCursor.classList.add('grow-heart');
         } else if (target.classList.contains('sources-button')) {
