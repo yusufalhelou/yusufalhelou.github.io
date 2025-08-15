@@ -18,26 +18,29 @@
     Yusuf Alhelou
   {% endif %}
 </title>	
-    <meta name="description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
     
-	<!-- Open Graph Tags (for Facebook, LinkedIn, WhatsApp, etc.) -->
-    <meta property="og:title" content="Yusuf Alhelou">
-    <meta property="og:description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
-    <meta property="og:url" content="https://www.yusufalhelou.com/">
-    <meta property="og:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/YusufAlhelouWebsiteBanner.png">
-    <meta property="og:type" content="website">
+<meta name="description" content="{% if page.description %}{{ page.description }}{% else %}Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.{% endif %}">
+<meta name="keywords" content="{% if page.keywords %}{{ page.keywords }}{% else %}Yusuf Alhelou, Yusuf Muhsin Alhelou, Pharmacist, Digital Artist, Healthcare, Pharmacy, Portfolio, Blog{% endif %}">
 	
-    <!-- Twitter Card Tags (for Twitter/X) -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Yusuf Alhelou">
-    <meta name="twitter:description" content="Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/YusufAlhelouWebsiteBanner.png">
-
+	<!-- Open Graph Tags (for Facebook, LinkedIn, WhatsApp, etc.) -->
+<meta property="og:title" content="{% if page.title %}{{ page.title }} | Yusuf Alhelou{% else %}Yusuf Alhelou{% endif %}">
+<meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.{% endif %}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ site.og_image | absolute_url }}{% endif %}">
+    
+	<!-- Twitter Card Tags (for Twitter/X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }} | Yusuf Alhelou{% else %}Yusuf Alhelou{% endif %}">
+<meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}Yusuf Muhsin Alhelou, Pharmacist and Digital Artist, integrating interdisciplinary knowledge with creative innovation towards expanding healthcare impact and elevating professional practice.{% endif %}">
+<meta name="twitter:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ site.og_image | absolute_url }}{% endif %}">
+	
 	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
+    
+<style>
 	
 	/* Prevent tap highlight on iOS Safari */
 * {
