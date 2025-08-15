@@ -1819,13 +1819,6 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     opacity: 0.4;
     z-index: -1;
 }
-
-/* style for header/footer when in post-content section */
-.header-fixed-controls.solid-background,
-.footer-fixed-controls.solid-background {
-    background-color: #414141 !important; /* Solid background color */
-    transition: background-color 0.5s ease;
-}
     </style>
 </head>
 <body>
@@ -3311,14 +3304,20 @@ document.addEventListener('DOMContentLoaded', function() {
             const footer = document.querySelector('.footer-fixed-controls');
 
             if (postContent && header && footer) {
+                // Add a transition to the elements for a smooth effect
+                header.style.transition = 'background-color 0.5s ease';
+                footer.style.transition = 'background-color 0.5s ease';
+
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            header.classList.add('solid-background');
-                            footer.classList.add('solid-background');
+                            // Directly set the background color
+                            header.style.backgroundColor = '#414141';
+                            footer.style.backgroundColor = '#414141';
                         } else {
-                            header.classList.remove('solid-background');
-                            footer.classList.remove('solid-background');
+                            // Set the background back to transparent when leaving the section
+                            header.style.backgroundColor = 'transparent';
+                            footer.style.backgroundColor = 'transparent';
                         }
                     });
                 }, {
@@ -3330,5 +3329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 </script>
+</body>
 </body>
 </html>
