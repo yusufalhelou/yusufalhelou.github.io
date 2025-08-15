@@ -3308,26 +3308,35 @@ document.addEventListener('DOMContentLoaded', function() {
             const postContent = document.getElementById('post-content');
             const header = document.querySelector('.header-fixed-controls');
             const footer = document.querySelector('.footer-fixed-controls');
+            const menuOverlay = document.querySelector('.offcanvas-menu-overlay');
 
-            if (postContent) {
+            if (postContent && header && footer && menuOverlay) {
                 // Add transitions for a smooth effect
                 header.style.transition = 'background-color 0.5s ease';
                 footer.style.transition = 'background-color 0.5s ease';
 
                 const observer = new IntersectionObserver(entries => {
+                    // Check if the menu is open. The menu is visible when its opacity is 1.
+                    const isMenuOpen = window.getComputedStyle(menuOverlay).getPropertyValue('visibility') === 'visible';
+
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Directly set the background color with !important to force the change
-                            header.style.setProperty('background-color', '#414141', 'important');
-                            footer.style.setProperty('background-color', '#414141', 'important');
-                        } else {
-                            // Revert back to the original transparent background color
+                        if (isMenuOpen) {
+                            // If the menu is open, force the background to be transparent
                             header.style.setProperty('background-color', '#41414100', 'important');
                             footer.style.setProperty('background-color', '#41414100', 'important');
+                        } else {
+                            // Only change the color if the menu is NOT open
+                            if (entry.isIntersecting) {
+                                header.style.setProperty('background-color', '#414141', 'important');
+                                footer.style.setProperty('background-color', '#414141', 'important');
+                            } else {
+                                header.style.setProperty('background-color', '#41414100', 'important');
+                                footer.style.setProperty('background-color', '#41414100', 'important');
+                            }
                         }
                     });
                 }, {
-                    threshold: 0.05 // Adjust this value as needed
+                    threshold: 0.05
                 });
 
                 observer.observe(postContent);
@@ -3335,5 +3344,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 </script>
+</body>
 </body>
 </html>
