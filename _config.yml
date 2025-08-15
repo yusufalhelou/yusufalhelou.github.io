@@ -1,2 +1,6 @@
-permalink: /:title/
+title: "Yusuf Alhelou"
+url: "https://www.yusufalhelou.com"
+baseurl: ""
 
+og_image: "/assets/website/YusufAlhelouWebsiteBanner.png"
+permalink: /:title/
