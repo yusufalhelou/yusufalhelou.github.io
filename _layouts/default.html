@@ -3297,31 +3297,31 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        
+
         if (isMobile) {
             const postContent = document.getElementById('post-content');
             const header = document.querySelector('.header-fixed-controls');
             const footer = document.querySelector('.footer-fixed-controls');
 
             if (postContent && header && footer) {
-                // Add a transition to the elements for a smooth effect
+                // Add transitions for a smooth effect
                 header.style.transition = 'background-color 0.5s ease';
                 footer.style.transition = 'background-color 0.5s ease';
 
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            // Directly set the background color
-                            header.style.backgroundColor = '#414141';
-                            footer.style.backgroundColor = '#414141';
+                            // Directly set the background color with !important to force the change
+                            header.style.setProperty('background-color', '#414141', 'important');
+                            footer.style.setProperty('background-color', '#414141', 'important');
                         } else {
-                            // Set the background back to transparent when leaving the section
-                            header.style.backgroundColor = 'transparent';
-                            footer.style.backgroundColor = 'transparent';
+                            // Revert back to the original transparent background color
+                            header.style.setProperty('background-color', '#41414100', 'important');
+                            footer.style.setProperty('background-color', '#41414100', 'important');
                         }
                     });
                 }, {
-                    threshold: 0.1 // Adjust this value to control when the color change happens
+                    threshold: 0.1 // Adjust this value as needed
                 });
 
                 observer.observe(postContent);
@@ -3329,5 +3329,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 </script>
+</body>
 </body>
 </html>
