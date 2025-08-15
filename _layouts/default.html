@@ -29,13 +29,17 @@
 	
 	<!-- Open Graph Tags (for Facebook, LinkedIn, WhatsApp, etc.) -->
 <meta property="og:title" content="
-  {% if page.layout == 'post' %}
-    {{ page.title }} | Yusuf Alhelou
+  {% if page.url == '/' or page.url == '/index.html' %}
+    {{ site.title }}
   {% else %}
-    {% if page.title %}
+    {% if page.layout == 'post' %}
       {{ page.title }} | Yusuf Alhelou
     {% else %}
-      Yusuf Alhelou
+      {% if page.title %}
+        {{ page.title }} | Yusuf Alhelou
+      {% else %}
+        Yusuf Alhelou
+      {% endif %}
     {% endif %}
   {% endif %}
 ">
@@ -47,13 +51,17 @@
 	<!-- Twitter Card Tags (for Twitter/X) -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="
-  {% if page.layout == 'post' %}
-    {{ page.title }} | Yusuf Alhelou
+  {% if page.url == '/' or page.url == '/index.html' %}
+    {{ site.title }}
   {% else %}
-    {% if page.title %}
+    {% if page.layout == 'post' %}
       {{ page.title }} | Yusuf Alhelou
     {% else %}
-      Yusuf Alhelou
+      {% if page.title %}
+        {{ page.title }} | Yusuf Alhelou
+      {% else %}
+        Yusuf Alhelou
+      {% endif %}
     {% endif %}
   {% endif %}
 ">
