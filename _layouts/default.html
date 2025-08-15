@@ -380,7 +380,6 @@ textarea:focus-visible {
             top: 0;
             left: 0;
             z-index: 1003;
-			background-color: #41414100;
         }
 
         .name-display {
@@ -416,7 +415,6 @@ textarea:focus-visible {
             bottom: 0;
             left: 0;
             z-index: 900;
-			background-color: #41414100;
         }
 
 		html.menu-open {
@@ -1823,12 +1821,10 @@ body.invert-fixed-colors #benzene-pattern-container svg {
 }
 
 /* style for header/footer when in post-content section */
-@media (max-width: 768px) {
-    body.in-post-content .header-fixed-controls,
-    body.in-post-content .footer-fixed-controls {
-        background-color: #414141 !important;
-        transition: background-color 0.5s ease; /* For a smooth transition */
-    }
+.header-fixed-controls.solid-background,
+.footer-fixed-controls.solid-background {
+    background-color: #414141 !important; /* Solid background color */
+    transition: background-color 0.5s ease;
 }
     </style>
 </head>
@@ -3307,24 +3303,26 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Check if the screen is a mobile device (e.g., width <= 768px)
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
         
         if (isMobile) {
             const postContent = document.getElementById('post-content');
-            const body = document.body;
+            const header = document.querySelector('.header-fixed-controls');
+            const footer = document.querySelector('.footer-fixed-controls');
 
-            if (postContent) {
+            if (postContent && header && footer) {
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            body.classList.add('in-post-content');
+                            header.classList.add('solid-background');
+                            footer.classList.add('solid-background');
                         } else {
-                            body.classList.remove('in-post-content');
+                            header.classList.remove('solid-background');
+                            footer.classList.remove('solid-background');
                         }
                     });
                 }, {
-                    threshold: 0.1 // Adjust this value based on how much of the section needs to be visible
+                    threshold: 0.1 // Adjust this value to control when the color change happens
                 });
 
                 observer.observe(postContent);
