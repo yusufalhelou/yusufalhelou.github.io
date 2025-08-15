@@ -3011,12 +3011,20 @@ document.addEventListener('DOMContentLoaded', function() {
             renderPosts();
         });
 
+        // Function to truncate text
         function truncateText(text, limit) {
             const words = text.split(' ');
             if (words.length > limit) {
                 return words.slice(0, limit).join(' ') + '...';
             }
             return text;
+        }
+
+        // Function to highlight text
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
         }
 
         function renderPosts() {
@@ -3031,6 +3039,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const dateB = new Date(b.date);
                 if (currentSort === 'newest') {
                     return dateB - dateA;
+                A;
                 } else {
                     return dateA - dateB;
                 }
@@ -3056,19 +3065,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isTruncated = words.length > truncateWordCount;
                 const truncatedDescription = isTruncated ? truncateText(post.description, truncateWordCount) : post.description;
 
+                const highlightedTitle = highlightText(post.title, searchQuery);
+                const highlightedTruncatedDescription = highlightText(truncatedDescription, searchQuery);
+                const highlightedFullDescription = highlightText(post.description, searchQuery);
+
                 return `
                     <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
                         <a href="${post.url}" class="block text-white no-underline">
-                            <h3 class="text-2xl font-semibold mb-2">${post.title}</h3>
+                            <h3 class="text-2xl font-semibold mb-2">${highlightedTitle}</h3>
                             <p class="text-sm text-gray-400 mb-3">Published on ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                         </a>
                         <div class="description-container">
                             <div class="js-truncated-block ${isTruncated ? '' : 'hidden'}">
-                                <span class="text-gray-300">${truncatedDescription}</span>
+                                <span class="text-gray-300">${highlightedTruncatedDescription}</span>
                                 ${isTruncated ? `<button class="text-blue-400 hover:text-blue-300 font-bold ml-1 js-toggle-description">Show more</button>` : ''}
                             </div>
                             <div class="js-full-block ${isTruncated ? 'hidden' : ''}">
-                                <p class="text-gray-300">${post.description}</p>
+                                <p class="text-gray-300">${highlightedFullDescription}</p>
                                 ${isTruncated ? `<button class="text-blue-400 hover:text-blue-300 font-bold mt-2 js-toggle-description">Show less</button>` : ''}
                             </div>
                         </div>
@@ -3076,7 +3089,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
             }).join('');
 
-            // After rendering the posts, attach event listeners to the new buttons
             const toggleButtons = document.querySelectorAll('.js-toggle-description');
             toggleButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
