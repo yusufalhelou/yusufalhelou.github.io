@@ -13,6 +13,7 @@ defaults:
       path: "assets/**" 
     values:
       sitemap: false
+      
 sitemap:
   exclude:
     - "/assets/" 
