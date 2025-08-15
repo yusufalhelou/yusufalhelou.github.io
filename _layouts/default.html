@@ -2589,116 +2589,155 @@ circle.setAttribute('opacity', '4');            // adjust visibility
                 resizeTimeout = setTimeout(generateBenzenePattern, 200); // Debounce resize for performance
             });
 
-            // Define the URL for your GitHub JSON file
-            const GITHUB_WORKS_JSON_URL = 'https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/works.json'; 
+// Define the URL for your GitHub JSON file
+const GITHUB_WORKS_JSON_URL = 'https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/works.json'; 
 
-            let works = []; // Initialize works as an empty array
+let works = []; // Initialize works as an empty array
 
-            // Function to fetch portfolio items
-            const fetchPortfolioItems = async () => {
-                try {
-                    const response = await fetch(GITHUB_WORKS_JSON_URL);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    works = await response.json(); // Assign fetched data to the global works array
-                    renderPortfolioItems(); // Render items after data is fetched
-                } catch (error) {
-                    console.error("Could not fetch portfolio items:", error);
-                    portfolioGrid.innerHTML = `<div class="text-center text-red-500 text-lg">Failed to load portfolio items. Please check the console for more details.</div>`;
-                }
-            };
+// PAGINATION VARIABLES: new variables for pagination
+const portfolioItemsPerPage = 6;
+let currentPortfolioPage = 1;
+const portfolioGrid = document.getElementById('portfolio-grid');
+const noResultsMessage = document.getElementById('no-results-message');
+const categoryFilterButtons = document.querySelectorAll('.category-filters .filter-btn');
+const portfolioPaginationContainer = document.getElementById('portfolio-pagination-container');
 
-            let currentFilterType = 'All'; // Default to All, as requested to be commented out initially
-            let currentFilterCategory = 'All';
 
-            const portfolioGrid = document.getElementById('portfolio-grid');
-            const noResultsMessage = document.getElementById('no-results-message');
-            const categoryFilterButtons = document.querySelectorAll('.category-filters .filter-btn');
+// Function to fetch portfolio items
+const fetchPortfolioItems = async () => {
+    try {
+        const response = await fetch(GITHUB_WORKS_JSON_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        works = await response.json(); // Assign fetched data to the global works array
+        renderPortfolioItems(); // Render items after data is fetched
+    } catch (error) {
+        console.error("Could not fetch portfolio items:", error);
+        portfolioGrid.innerHTML = `<div class="text-center text-red-500 text-lg">Failed to load portfolio items. Please check the console for more details.</div>`;
+    }
+};
 
-            // Function to render portfolio items based on filters
-			const renderPortfolioItems = () => {
-				portfolioGrid.innerHTML = ''; // Clear existing items
+let currentFilterCategory = 'All';
 
-				let filteredWorks = works.filter(work => {
-					const matchesType = currentFilterType === 'All' || work.type === currentFilterType;
-					const workCategories = Array.isArray(work.category) ? work.category : [work.category];
-					const matchesCategory = currentFilterCategory === 'All' || workCategories.includes(currentFilterCategory);
-					return matchesType && matchesCategory;
-				});
+// Function to render portfolio items based on filters and pagination
+const renderPortfolioItems = () => {
+    portfolioGrid.innerHTML = ''; // Clear existing items
 
-				filteredWorks.sort((a, b) => {
-					const dateA = a.date ? new Date(a.date) : null;
-					const dateB = b.date ? new Date(b.date) : null;
+    let filteredWorks = works.filter(work => {
+        const workCategories = Array.isArray(work.category) ? work.category : [work.category];
+        const matchesCategory = currentFilterCategory === 'All' || workCategories.includes(currentFilterCategory);
+        return matchesCategory;
+    });
 
-					if (dateA && dateB) {
-						return dateB.getTime() - dateA.getTime();
-					}
-					if (dateA) return -1;
-					if (dateB) return 1;
-					return 0;
-				});
+    filteredWorks.sort((a, b) => {
+        const dateA = a.date ? new Date(a.date) : null;
+        const dateB = b.date ? new Date(b.date) : null;
 
-				if (filteredWorks.length === 0) {
-					noResultsMessage.classList.remove('hidden');
-				} else {
-					noResultsMessage.classList.add('hidden');
-					filteredWorks.forEach(work => {
-						const workItem = document.createElement('a');
-						workItem.href = work.link;
-						workItem.target = "_blank";
-						workItem.rel = "noopener noreferrer";
-						workItem.classList.add('portfolio-item-new');
+        if (dateA && dateB) {
+            return dateB.getTime() - dateA.getTime();
+        }
+        if (dateA) return -1;
+        if (dateB) return 1;
+        return 0;
+    });
 
-						let itemHTML = `
-							<img src="${work.image}" alt="${work.title}">
-							<div class="portfolio-content-new">
-								<h3>${work.title}</h3>
-						`;
+    // Handle no results
+    if (filteredWorks.length === 0) {
+        noResultsMessage.classList.remove('hidden');
+        renderPortfolioPagination(0);
+        return;
+    } else {
+        noResultsMessage.classList.add('hidden');
+    }
 
-						// CONDITIONAL LOGIC FOR DESCRIPTION
-						if (work.showDescription) {
-							itemHTML += `<p class="item-description">${work.description}</p>`;
-						}
+    // PAGINATION LOGIC: Slice the array to display only the current page's items
+    const totalPages = Math.ceil(filteredWorks.length / portfolioItemsPerPage);
+    const startIndex = (currentPortfolioPage - 1) * portfolioItemsPerPage;
+    const endIndex = startIndex + portfolioItemsPerPage;
+    const itemsToDisplay = filteredWorks.slice(startIndex, endIndex);
 
-						itemHTML += `<div class="item-tags-container">`;
+    itemsToDisplay.forEach(work => {
+        const workItem = document.createElement('a');
+        workItem.href = work.link;
+        workItem.target = "_blank";
+        workItem.rel = "noopener noreferrer";
+        workItem.classList.add('portfolio-item-new');
 
-						const workCategories = Array.isArray(work.category) ? work.category : [work.category];
-						if (workCategories.length > 0) {
-							workCategories.forEach(cat => {
-								itemHTML += `<span class="item-tag">${cat}</span>`;
-							});
-						}
+        let itemHTML = `
+            <img src="${work.image}" alt="${work.title}">
+            <div class="portfolio-content-new">
+                <h3>${work.title}</h3>
+        `;
 
-						if (work.tags && work.tags.length > 0) {
-							work.tags.forEach(tag => {
-								itemHTML += `<span class="item-tag">${tag}</span>`;
-							});
-						}
+        // CONDITIONAL LOGIC FOR DESCRIPTION
+        if (work.showDescription) {
+            itemHTML += `<p class="item-description">${work.description}</p>`;
+        }
 
-						itemHTML += `</div></div>`;
-						workItem.innerHTML = itemHTML;
+        itemHTML += `<div class="item-tags-container">`;
 
-						portfolioGrid.appendChild(workItem);
-					});
-				}
-			};
-
-            // Event listeners for category filters
-            categoryFilterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove 'active' from all category buttons
-                    categoryFilterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add 'active' to the clicked button
-                    button.classList.add('active');
-                    currentFilterCategory = button.dataset.filterCategory;
-                    renderPortfolioItems(); // Re-render items
-                });
+        const workCategories = Array.isArray(work.category) ? work.category : [work.category];
+        if (workCategories.length > 0) {
+            workCategories.forEach(cat => {
+                itemHTML += `<span class="item-tag">${cat}</span>`;
             });
+        }
 
-            // Initial fetch and render of portfolio items when the page loads
-            fetchPortfolioItems();
+        if (work.tags && work.tags.length > 0) {
+            work.tags.forEach(tag => {
+                itemHTML += `<span class="item-tag">${tag}</span>`;
+            });
+        }
 
+        itemHTML += `</div></div>`;
+        workItem.innerHTML = itemHTML;
+        portfolioGrid.appendChild(workItem);
+    });
+
+    // Call the new pagination rendering function
+    renderPortfolioPagination(totalPages);
+};
+
+// NEW FUNCTION: to render pagination buttons for portfolio
+const renderPortfolioPagination = (totalPages) => {
+    portfolioPaginationContainer.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.classList.add('px-4', 'py-2', 'rounded-full', 'font-bold', 'transition-colors', 'duration-200');
+        if (i === currentPortfolioPage) {
+            button.classList.add('bg-blue-600', 'text-white');
+        } else {
+            button.classList.add('bg-gray-700', 'text-gray-300', 'hover:bg-blue-500', 'hover:text-white');
+        }
+        button.addEventListener('click', () => {
+            currentPortfolioPage = i;
+            renderPortfolioItems();
+            document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+        });
+        portfolioPaginationContainer.appendChild(button);
+    }
+}
+
+// Event listeners for category filters
+categoryFilterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove 'active' from all category buttons
+        categoryFilterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add 'active' to the clicked button
+        button.classList.add('active');
+        currentFilterCategory = button.dataset.filterCategory;
+        currentPortfolioPage = 1; // Reset to the first page when a new filter is selected
+        renderPortfolioItems(); // Re-render items
+    });
+});
+
+// Initial fetch and render of portfolio items when the page loads
+fetchPortfolioItems();
+			
             // --- Holo Card JavaScript Logic ---
             // Utility function for message box
             function showMessageBox(message) {
