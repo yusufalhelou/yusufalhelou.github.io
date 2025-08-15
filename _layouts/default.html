@@ -3312,9 +3312,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.header-fixed-controls');
             const footer = document.querySelector('.footer-fixed-controls');
             const menuOverlay = document.querySelector('.offcanvas-menu-overlay');
-            const menuToggle = document.querySelector('.menu-toggle-text'); // Found from file analysis
+            const menuToggle = document.querySelector('.menu-toggle-text');
+            const finalSection = document.getElementById('final-section'); // Get reference to final-section
 
-            if (postContent && header && footer && menuOverlay && menuToggle) {
+            if (postContent && header && footer && menuOverlay && menuToggle && finalSection) {
                 // Add transitions for a smooth effect
                 header.style.transition = 'background-color 0.5s ease';
                 footer.style.transition = 'background-color 0.5s ease';
@@ -3322,33 +3323,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Function to handle the background color logic
                 function updateHeaderFooterBackground() {
                     const isMenuOpen = menuOverlay.classList.contains('active');
-                    const postContentIsIntersecting = postContent.getBoundingClientRect().top < (window.innerHeight * 0.95) && postContent.getBoundingClientRect().bottom > 0;
+                    const postContentRect = postContent.getBoundingClientRect();
+                    const finalSectionRect = finalSection.getBoundingClientRect();
 
-                    if (isMenuOpen || !postContentIsIntersecting) {
-                        // Force transparent when the menu is open OR we are not in the post content section
+                    // Check if postContent is currently in the viewport (at least 5% visible from top)
+                    const postContentIsIntersecting = postContentRect.top < (window.innerHeight * 0.95) && postContentRect.bottom > 0;
+                    // Check if finalSection is currently in the viewport (at least 5% visible from top)
+                    const finalSectionIsIntersecting = finalSectionRect.top < (window.innerHeight * 0.95) && finalSectionRect.bottom > 0;
+
+
+                    if (isMenuOpen || !postContentIsIntersecting || finalSectionIsIntersecting) {
+                        // Force transparent when the menu is open
+                        // OR we are NOT in the post content section
+                        // OR we ARE in the final section
                         header.style.setProperty('background-color', '#41414100', 'important');
                         footer.style.setProperty('background-color', '#41414100', 'important');
                     } else {
-                        // Change to grey only if the menu is NOT open and the post content IS intersecting
+                        // Change to grey only if:
+                        // - the menu is NOT open
+                        // - the post content IS intersecting
+                        // - the final section is NOT intersecting
                         header.style.setProperty('background-color', '#414141', 'important');
                         footer.style.setProperty('background-color', '#414141', 'important');
                     }
                 }
 
-                // Initial check on page load
+                // Initial check on page load to set correct state
                 updateHeaderFooterBackground();
 
-                // Listen for menu toggle clicks
+                // Listen for menu toggle clicks to update background immediately
                 menuToggle.addEventListener('click', updateHeaderFooterBackground);
 
-                // Use the observer to handle scroll events
-                const observer = new IntersectionObserver(entries => {
+                // Observer for post-content section
+                const postContentObserver = new IntersectionObserver(entries => {
+                    // Call the update function whenever postContent's intersection state changes
                     updateHeaderFooterBackground();
                 }, {
-                    threshold: 0.05
+                    threshold: 0.05 // Trigger when 5% of the element is visible
                 });
 
-                observer.observe(postContent);
+                postContentObserver.observe(postContent);
+
+                // Observer for final-section
+                const finalSectionObserver = new IntersectionObserver(entries => {
+                    // Call the update function whenever final-section's intersection state changes
+                    updateHeaderFooterBackground();
+                }, {
+                    threshold: 0.05 // Trigger when 5% of the element is visible
+                });
+
+                finalSectionObserver.observe(finalSection);
             }
         }
     });
