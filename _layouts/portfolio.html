@@ -65,13 +65,6 @@ title: Yusuf Alhelou
 <section id="portfolio" class="py-16" data-scrollable-section>
     <h2 class="section-title">Works</h2>
     <div class="filter-controls-container flex flex-col md:flex-row justify-center items-center gap-4 mb-8 px-4">
-        <!-- Type Filters (Commented out for now) -->
-        <!-- <div class="type-filters flex gap-2">
-            <button class="filter-btn active" data-filter-type="All">All</button>
-            <button class="filter-btn" data-filter-type="Project">Project</button>
-            <button class="filter-btn" data-filter-type="Experimental">Experimental</button>
-        </div> -->
-        <!-- Category Filters -->
         <div class="category-filters flex flex-wrap justify-center gap-2">
             <button class="filter-btn active" data-filter-category="All">All</button>
             <button class="filter-btn" data-filter-category="Pharmacy">Pharmacy</button>
@@ -79,6 +72,14 @@ title: Yusuf Alhelou
             <button class="filter-btn" data-filter-category="Web">Web</button>
         </div>
     </div>
+
+    <div id="portfolio-grid" class="portfolio-grid-new px-4">
+        <div id="no-results-message" class="hidden text-center text-gray-400 text-lg">Nothing to See Here</div>
+    </div>
+
+    <div id="portfolio-pagination-container" class="mt-8 flex justify-center space-x-2">
+    </div>
+</section>
 
     <div id="portfolio-grid" class="portfolio-grid-new px-4">
         <!-- Work items will be injected here by JavaScript -->
