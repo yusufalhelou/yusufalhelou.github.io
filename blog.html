@@ -3,33 +3,31 @@ layout: default
 title: Blog
 ---
 
-<section id="blog-list-section" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen flex flex-col justify-center items-center" data-scrollable-section>
+<!-- Blog/Posts Section -->
+<section id="blog" class="py-16 px-4 md:px-8 lg:px-16 min-h-screen flex flex-col justify-center items-center" data-scrollable-section>
     <div class="max-w-4xl mx-auto text-center">
-        <h2 class="section-title">Latest Articles</h2>
+        <h2 class="section-title">Posts</h2>
         <div class="text-lg leading-relaxed mb-8 text-gray-300">
-            <p>Dive into my thoughts and insights on various topics.</p>
+            <p>Thoughts and insights on various topics.</p>
         </div>
 
-        <ul class="list-none p-0 m-0 space-y-6 text-left">
-            {% for post in site.posts %}
-                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
-                    <a href="{{ post.url }}" class="block text-white no-underline">
-                        <h3 class="text-2xl font-semibold mb-2">{{ post.title }}</h3>
-                        <p class="text-sm text-gray-400 mb-3">Published on {{ post.date | date: "%B %-d, %Y" }}</p>
-                        {% if post.description %}
-                            <p class="text-gray-300">{{ post.description }}</p>
-                        {% else %}
-                            <p class="text-gray-300">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-                        {% endif %}
-                    </a>
-                </li>
-            {% endfor %}
+        <div class="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <input type="text" id="search-input" placeholder="Search posts..."
+                    class="w-full sm:w-1/2 px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="sort-by" class="px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+            </select>
+        </div>
+
+        <ul id="posts-list" class="list-none p-0 m-0 space-y-6 text-left w-full relative z-10">
         </ul>
 
-        {% unless site.posts.size > 0 %}
-            <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10">
-                No articles yet. Check back soon!
-            </div>
-        {% endunless %}
+        <div id="pagination-container" class="mt-8 flex justify-center space-x-2">
+        </div>
+
+        <div id="no-posts-message" class="text-center text-gray-400 text-lg mt-10 hidden">
+            No articles yet. Check back soon!
+        </div>
     </div>
 </section>
