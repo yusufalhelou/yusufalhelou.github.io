@@ -1819,7 +1819,13 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     opacity: 0.4;
     z-index: -1;
 }
-		
+
+/* style for header/footer when in post-content section */
+body.in-post-content .header-fixed-controls,
+body.in-post-content .footer-fixed-controls {
+    background-color: #414141;
+    transition: background-color 0.5s ease; /* For a smooth transition */
+}
     </style>
 </head>
 <body>
@@ -3294,6 +3300,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const postContent = document.getElementById('post-content');
+        const body = document.body;
+
+        if (postContent) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        body.classList.add('in-post-content');
+                    } else {
+                        body.classList.remove('in-post-content');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Adjust this value based on how much of the section needs to be visible
+            });
+
+            observer.observe(postContent);
+        }
+    });
 </script>
 </body>
 </html>
