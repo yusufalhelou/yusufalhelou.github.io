@@ -3305,23 +3305,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (postContent) {
                 // Add transitions for a smooth effect
-                header.style.transition = 'background-color 0.5s ease';
-                footer.style.transition = 'background-color 0.5s ease';
+                if (header) {
+                    header.style.transition = 'background-color 0.5s ease';
+                }
+                if (footer) {
+                    footer.style.transition = 'background-color 0.5s ease';
+                }
 
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            // Directly set the background color with !important to force the change
-                            header.style.setProperty('background-color', '#414141', 'important');
-                            footer.style.setProperty('background-color', '#414141', 'important');
+                            console.log('Post content is in view. Changing background color.');
+                            if (header) {
+                                header.style.setProperty('background-color', '#414141', 'important');
+                            }
+                            if (footer) {
+                                footer.style.setProperty('background-color', '#414141', 'important');
+                            }
                         } else {
-                            // Revert back to the original transparent background color
-                            header.style.setProperty('background-color', '#41414100', 'important');
-                            footer.style.setProperty('background-color', '#41414100', 'important');
+                            console.log('Post content is out of view. Reverting background color.');
+                            if (header) {
+                                header.style.setProperty('background-color', '#41414100', 'important');
+                            }
+                            if (footer) {
+                                footer.style.setProperty('background-color', '#41414100', 'important');
+                            }
                         }
                     });
                 }, {
-                    threshold: 0.0 // Adjust this value as needed
+                    threshold: 0.1
                 });
 
                 observer.observe(postContent);
@@ -3329,6 +3341,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 </script>
-</body>
-</body>
 </html>
