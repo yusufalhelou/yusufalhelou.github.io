@@ -3218,20 +3218,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const highlightedTruncatedDescription = highlightText(truncatedDescription, searchQuery);
             const highlightedFullDescription = highlightText(post.description, searchQuery);
 
-            // Conditional rendering for the image
+            // Conditional rendering for the image, now placed at the top of the card
             const imageHtml = post.image ? 
-              `<div class="flex-shrink-0 w-40 relative">
-                  <img src="${post.image}" alt="${post.title}" class="w-full h-auto object-cover rounded-lg aspect-ratio-16-9">
+              `<div class="relative overflow-hidden rounded-xl mb-4">
+                  <img src="${post.image}" alt="${post.title}" class="w-full h-auto object-cover aspect-ratio-16-9">
                </div>` : '';
-
-            // Adjust spacing for content depending on whether an image exists
-            const contentClasses = post.image ? 'flex-1' : 'flex-1 pr-6';
 
 
             return `
-                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105 relative overflow-hidden flex items-center space-x-6">
+                <li class="bg-gray-800 bg-opacity-70 rounded-xl shadow-lg p-6 hover:bg-gray-700 hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105 relative overflow-hidden flex flex-col">
                     ${articleSVG}
-                    <div class="${contentClasses}">
+                    ${imageHtml}
+                    <div>
                         <a href="${post.url}" class="block text-white no-underline">
                             <h3 class="text-2xl font-semibold mb-2">${highlightedTitle}</h3>
                             <p class="text-sm text-gray-400 mb-3">Published on ${new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
@@ -3247,7 +3245,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     </div>
-                    ${imageHtml}
                 </li>
             `;
         }).join('');
