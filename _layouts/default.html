@@ -3309,32 +3309,38 @@ document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.header-fixed-controls');
             const footer = document.querySelector('.footer-fixed-controls');
             const menuOverlay = document.querySelector('.offcanvas-menu-overlay');
+            const menuToggle = document.querySelector('.menu-toggle-text'); // Found from file analysis
 
-            if (postContent && header && footer && menuOverlay) {
+            if (postContent && header && footer && menuOverlay && menuToggle) {
                 // Add transitions for a smooth effect
                 header.style.transition = 'background-color 0.5s ease';
                 footer.style.transition = 'background-color 0.5s ease';
 
-                const observer = new IntersectionObserver(entries => {
-                    // Check if the menu is open. The menu is visible when its opacity is 1.
-                    const isMenuOpen = window.getComputedStyle(menuOverlay).getPropertyValue('visibility') === 'visible';
+                // Function to handle the background color logic
+                function updateHeaderFooterBackground() {
+                    const isMenuOpen = menuOverlay.classList.contains('active');
+                    const postContentIsIntersecting = postContent.getBoundingClientRect().top < (window.innerHeight * 0.95) && postContent.getBoundingClientRect().bottom > 0;
 
-                    entries.forEach(entry => {
-                        if (isMenuOpen) {
-                            // If the menu is open, force the background to be transparent
-                            header.style.setProperty('background-color', '#41414100', 'important');
-                            footer.style.setProperty('background-color', '#41414100', 'important');
-                        } else {
-                            // Only change the color if the menu is NOT open
-                            if (entry.isIntersecting) {
-                                header.style.setProperty('background-color', '#414141', 'important');
-                                footer.style.setProperty('background-color', '#414141', 'important');
-                            } else {
-                                header.style.setProperty('background-color', '#41414100', 'important');
-                                footer.style.setProperty('background-color', '#41414100', 'important');
-                            }
-                        }
-                    });
+                    if (isMenuOpen || !postContentIsIntersecting) {
+                        // Force transparent when the menu is open OR we are not in the post content section
+                        header.style.setProperty('background-color', '#41414100', 'important');
+                        footer.style.setProperty('background-color', '#41414100', 'important');
+                    } else {
+                        // Change to grey only if the menu is NOT open and the post content IS intersecting
+                        header.style.setProperty('background-color', '#414141', 'important');
+                        footer.style.setProperty('background-color', '#414141', 'important');
+                    }
+                }
+
+                // Initial check on page load
+                updateHeaderFooterBackground();
+
+                // Listen for menu toggle clicks
+                menuToggle.addEventListener('click', updateHeaderFooterBackground);
+
+                // Use the observer to handle scroll events
+                const observer = new IntersectionObserver(entries => {
+                    updateHeaderFooterBackground();
                 }, {
                     threshold: 0.05
                 });
