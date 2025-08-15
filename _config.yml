@@ -17,6 +17,6 @@ defaults:
 sitemap:
   exclude:
     - "/assets/" 
-    - "HBDYomna" 
-    - "holo-card"
-    - "json"
+    - "HBDYomna.html" 
+    - "holo-card.html"
+    - "json.html"
