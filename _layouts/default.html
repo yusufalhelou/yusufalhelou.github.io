@@ -304,6 +304,59 @@ textarea:focus-visible {
 			width: 45px;
 		}
 		
+#custom-cursor.grow-link {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(0, 191, 255, 0.15); /* Bluish glass effect */
+}
+
+#custom-cursor #cursor-link-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease;
+    height: 45px;
+    width: 45px;
+}
+
+#custom-cursor.grow-link #cursor-default-icon {
+    opacity: 0;
+}
+
+#custom-cursor.grow-link #cursor-play-icon {
+    opacity: 0;
+}
+
+#custom-cursor.grow-link #cursor-link-icon {
+    opacity: 1;
+}
+		
+#custom-cursor.grow-heart {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 105, 180, 0.15); /* A pinkish color */
+}
+
+#custom-cursor #cursor-heart-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease;
+    height: 45px;
+    width: 45px;
+}
+
+#custom-cursor.grow-heart #cursor-default-icon { opacity: 0; }
+#custom-cursor.grow-heart #cursor-play-icon { opacity: 0; }
+#custom-cursor.grow-heart #cursor-link-icon { opacity: 0; }
+#custom-cursor.grow-heart #cursor-heart-icon { opacity: 1; }
+		
         /* Fixed Header/Top Controls */
         .header-fixed-controls {
             display: flex;
@@ -1734,6 +1787,15 @@ body.invert-fixed-colors #benzene-pattern-container svg {
         color: black;
         padding: 2px 0; /* Optional: adds a little padding for better visibility */
     }
+
+.sources-button {
+  background-color: #000016;
+  transition: background-color 0.3s ease;
+}
+
+.sources-button:hover {
+  background-color: #140000;
+}		
 		
     </style>
 </head>
@@ -1756,6 +1818,12 @@ body.invert-fixed-colors #benzene-pattern-container svg {
 	<svg id="cursor-music-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
 	  <path d="M12 3v10.55a4 4 0 1 0 2 3.45V7h4V3h-8z" />
 	</svg>
+	<svg id="cursor-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+	<svg id="cursor-heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3c3.08 0 5.5 2.42 5.5 5.5 0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
 </div>
 
     <!-- Fixed Header/Top Controls -->
@@ -2241,65 +2309,72 @@ body.invert-fixed-colors #benzene-pattern-container svg {
                 });
             });
 
-			// Custom Cursor Logic
-			const customCursor = document.getElementById('custom-cursor');
-			let mouseX = 0;
-			let mouseY = 0;
-			let cursorX = 0;
-			let cursorY = 0;
-			let isMouseMoving = false;
-			let timeout;
+// Custom Cursor Logic
+const customCursor = document.getElementById('custom-cursor');
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+let isMouseMoving = false;
+let timeout;
 
-			document.addEventListener('mousemove', (e) => {
-				mouseX = e.clientX;
-				mouseY = e.clientY;
-				isMouseMoving = true;
-				customCursor.style.opacity = 1;
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    isMouseMoving = true;
+    customCursor.style.opacity = 1;
 
-				clearTimeout(timeout);
-				timeout = setTimeout(() => {
-					isMouseMoving = false;
-					customCursor.style.opacity = 0;
-				}, 1000);
-			});
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        isMouseMoving = false;
+        customCursor.style.opacity = 0;
+    }, 1000);
+});
 
-			const animateCursor = () => {
-				if (isMouseMoving) {
-					// This creates the smooth "lerp" (linear interpolation) trailing effect
-					cursorX += (mouseX - cursorX) * 0.1;
-					cursorY += (mouseY - cursorY) * 0.1;
+const animateCursor = () => {
+    if (isMouseMoving) {
+        // This creates the smooth "lerp" (linear interpolation) trailing effect
+        cursorX += (mouseX - cursorX) * 0.1;
+        cursorY += (mouseY - cursorY) * 0.1;
 
-					customCursor.style.left = `${cursorX}px`;
-					customCursor.style.top = `${cursorY}px`;
-				}
-				requestAnimationFrame(animateCursor);
-			};
+        customCursor.style.left = `${cursorX}px`;
+        customCursor.style.top = `${cursorY}px`;
+    }
+    requestAnimationFrame(animateCursor);
+};
 
-			animateCursor();
+animateCursor();
 
-			let lastHoveredElement = null;
-			document.addEventListener('mouseover', (e) => {
-				const target = e.target.closest('a, button, .menu-toggle-text, .back-to-top, input[type="submit"], input[type="button"], .card, .lyric-quote.clickable, #music-vinyl');
+let lastHoveredElement = null;
 
-				if (target === lastHoveredElement) return;
+document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest('a, button, .menu-toggle-text, .back-to-top, input[type="submit"], input[type="button"], .card, .lyric-quote.clickable, #music-vinyl');
 
-				customCursor.classList.remove('grow-default', 'grow-play', 'grow-music');
+    if (target === lastHoveredElement) return;
 
-				if (target) {
-					lastHoveredElement = target;
+    // Added 'grow-heart' to the list of classes to remove
+    customCursor.classList.remove('grow-default', 'grow-play', 'grow-music', 'grow-link', 'grow-heart');
 
-					if (target.classList.contains('open-video-btn') || target.id === 'music-vinyl') {
-						customCursor.classList.add('grow-play');
-					} else if (target.classList.contains('lyric-quote') && target.classList.contains('clickable')) {
-						customCursor.classList.add('grow-music');
-					} else {
-						customCursor.classList.add('grow-default');
-					}
-				} else {
-					lastHoveredElement = null;
-				}
-			});
+    if (target) {
+        lastHoveredElement = target;
 
+        // New condition to check for the .name-display class
+        if (target.classList.contains('name-display')) {
+            customCursor.classList.add('grow-heart');
+        } else if (target.classList.contains('sources-button')) {
+            customCursor.classList.add('grow-link');
+        } else if (target.classList.contains('open-video-btn') || target.id === 'music-vinyl') {
+            customCursor.classList.add('grow-play');
+        } else if (target.classList.contains('lyric-quote') && target.classList.contains('clickable')) {
+            customCursor.classList.add('grow-music');
+        } else {
+            customCursor.classList.add('grow-default');
+        }
+    } else {
+        lastHoveredElement = null;
+    }
+});
+		
             // --- Intersection Observer for Header/Footer Color Inversion ---
             const observerOptions = {
                 root: null, // relative to the viewport
