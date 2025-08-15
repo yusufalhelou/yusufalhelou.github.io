@@ -4,3 +4,6 @@ baseurl: ""
 
 og_image: "/assets/website/YusufAlhelouWebsiteBanner.png"
 permalink: /:title/
+
+plugins:
+  - jekyll-sitemap 
