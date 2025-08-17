@@ -79,30 +79,14 @@
 
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-  // Use OneSignalDeferred instead of OneSignal
   window.OneSignalDeferred = window.OneSignalDeferred || [];
-
-  // PUSH YOUR INIT FUNCTION TO THE DEFERRED ARRAY
-  OneSignalDeferred.push(function(OneSignal) {
-    OneSignal.init({
-      appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a", // Your App ID is correctly placed here
-      notifyButton: {
-        enable: false, 
-      },
-      promptOptions: {
-        customlink: {
-          enable: true, 
-          style: "button", // "button" or "link"
-          size: "medium", // "small", "medium", or "large"
-          text: {
-            'subscribe': '🔔 Subscribe to Notifications',
-            'unsubscribe': '🔕 Unsubscribe from Notifications'
-          },
-        }
-      }
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a",
     });
   });
 </script>
+	
 <style>
 	
 	/* Prevent tap highlight on iOS Safari */
