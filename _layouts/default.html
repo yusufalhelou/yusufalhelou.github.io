@@ -83,6 +83,30 @@
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a",
+      safari_web_id: "web.onesignal.auto.062d21d9-5bd4-46cb-a28c-e44e38d1b29c",
+      notifyButton: {
+        enable: false, // Keep this false to use your custom link button
+      },
+      promptOptions: {
+        customlink: {
+          enable: true, // This MUST be true for the customlink-container to work
+          style: "button", // Renders as a styled button. Can also be "link".
+          size: "medium",  // Size of the button. Options: "small", "medium", "large".
+          text: {
+            'subscribe': '🔔 Subscribe to Notifications',
+            'unsubscribe': '🔕 Unsubscribe from Notifications',
+            // You can add other localized strings if you support multiple languages
+            // 'tip.state.unsubscribed': 'Get notifications on new posts!',
+            // 'tip.state.subscribed': 'You're subscribed!',
+            // 'tip.state.blocked': 'You've blocked notifications. Click here to unblock.',
+            // 'message.action.resubscribed': 'You've resubscribed!',
+            // 'message.action.unsubscribed': 'You've unsubscribed!',
+            // 'dialog.main.title': 'Manage Notifications',
+            // 'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
+            // 'dialog.main.button.subscribe': 'SUBSCRIBE'
+          }
+        }
+      }
     });
   });
 </script>
