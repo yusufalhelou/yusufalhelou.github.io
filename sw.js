@@ -4,14 +4,14 @@ importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
 // Define the cache name. Update this version number (e.g., v1, v2, v3)
 // whenever you make changes to the files listed in urlsToCache, or
 // if you want to force all users to get fresh versions of these assets.
-const CACHE_NAME = 'yusuf-alhelou-cache-v2';
+const CACHE_NAME = 'yusuf-alhelou-cache-v2'; // Consider incrementing this to v3 for this update!
 
 // List of URLs to precache during the service worker installation.
 // These are assets critical for basic site functionality, even offline.
 const urlsToCache = [
   '/',             // Cache the homepage (root URL)
   '/index.html',   // Ensure index.html is also cached
-  '/OneSignalSDKWorker.js',
+  '/OneSignalSDKWorker.js', // Ensure the OneSignal worker is cached
   // paths to critical static assets
   // Example: your main stylesheet
   // Example: a critical image
@@ -21,7 +21,7 @@ const urlsToCache = [
   // and you want to ensure are available offline, e.g.:
 ];
 
-// 1. Install Event: Caches essential assets during service worker installation.
+// 1. Install Event: Caches essential assets during service worker installation and forces activation.
 self.addEventListener('install', event => {
   // `waitUntil` ensures the service worker isn't activated until caching is complete.
   event.waitUntil(
@@ -31,6 +31,11 @@ self.addEventListener('install', event => {
         // Add all specified URLs to the cache.
         // If any file fails to add, the entire installation fails.
         return cache.addAll(urlsToCache);
+      })
+      .then(() => {
+        // IMPORTANT: self.skipWaiting() forces the new service worker to
+        // activate immediately, even if older versions are still controlling clients.
+        return self.skipWaiting();
       })
       .catch(error => {
         console.error('[Service Worker] Failed to open cache or add URLs:', error);
@@ -72,7 +77,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// 3. Activate Event: Cleans up old caches.
+// 3. Activate Event: Cleans up old caches and takes control of clients.
 self.addEventListener('activate', event => {
   // Define a whitelist of active caches (only the current CACHE_NAME).
   const cacheWhitelist = [CACHE_NAME];
@@ -93,7 +98,7 @@ self.addEventListener('activate', event => {
     .then(() => {
       // `clients.claim()` makes the current service worker take control of all clients
       // (tabs/windows) within its scope immediately, without requiring a page refresh.
-      // This is important for new service worker versions.
+      // This is important when using skipWaiting() in the install phase.
       return self.clients.claim();
     })
   );
