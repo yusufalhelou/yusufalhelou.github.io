@@ -77,39 +77,34 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a",
-      safari_web_id: "web.onesignal.auto.062d21d9-5bd4-46cb-a28c-e44e38d1b29c",
-      notifyButton: {
-        enable: false, // Keep this false to use your custom link button
-      },
-      promptOptions: {
-        customlink: {
-          enable: true, // This MUST be true for the customlink-container to work
-          style: "button", // Renders as a styled button. Can also be "link".
-          size: "medium",  // Size of the button. Options: "small", "medium", "large".
-          text: {
-            'subscribe': '🔔 Subscribe to Notifications',
-            'unsubscribe': '🔕 Unsubscribe from Notifications',
-            // You can add other localized strings if you support multiple languages
-            // 'tip.state.unsubscribed': 'Get notifications on new posts!',
-            // 'tip.state.subscribed': 'You're subscribed!',
-            // 'tip.state.blocked': 'You've blocked notifications. Click here to unblock.',
-            // 'message.action.resubscribed': 'You've resubscribed!',
-            // 'message.action.unsubscribed': 'You've unsubscribed!',
-            // 'dialog.main.title': 'Manage Notifications',
-            // 'dialog.main.button.unsubscribe': 'UNSUBSCRIBE',
-            // 'dialog.main.button.subscribe': 'SUBSCRIBE'
-          }
-        }
-      }
-    });
-  });
-</script>
+ <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a",
+          notifyButton: {
+            enable: false, 
+          },
+          promptOptions: {
+            customlink: {
+              enable: true, 
+              style: "button", 
+              size: "medium",  
+              text: {
+                'subscribe': '🔔 Subscribe to Notifications',
+                'unsubscribe': '🔕 Unsubscribe from Notifications',
+              }
+            }
+          },
+          // NEW: Explicitly prevent the SDK from automatically registering a service worker.
+          // This is crucial when your sw.js is handling the importScripts for OneSignal.
+          autoRegister: false,
+          // This setting is useful for localhost testing, though not directly related to this 404.
+          allowLocalhostAsSecureOrigin: true
+        });
+      });
+    </script>
 	
 <style>
 	
