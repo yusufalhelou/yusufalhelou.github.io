@@ -1,5 +1,4 @@
-// --- Game Config (Simulated JSON Database) --- 
-const ALL_QUESTIONS = [ 
+[ 
     { 
         id: 'q1', 
         topic: 'Drug Interactions', 
