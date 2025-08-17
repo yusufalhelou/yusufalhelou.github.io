@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pharmacy Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        @keyframes bounce {
+            0%, 100% { 
+                transform: translateY(0); 
+            }
+            50% { 
+                transform: translateY(-15px); 
+            }
+        }
+
+        .animate-bounce {
+            animation: bounce 1s infinite ease-in-out;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .animate-bounce {
+            animation: bounce 1.5s infinite;
+        }
+        
+        .animate-shine {
+            animation: shine 1.5s infinite;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #333;
+            color: #fff;
+            overflow: hidden;
+        }
+        .pixel-border {
+            border: 4px solid #000;
+            box-shadow: 
+                4px 4px 0 #000,
+                -4px -4px 0 #000,
+                -4px 4px 0 #000,
+                4px -4px 0 #000;
+        }
+        .pixel-button {
+            background-color: #4CAF50;
+            border: 4px solid #000;
+            box-shadow: 
+                4px 4px 0 #000;
+            transition: all 0.1s ease-in-out;
+            image-rendering: pixelated;
+        }
+        .pixel-button:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+        .patient-bubble {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 4px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.2s linear;
+            z-index: 10;
+            min-width: 120px;
+            text-align: center;
+            
+            max-width: 80%;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-word;
+            box-sizing: border-box;
+        }
+        .patient-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 12px solid #000;
+        }
+        .patient-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid white;
+            z-index: 11;
+        }
+        .patient.active .patient-bubble {
+            visibility: visible;
+            opacity: 1;
+        }
+        .patience-bar {
+            width: 80px;
+            height: 8px;
+            background-color: #555;
+            border: 2px solid #000;
+            margin: 4px auto 0;
+        }
+        .patience-bar-inner {
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.2s linear;
+        }
+        #modal-overlay, #question-answer-modal, #feedback-modal-overlay {
+            background-color: rgba(0,0,0,0.7);
+        }
+        #feedback-modal {
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            border-radius: 10px;
+            color: white;
+            text-shadow: 2px 2px 0 #000;
+        }
+        .correct {
+            background-color: #28a745; /* Green */
+        }
+        .incorrect {
+            background-color: #dc3545; /* Red */
+        }
+
+        #question-text {
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-word;
+            text-align: center;
+            padding: 0 10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        #answer-choices {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        #answer-choices button {
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-word;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+            text-align: center;
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 0.8em;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+
+    <div id="game-container" class="relative w-full max-w-4xl h-[600px] bg-[#5c94fc] p-4 overflow-hidden pixel-border">
+        <!-- Pharmacy Background -->
+        <div class="absolute inset-0 bg-repeat bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADBJREFUOE9jZGBgEGHAD97/Bw0MDOqAkYExgAWIgYGBgUFTgAWIgYGBgUFTgAWIgYGBgQGgDQB5G03bBztKAAAAAElFTkSuQmCC')] opacity-20"></div>
+        
+        <!-- UI -->
+        <div class="absolute top-4 left-4 text-lg">Score: <span id="score">0</span></div>
+        <button id="stop-button" class="absolute top-4 right-4 pixel-button text-white px-4 py-2 text-sm hidden">Stop Game</button>
+        <!-- Level display removed -->
+
+        <!-- Pharmacy Counter Background -->
+        <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-[#8b5a2b] flex flex-col justify-end">
+            <div class="w-full h-4 bg-[#6a421a]"></div>
+            <div class="w-full h-12 bg-[#6a421a] border-t-8 border-black"></div>
+        </div>
+
+        <!-- Patient Area -->
+        <div id="patient-area" class="absolute bottom-[352px] left-1/2 -translate-x-1/2">
+             <div id="patient" class="relative w-24 h-32 opacity-0 transition-opacity duration-500">
+                <div id="patient-sprite-container"></div>
+                <div class="patient-bubble"><span id="patient-bubble-text"></span></div>
+             </div>
+        </div>
+
+        <!-- Start/Game Over Modal -->
+        <div id="modal-overlay" class="absolute inset-0 flex items-center justify-center z-20" style="display: flex; opacity: 1;">
+            <div id="modal" class="bg-[#f0f0f0] text-black p-8 text-center pixel-border w-80">
+                <h2 id="modal-title" class="text-2xl mb-4">Community Pharmacy Quiz</h2>
+                <p id="modal-text" class="mb-6">Test your pharmacy knowledge! Answer patient questions correctly to earn points. Good luck!</p>
+                <p id="final-score" class="text-xl mb-4 hidden"></p>
+                <p id="high-score" class="text-lg mb-4 hidden">Highest Score: 0</p>
+                <button id="start-button" class="pixel-button text-white px-6 py-3 text-lg">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Question/Answer Modal -->
+        <div id="question-answer-modal" class="absolute inset-0 hidden items-center justify-center z-20">
+            <div class="bg-[#f0f0f0] text-black p-4 sm:p-8 text-center pixel-border w-full mx-4 sm:w-3/4 md:w-2/3 lg:w-1/2">
+                <h2 class="text-xl mb-4" id="question-text"></h2>
+                <div id="answer-choices" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                </div>
+                <div id="modal-patience-container" class="w-full px-4 hidden">
+                    <div class="text-xs mb-1 text-center">Time remaining:</div>
+                    <div class="patience-bar mx-auto">
+                        <div class="patience-bar-inner"></div>
+                    </div>
+                </div>
+                    <!-- Answer buttons will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Modal (Correct/Incorrect) -->
+        <div id="feedback-modal-overlay" class="absolute inset-0 hidden items-center justify-center z-30">
+            <div id="feedback-modal" class="pixel-border"></div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-[#1a1a2e] z-50 font-[Press+Start+2P]">
+        <div class="w-24 h-24 mb-6 bg-center bg-no-repeat bg-contain animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                <path fill="#4CAF50" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 15H7v-2h4v2zm0-4H7v-2h4v2zm0-4H7V8h4v2zm6 8h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V8h4v2z"/>
+            </svg>
+        </div>
+        <div class="text-white text-lg mb-4 text-center text-shadow">Dispensing Knowledge...</div>
+        <div class="w-64 h-4 bg-gray-700 rounded-full overflow-hidden border-2 border-black">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-green-500 to-green-300 transition-all duration-300 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine"></div>
+            </div>
+        </div>
+    </div>
+
+=======
+            // const levelEl = document.getElementById('level'); // Removed
+            const patientEl = document.getElementById('patient');
+            const patientSpriteContainerEl = document.getElementById('patient-sprite-container');
+            const patientBubbleTextEl = document.getElementById('patient-bubble-text');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const finalScoreEl = document.getElementById('final-score');
+            const highScoreEl = document.getElementById('high-score');
+            const startButton = document.getElementById('start-button');
+            const questionAnswerModal = document.getElementById('question-answer-modal');
+            const questionTextEl = document.getElementById('question-text');
+            const answerChoicesEl = document.getElementById('answer-choices');
+            const feedbackModalOverlay = document.getElementById('feedback-modal-overlay');
+            const feedbackModal = document.getElementById('feedback-modal');
+
+            // --- Game State ---
+            let score = 0;
+            // let level = 1; // Removed
+            let gameActive = false;
+            let currentPatient = null;
+            let patientTimer;
+            let answeredQuestions = [];
+            let highestScore = 0;
+
+            // --- Sound Engine (Tone.js) ---
+            const synth = new Tone.Synth().toDestination();
+            const errorSynth = new Tone.NoiseSynth({
+                noise: { type: 'pink' },
+                envelope: { attack: 0.01, decay: 0.2, sustain: 0 }
+            }).toDestination();
+            const successSynth = new Tone.PolySynth(Tone.Synth, {
+                envelope: { attack: 0.01, decay: 0.2, sustain: 0.1, release: 0.1 }
+            }).toDestination();
+
+            const playSound = (note, duration) => {
+                if (Tone.context.state !== 'running') {
+                    Tone.start();
+                }
+                synth.triggerAttackRelease(note, duration);
+            };
+
+            // --- Game Config ---
+            let ALL_QUESTIONS = [];
+            let PATIENT_SPRITES = [];
+
+            try {
+                // Animate progress bar
+                const progressBar = document.getElementById('progress-bar');
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 90) progress = 90;
+                    progressBar.style.width = `${progress}%`;
+                }, 200);
+
+                const response = await fetch('https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/assets/game/gameconfig.json');
+                const config = await response.json();
+                ALL_QUESTIONS = config.questions;
+                PATIENT_SPRITES = config.patientSprites;
+
+                // Complete progress animation
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                
+                // Hide loading screen with fade out
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loading-screen');
+                    const gameContainer = document.getElementById('game-container');
+                    
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transition = 'opacity 0.5s ease';
+                    
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        gameContainer.style.display = 'block';
+                        modalOverlay.style.display = 'flex';
+                        modalOverlay.style.opacity = '1';
+                    }, 500);
+                }, 500);
+            } catch (error) {
+                console.error('Error loading game config:', error);
+                const loadingScreen = document.getElementById('loading-screen');
+                const gameContainer = document.getElementById('game-container');
+                loadingScreen.innerHTML = `
+                    <div class="text-white text-lg mb-4 text-center text-shadow">
+                        Error loading game. Please check your internet connection and refresh.
+                    </div>
+                    <button onclick="window.location.reload()" class="pixel-button text-white px-6 py-3 text-lg">
+                        Refresh Page
+                    </button>
+                `;
+                loadingScreen.style.opacity = '1';
+                gameContainer.style.display = 'block';
+                return;
+            }
+
+
+            // --- Helper Functions ---
+            const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+            const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+            const createPatientSprite = (sprite) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 24;
+                canvas.height = 32;
+                canvas.style.imageRendering = 'pixelated';
+                canvas.style.width = '96px';
+                canvas.style.height = '128px';
+                const ctx = canvas.getContext('2d');
+                
+                // Head
+                ctx.fillStyle = sprite.body;
+                ctx.fillRect(8, 0, 8, 8);
+                // Hair
+                ctx.fillStyle = sprite.hair;
+                ctx.fillRect(8, 0, 8, 2);
+                // Body
+                ctx.fillStyle = sprite.body;
+                ctx.fillRect(4, 8, 16, 16);
+                // Legs
+                ctx.fillStyle = sprite.hair; // Using hair color for pants
+                ctx.fillRect(6, 24, 4, 8);
+                ctx.fillRect(14, 24, 4, 8);
+                
+                return canvas;
+            };
+            
+            // --- Game Logic ---
+            function spawnPatient() {
+                // Reset modal patience bar
+                const modalPatienceContainer = document.getElementById('modal-patience-container');
+                modalPatienceContainer.classList.remove('hidden');
+                const modalPatienceBar = modalPatienceContainer.querySelector('.patience-bar-inner');
+                modalPatienceBar.style.width = '100%';
+                modalPatienceBar.style.backgroundColor = '#4CAF50';
+                if (currentPatient || !gameActive) return;
+
+                let availableQuestions = ALL_QUESTIONS.filter(q => !answeredQuestions.includes(q.id));
+                if (availableQuestions.length === 0) {
+                    answeredQuestions = [];
+                    availableQuestions = ALL_QUESTIONS;
+                    // level++; // Removed
+                    // levelEl.textContent = level; // Removed
+                }
+
+                const question = getRandomElement(availableQuestions);
+                answeredQuestions.push(question.id);
+
+                // Calculate patience based on question length (100ms per character, min 10s, max 30s)
+                const questionLength = question.question.length + question.choices.reduce((sum, c) => sum + c.length, 0);
+                const patience = Math.min(30000, Math.max(10000, questionLength * 100));
+
+                currentPatient = {
+                    question,
+                    patience,
+                    startTime: Date.now(),
+                };
+                
+                patientSpriteContainerEl.innerHTML = ''; 
+                const patientSprite = getRandomElement(PATIENT_SPRITES);
+                patientSpriteContainerEl.appendChild(createPatientSprite(patientSprite));
+                
+                const patienceBar = document.createElement('div');
+                patienceBar.className = 'patience-bar';
+                patienceBar.innerHTML = `<div class="patience-bar-inner"></div>`;
+                patientSpriteContainerEl.appendChild(patienceBar);
+                
+                patientBubbleTextEl.textContent = currentPatient.question.question;
+                
+                patientEl.style.opacity = '1';
+                patientEl.classList.add('active');
+                
+                playSound('C4', '8n');
+
+                patientTimer = setInterval(updatePatience, 100);
+
+                setTimeout(() => openQuestionModal(currentPatient.question), 500);
+            }
+            
+            function updatePatience() {
+                if (!currentPatient) return;
+                const elapsedTime = Date.now() - currentPatient.startTime;
+                const patienceLeft = 1 - (elapsedTime / currentPatient.patience);
+                
+                const barInner = patientEl.querySelector('.patience-bar-inner');
+                const modalBarInner = document.querySelector('#modal-patience-container .patience-bar-inner');
+                
+                if (barInner) {
+                    barInner.style.width = `${Math.max(0, patienceLeft * 100)}%`;
+                    modalBarInner.style.width = `${Math.max(0, patienceLeft * 100)}%`;
+                    
+                    let color;
+                    if (patienceLeft < 0.3) color = '#e74c3c';
+                    else if (patienceLeft < 0.6) color = '#f1c40f';
+                    else color = '#4CAF50';
+                    
+                    barInner.style.backgroundColor = color;
+                    modalBarInner.style.backgroundColor = color;
+                }
+
+                if (patienceLeft <= 0) {
+                    const correctAnswer = currentPatient.question.choices[currentPatient.question.correctAnswerIndex]; // Use original index to get correct answer text
+                    patientLeaves(false, "Time's up!", correctAnswer);
+                }
+            }
+
+            function patientLeaves(success, message = '', correctAnswer = '') {
+                document.getElementById('modal-patience-container').classList.add('hidden');
+                clearInterval(patientTimer);
+                questionAnswerModal.style.display = 'none';
+                
+                showFeedback(success, message, correctAnswer);
+
+                const baseTimeout = 2000;
+                const extraTimePerChar = 100; // 100ms per character
+                const answerLength = correctAnswer ? correctAnswer.length : 0;
+                const questionLength = currentPatient.question.question.length;
+                const totalTimeout = baseTimeout + ((answerLength + questionLength) * extraTimePerChar);
+
+                setTimeout(() => {
+                    patientEl.style.opacity = '0';
+                    patientEl.classList.remove('active');
+                    patientBubbleTextEl.textContent = '';
+                    feedbackModalOverlay.style.display = 'none';
+                    
+                    if (!success) {
+                        errorSynth.triggerAttackRelease("0.2");
+                    } else {
+                        successSynth.triggerAttackRelease(["C4", "E4", "G4"], "8n");
+                    }
+                    
+                    currentPatient = null;
+                    
+                    if (gameActive) {
+                        setTimeout(spawnPatient, 2000);
+                    } else {
+                        gameOver();
+                    }
+                }, totalTimeout);
+            }
+
+            function showFeedback(isCorrect, message, correctAnswer = '') {
+                feedbackModal.innerHTML = message;
+                if (!isCorrect && correctAnswer) {
+                    feedbackModal.innerHTML += `<br><br><small>Correct answer: ${correctAnswer}</small>`;
+                }
+                feedbackModal.className = 'pixel-border ' + (isCorrect ? 'correct' : 'incorrect');
+                feedbackModalOverlay.style.display = 'flex';
+            }
+            
+            // Helper function to shuffle array while tracking original index
+            function shuffleArrayWithIndex(array, originalCorrectIndex) {
+                const shuffled = array.map((value, index) => ({value, originalIndex: index}));
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                
+                // Find new index of correct answer
+                const newCorrectIndex = shuffled.findIndex(item => item.originalIndex === originalCorrectIndex);
+                return {
+                    shuffledChoices: shuffled.map(item => item.value),
+                    newCorrectIndex
+                };
+            }
+
+            function openQuestionModal(question) {
+                questionTextEl.textContent = question.question;
+                answerChoicesEl.innerHTML = '';
+
+                // Shuffle choices while tracking correct answer
+                const {shuffledChoices, newCorrectIndex} = shuffleArrayWithIndex(
+                    question.choices, 
+                    question.correctAnswerIndex
+                );
+
+                // Store the shuffled correct index in the current patient
+                currentPatient.shuffledCorrectIndex = newCorrectIndex;
+
+                shuffledChoices.forEach((choice, index) => {
+                    const button = document.createElement('button');
+                    button.className = 'pixel-button text-white px-6 py-3 text-lg';
+                    button.textContent = choice;
+                    button.addEventListener('click', () => handleAnswer(index));
+                    answerChoicesEl.appendChild(button);
+                });
+
+                questionAnswerModal.style.display = 'flex';
+            }
+
+            function handleAnswer(selectedIndex) {
+                if (!currentPatient) return;
+
+                const isCorrect = (selectedIndex === currentPatient.shuffledCorrectIndex);
+
+                if (isCorrect) {
+                    score += currentPatient.question.points;
+                    updateUI();
+                    patientLeaves(true, "Correct!");
+                } else {
+                    score = Math.max(0, score - (currentPatient.question.points / 2));
+                    updateUI();
+                    const correctAnswer = currentPatient.question.choices[currentPatient.question.correctAnswerIndex];
+                    patientLeaves(false, "Incorrect!", correctAnswer);
+                }
+            }
+
+            const scoreEl = document.getElementById('score');
+            
+            function updateUI() {
+                scoreEl.textContent = score;
+            }
+
+            function loadHighestScore() {
+                const storedHighScore = localStorage.getItem('communityPharmacyHighScore');
+                if (storedHighScore) {
+                    highestScore = parseInt(storedHighScore, 10);
+                } else {
+                    highestScore = 0;
+                }
+                highScoreEl.textContent = `Highest Score: ${highestScore}`;
+                highScoreEl.classList.remove('hidden');
+            }
+
+            function saveHighestScore() {
+                if (score > highestScore) {
+                    highestScore = score;
+                    localStorage.setItem('communityPharmacyHighScore', highestScore);
+                    highScoreEl.textContent = `Highest Score: ${highestScore}`;
+                }
+            }
+
+            function startGame() {
+                score = 0;
+                // level = 1; // Removed
+                gameActive = true;
+                currentPatient = null;
+                answeredQuestions = [];
+                updateUI();
+                // levelEl.textContent = level; // Removed
+                finalScoreEl.classList.add('hidden');
+                modalOverlay.style.display = 'none';
+                stopButton.classList.remove('hidden');
+                spawnPatient();
+            }
+
+            function gameOver() {
+                gameActive = false;
+                clearInterval(patientTimer);
+                modalTitle.textContent = "Game Over";
+                modalText.textContent = "You've completed your shift at the pharmacy. Great job answering all the patient questions!";
+                finalScoreEl.textContent = `Final Score: ${score}`;
+                finalScoreEl.classList.remove('hidden');
+                startButton.textContent = "Play Again";
+                modalOverlay.style.display = 'flex';
+                
+                saveHighestScore();
+                loadHighestScore();
+            }
+
+            loadHighestScore();
+
+            // Stop Game Function
+            const stopButton = document.getElementById('stop-button');
+            function stopGame() {
+                gameActive = false;
+                clearInterval(patientTimer);
+                if (currentPatient) {
+                    patientEl.style.opacity = '0';
+                    patientEl.classList.remove('active');
+                    patientBubbleTextEl.textContent = '';
+                    currentPatient = null;
+                }
+                questionAnswerModal.style.display = 'none';
+                feedbackModalOverlay.style.display = 'none';
+                stopButton.classList.add('hidden');
+                gameOver();
+            }
+
+            // --- Event Listeners ---
+            startButton.addEventListener('click', startGame);
+            stopButton.addEventListener('click', stopGame);
+        });
+    </script>
+</body>
+</html>
