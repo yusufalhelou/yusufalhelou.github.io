@@ -1,0 +1,2523 @@
+// --- Game Config (Simulated JSON Database) --- 
+const ALL_QUESTIONS = [ 
+    { 
+        id: 'q1', 
+        topic: 'Drug Interactions', 
+        question: "A 68-year-old male on Warfarin presents with a severe cold and asks for an OTC decongestant. Which of the following is the MOST concerning interaction to counsel him on?", 
+        choices: [
+            "Pseudoephedrine increasing INR by inhibiting CYP450.", 
+            "Phenylephrine increasing blood pressure, complicating Warfarin's effects.", 
+            "Ibuprofen, often found in cold remedies, increasing bleeding risk with Warfarin."
+        ], 
+        correctAnswerIndex: 2, 
+        points: 45 
+    }, 
+    { 
+        id: 'q2', 
+        topic: 'Renal Impairment', 
+        question: "A patient with a creatinine clearance (CrCl) of 25 mL/min requests advice on pain management for severe osteoarthritis. Which NSAID requires the MOST careful dose adjustment or should be avoided?", 
+        choices: [
+            "Ibuprofen (relatively short half-life)", 
+            "Naproxen (moderate renal excretion)", 
+            "Celecoxib (minimal renal excretion but watch fluid retention)"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    }, 
+    { 
+        id: 'q3', 
+        topic: 'Pediatrics & Off-Label Use', 
+        question: "A parent asks about using an OTC cough and cold medication containing Dextromethorphan and Guaifenesin for their 18-month-old. What is the most appropriate advice?", 
+        choices: [
+            "It's safe if the dose is halved.", 
+            "These medications are generally not recommended for children under 2 years due to lack of efficacy and potential for serious side effects.", 
+            "It can be used but only for a maximum of 3 days."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    }, 
+    { 
+        id: 'q4', 
+        topic: 'Cardiology & OTC', 
+        question: "A patient with uncontrolled hypertension asks for a product to relieve severe nasal congestion. Which ingredient is most problematic for their condition?", 
+        choices: [
+            "Loratadine (antihistamine)", 
+            "Pseudoephedrine (decongestant)", 
+            "Guaifenesin (expectorant)"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    }, 
+    { 
+        id: 'q5', 
+        topic: 'Endocrinology & OTC', 
+        question: "A patient with newly diagnosed Type 2 Diabetes on Metformin asks for an OTC antacid. Which type of antacid should be used with caution due to potential effects on glucose control or other interactions?", 
+        choices: [
+            "Calcium carbonate (Tums)", 
+            "Magnesium hydroxide (Milk of Magnesia)", 
+            "Aluminum hydroxide/magnesium hydroxide combination (Maalox)"
+        ], 
+        correctAnswerIndex: 2, 
+        points: 35 
+    },
+    { 
+        id: 'q6', 
+        topic: 'Dermatology & Counseling', 
+        question: "A patient presents with a stubborn fungal nail infection (onychomycosis) and asks for an effective OTC topical. What is the MOST realistic expectation to set regarding OTC treatment?", 
+        choices: [
+            "OTC topical antifungals can cure severe cases within weeks.", 
+            "OTC topical antifungals have limited penetration and are usually only effective for very mild, superficial infections, requiring long-term application.", 
+            "Oral antifungals are typically unnecessary; OTCs are just as potent."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q7', 
+        topic: 'Psychiatry & OTC', 
+        question: "A patient currently taking an MAOI antidepressant (e.g., Phenelzine) asks for an OTC cough suppressant. Which ingredient is strictly contraindicated due to the risk of serotonin syndrome?", 
+        choices: [
+            "Dextromethorphan", 
+            "Guaifenesin", 
+            "Menthol"
+        ], 
+        correctAnswerIndex: 0, 
+        points: 50 
+    },
+    { 
+        id: 'q8', 
+        topic: 'Immunology & Vaccinations', 
+        question: "A pregnant patient in her first trimester asks if she should get the flu shot. What is the most appropriate advice regarding inactivated influenza vaccine?", 
+        choices: [
+            "It is contraindicated in the first trimester due to potential fetal harm.", 
+            "It is recommended for all pregnant women, regardless of trimester, to protect both mother and infant.", 
+            "It should only be considered if there's a high-risk factor like asthma."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q9', 
+        topic: 'Antibiotic Stewardship', 
+        question: "A patient insists on an antibiotic for a clear case of the common cold. What is the most responsible action for the pharmacist?", 
+        choices: [
+            "Dispense Amoxicillin, as it's a common 'cold' antibiotic.", 
+            "Explain that antibiotics are ineffective against viral infections like the common cold and advise on symptomatic relief.", 
+            "Suggest they try an antibiotic and return if symptoms don't improve."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q10', 
+        topic: 'Geriatrics & Polypharmacy', 
+        question: "An elderly patient on multiple medications (including a diuretic and an ACE inhibitor) complains of feeling dizzy upon standing. What OTC pain reliever should be avoided due to its potential to exacerbate orthostatic hypotension or kidney issues?", 
+        choices: [
+            "Acetaminophen", 
+            "Ibuprofen (NSAID)", 
+            "Topical Lidocaine patch"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q11', 
+        topic: 'Respiratory & Inhaler Technique', 
+        question: "A patient with asthma is struggling to use their MDI (Metered Dose Inhaler) effectively. What is a key step to emphasize for proper technique?", 
+        choices: [
+            "Breathe in as quickly and forcefully as possible.", 
+            "Shake the inhaler, exhale fully, place mouthpiece in mouth, press down, and inhale slowly and deeply.", 
+            "Inhale while pressing the canister, then immediately exhale."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q12', 
+        topic: 'Ophthalmology & OTC', 
+        question: "A patient with contact lenses complains of persistent dry eyes. What type of eye drops should they avoid using frequently without specific guidance?", 
+        choices: [
+            "Preservative-free artificial tears", 
+            "Redness-relieving drops (e.g., containing Naphazoline)", 
+            "Lubricating eye drops for contact lens users"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q13', 
+        topic: 'GI & Chronic Conditions', 
+        question: "A patient with Crohn's disease experiences an acute flare-up with severe diarrhea and abdominal pain. They ask for an OTC anti-diarrheal. Which one is generally NOT recommended in inflammatory bowel disease flares due to the risk of toxic megacolon?", 
+        choices: [
+            "Loperamide", 
+            "Bismuth Subsalicylate", 
+            "Psyllium (bulk-forming laxative)"
+        ], 
+        correctAnswerIndex: 0, 
+        points: 50 
+    },
+    { 
+        id: 'q14', 
+        topic: 'Drug Formulations', 
+        question: "A patient asks if they can crush their extended-release (ER) Metoprolol tablet to make it easier to swallow. What should you advise?", 
+        choices: [
+            "Yes, all tablets can be crushed for easier administration.", 
+            "No, crushing ER tablets can lead to rapid absorption and potentially dangerous overdose.", 
+            "Only if taken with a large glass of water."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q15', 
+        topic: 'Women\'s Health & Contraception', 
+        question: "A young woman on oral contraceptives misses two active pills in the third week of her cycle. What is the most appropriate advice?", 
+        choices: [
+            "Take both missed pills immediately and continue the pack, skipping the placebo pills.", 
+            "Skip the missed pills, continue the pack, and use back-up contraception for 7 days.", 
+            "Take the two missed pills immediately, continue the pack, and use back-up contraception until the next cycle."
+        ], 
+        correctAnswerIndex: 0, 
+        points: 50 
+    },
+    { 
+        id: 'q16', 
+        topic: 'Dietary Supplements & Interactions', 
+        question: "A patient on oral anticoagulants (e.g., dabigatran) asks about taking high-dose fish oil supplements for heart health. What is a key counseling point?", 
+        choices: [
+            "Fish oil has no effect on bleeding risk.", 
+            "High-dose fish oil can increase bleeding risk and should be discussed with their doctor.", 
+            "Fish oil will counteract the anticoagulant effect."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q17', 
+        topic: 'Neurology & OTC', 
+        question: "A patient with a history of seizures asks for an OTC sleep aid. Which ingredient should be avoided due to its potential to lower the seizure threshold?", 
+        choices: [
+            "Melatonin", 
+            "Diphenhydramine", 
+            "Valerian root"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q18', 
+        topic: 'Pharmacokinetics', 
+        question: "Why is a loading dose sometimes used for certain medications?", 
+        choices: [
+            "To reduce the total daily dose required.", 
+            "To rapidly achieve therapeutic drug concentrations in the body.", 
+            "To minimize the risk of side effects."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q19', 
+        topic: 'Toxicology', 
+        question: "A parent calls, concerned their child ingested several iron tablets. What is the immediate and most critical advice?", 
+        choices: [
+            "Monitor the child for symptoms and call poison control if they worsen.", 
+            "Induce vomiting immediately.", 
+            "Seek immediate emergency medical attention, as iron overdose can be life-threatening."
+        ], 
+        correctAnswerIndex: 2, 
+        points: 50 
+    },
+    { 
+        id: 'q20', 
+        topic: 'Immunosuppression & Live Vaccines', 
+        question: "A patient on chronic high-dose corticosteroids asks about getting the MMR (Measles, Mumps, Rubella) vaccine. What is the main concern?", 
+        choices: [
+            "Corticosteroids enhance vaccine efficacy.", 
+            "Live vaccines like MMR are generally contraindicated in patients on high-dose immunosuppressants due to the risk of vaccine-induced infection.", 
+            "The vaccine will cause severe allergic reaction."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q21', 
+        topic: 'Nephrology & Drug-Induced Injury', 
+        question: "A patient with chronic kidney disease (CKD) on ACE inhibitors complains of a dry cough. What OTC cough remedy should they specifically avoid due to potential for exacerbating renal issues?", 
+        choices: [
+            "Dextromethorphan (cough suppressant)", 
+            "Ibuprofen (NSAID)", 
+            "Guaifenesin (expectorant)"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q22', 
+        topic: 'Gastroenterology & Drug Interactions', 
+        question: "A patient on Omeprazole for GERD asks about taking Calcium supplements. What is a key counseling point regarding absorption?", 
+        choices: [
+            "Omeprazole enhances calcium absorption.", 
+            "Omeprazole can reduce calcium absorption, especially calcium carbonate, requiring adequate stomach acid for dissolution.", 
+            "There is no interaction between Omeprazole and calcium."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q23', 
+        topic: 'Ophthalmology & Systemic Effects', 
+        question: "A patient with glaucoma on Timolol eye drops develops new onset wheezing. What is the most likely cause?", 
+        choices: [
+            "An allergic reaction to the eye drops.", 
+            "Systemic absorption of Timolol (a beta-blocker) causing bronchospasm.", 
+            "Coincidence, unrelated to the eye drops."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q24', 
+        topic: 'Pain Management & Opioids', 
+        question: "A patient reports taking an OTC pain reliever containing Acetaminophen for chronic pain and is also prescribed an opioid pain reliever (e.g., Percocet, which contains Acetaminophen). What is the most critical risk to counsel them on?", 
+        choices: [
+            "Addiction to the opioid.", 
+            "Accidental acetaminophen overdose and liver toxicity.", 
+            "Insufficient pain relief."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q25', 
+        topic: 'Herbal Medicine & Safety', 
+        question: "A patient taking Warfarin asks about using Ginkgo Biloba for memory enhancement. What is the most important caution?", 
+        choices: [
+            "Ginkgo Biloba can improve memory significantly.", 
+            "Ginkgo Biloba can increase bleeding risk when combined with Warfarin.", 
+            "Ginkgo Biloba is generally safe with all medications."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q26', 
+        topic: 'Infectious Diseases & Counseling', 
+        question: "A patient with impetigo (a bacterial skin infection) has been prescribed a topical antibiotic. What non-pharmacological advice is crucial to prevent spread?", 
+        choices: [
+            "Share towels and bedding to ensure everyone gets treated.", 
+            "Avoid touching lesions, practice good hand hygiene, and keep affected areas covered.", 
+            "Apply heat packs to the lesions frequently."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q27', 
+        topic: 'Drug Monitoring & Counseling', 
+        question: "A patient taking Digoxin for heart failure experiences nausea, vomiting, and blurred vision with green halos. What should the pharmacist suspect and advise?", 
+        choices: [
+            "Symptoms of a stomach flu; advise rest.", 
+            "Signs of Digoxin toxicity; advise immediate medical attention.", 
+            "Normal side effects of Digoxin; continue medication."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q28', 
+        topic: 'Asthma Management', 
+        question: "A patient with asthma is using their short-acting beta-agonist (SABA) inhaler (e.g., Albuterol) more than twice a week for symptom control. What does this indicate?", 
+        choices: [
+            "Excellent control of their asthma.", 
+            "Poorly controlled asthma and a need for review of their long-term controller therapy.", 
+            "An appropriate use of their rescue inhaler."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q29', 
+        topic: 'Drug Interactions & Food', 
+        question: "A patient on Simvastatin for high cholesterol is asking about dietary changes. What fruit/juice should they be advised to avoid due to a significant drug interaction?", 
+        choices: [
+            "Orange juice", 
+            "Grapefruit juice", 
+            "Apple juice"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q30', 
+        topic: 'Vaccinations & Contraindications', 
+        question: "A child with a severe egg allergy presents for their annual flu vaccine. What type of flu vaccine is generally contraindicated or requires special consideration in this case?", 
+        choices: [
+            "Inactivated influenza vaccine (standard flu shot)", 
+            "Live attenuated influenza vaccine (nasal spray)", 
+            "Any flu vaccine is completely safe regardless of egg allergy."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q31', 
+        topic: 'Dermatology & Counseling', 
+        question: "A patient has a new prescription for topical hydrocortisone for eczema. What is a crucial counseling point regarding its application to the face?", 
+        choices: [
+            "Apply a thick layer liberally to the entire face.", 
+            "Use sparingly on the face and avoid prolonged use due to potential skin thinning and other side effects.", 
+            "It's safe for indefinite use on the face."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q32', 
+        topic: 'Emergency Contraception', 
+        question: "A patient requests emergency contraception (EC) after unprotected intercourse. What is the most time-sensitive aspect of EC effectiveness?", 
+        choices: [
+            "It is equally effective regardless of when it's taken.", 
+            "Effectiveness significantly decreases with time, so it should be taken as soon as possible after unprotected intercourse.", 
+            "It only works if taken exactly 24 hours after intercourse."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q33', 
+        topic: 'Diabetes Management', 
+        question: "A diabetic patient on insulin asks about managing hypoglycemia (low blood sugar). What is the immediate first-line treatment for a conscious patient?", 
+        choices: [
+            "Inject more insulin to balance it out.", 
+            "Consume 15-20 grams of fast-acting carbohydrates (e.g., glucose tablets, fruit juice).", 
+            "Eat a large, fatty meal."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q34', 
+        topic: 'Osteoporosis & Supplementation', 
+        question: "A patient with osteoporosis is advised to take calcium and Vitamin D supplements. What is the most effective way to take calcium supplements to maximize absorption?", 
+        choices: [
+            "Take the entire daily dose at once.", 
+            "Take calcium in divided doses throughout the day, especially calcium carbonate with food.", 
+            "Take calcium only on an empty stomach."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q35', 
+        topic: 'Drug Side Effects', 
+        question: "A patient starting a new ACE inhibitor (e.g., Lisinopril) calls the pharmacy complaining of a persistent, dry cough. What is the most likely cause?", 
+        choices: [
+            "A new viral infection.", 
+            "A common and well-known side effect of ACE inhibitors.", 
+            "An allergic reaction requiring immediate discontinuation."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q36', 
+        topic: 'Travel Health & Prophylaxis', 
+        question: "A patient is traveling to a region with high risk of Traveler's Diarrhea. Besides good hygiene, what OTC medication is often recommended for prophylaxis in certain situations?", 
+        choices: [
+            "Loperamide for prevention.", 
+            "Bismuth Subsalicylate (Pepto-Bismol) for prevention.", 
+            "Broad-spectrum antibiotics for routine prevention."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q37', 
+        topic: 'OTC & Chronic Conditions', 
+        question: "A patient with a history of heart failure (HF) and fluid retention asks for an OTC medication for generalized aches. Which of the following should be avoided due to its potential to worsen HF and fluid retention?", 
+        choices: [
+            "Acetaminophen", 
+            "Ibuprofen (NSAID)", 
+            "Topical capsaicin cream"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q38', 
+        topic: 'Drug Storage', 
+        question: "A patient asks about storing their insulin pen. What is the correct storage advice for an *unopened* insulin pen?", 
+        choices: [
+            "Always store at room temperature.", 
+            "Store in the refrigerator, but do not freeze.", 
+            "Store in direct sunlight for activation."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q39', 
+        topic: 'Antibiotic Counseling', 
+        question: "A patient is prescribed Amoxicillin for a bacterial infection. What is the most important counseling point to ensure treatment success and prevent resistance?", 
+        choices: [
+            "Stop taking it as soon as you feel better.", 
+            "Take the full course of antibiotics, even if symptoms improve.", 
+            "Save remaining pills for future infections."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q40', 
+        topic: 'Pain & Liver Disease', 
+        question: "A patient with chronic liver disease asks for a pain reliever for a headache. Which OTC analgesic is generally preferred due to its less burden on the liver at therapeutic doses?", 
+        choices: [
+            "Acetaminophen", 
+            "Ibuprofen", 
+            "Naproxen"
+        ], 
+        correctAnswerIndex: 0, 
+        points: 40 
+    },
+    { 
+        id: 'q41', 
+        topic: 'Diuretics & Electrolytes', 
+        question: "A patient on a loop diuretic (e.g., Furosemide) reports feeling muscle weakness and cramps. What electrolyte imbalance should the pharmacist suspect?", 
+        choices: [
+            "Hyperkalemia (high potassium)", 
+            "Hypokalemia (low potassium)", 
+            "Hypernatremia (high sodium)"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q42', 
+        topic: 'Controlled Substances', 
+        question: "A patient attempts to pick up a prescription for a Schedule II controlled substance (e.g., Oxycodone) that was written 60 days ago. What is the typical federal regulation regarding the validity of such prescriptions?", 
+        choices: [
+            "They are valid indefinitely.", 
+            "They are typically valid for a limited period, often 7 to 30 days from the date written.", 
+            "They must be filled within 24 hours."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q43', 
+        topic: 'Anticoagulation & Diet', 
+        question: "A patient on Warfarin asks about consuming green leafy vegetables. What is the key counseling point?", 
+        choices: [
+            "Avoid all green leafy vegetables completely.", 
+            "Maintain a consistent intake of Vitamin K-rich foods, including green leafy vegetables, rather than avoiding them entirely.", 
+            "Eat as much as possible to boost Vitamin K levels."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q44', 
+        topic: 'Glaucoma & OTC', 
+        question: "A patient with narrow-angle glaucoma asks for an OTC medication for cold symptoms, specifically mentioning a stuffy nose. Which common OTC ingredient is contraindicated due to its potential to worsen glaucoma?", 
+        choices: [
+            "Chlorpheniramine (antihistamine)", 
+            "Pseudoephedrine (decongestant)", 
+            "Guaifenesin (expectorant)"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q45', 
+        topic: 'Immunizations & Adverse Reactions', 
+        question: "A patient experiences syncope (fainting) shortly after receiving a vaccination. What is the most appropriate initial management?", 
+        choices: [
+            "Send them home immediately.", 
+            "Have them lie down or sit with their head between their knees, monitor for recovery, and advise on hydration.", 
+            "Administer another vaccine dose to counteract the effect."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q46', 
+        topic: 'Thyroid Disorders & OTC', 
+        question: "A patient on Levothyroxine for hypothyroidism asks about taking calcium supplements. What is the most important counseling point regarding administration?", 
+        choices: [
+            "Take them at the same time for synergy.", 
+            "Separate the administration of levothyroxine and calcium supplements by at least 4 hours.", 
+            "Calcium supplements enhance levothyroxine absorption."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q47', 
+        topic: 'Diabetic Foot Care', 
+        question: "A diabetic patient asks for advice on preventing foot complications. What is a key recommendation they should follow daily?", 
+        choices: [
+            "Walk barefoot to strengthen feet.", 
+            "Inspect feet daily for cuts, blisters, or swelling, and wear proper footwear.", 
+            "Soak feet in hot water with salts daily."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q48', 
+        topic: 'Overdose Management', 
+        question: "A concerned friend calls, stating their peer has intentionally taken a large quantity of Acetaminophen. What is the most critical immediate advice?", 
+        choices: [
+            "Wait and see if symptoms develop, then call a doctor.", 
+            "Induce vomiting and give milk.", 
+            "Call emergency services (e.g., 911 or local emergency number) immediately, as acetaminophen overdose can cause severe liver damage and is time-sensitive."
+        ], 
+        correctAnswerIndex: 2, 
+        points: 50 
+    },
+    { 
+        id: 'q49', 
+        topic: 'Drug Information & Patient Safety', 
+        question: "A patient asks about a medication they found in an unmarked bottle. What is the most appropriate advice?", 
+        choices: [
+            "Take it if they recognize the tablet.", 
+            "Advise against taking any medication from an unmarked container and suggest proper disposal.", 
+            "Assume it's safe if it looks like a common pill."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q50', 
+        topic: 'Vaccinations & Pregnancy', 
+        question: "A pregnant patient asks about the Tdap (Tetanus, Diphtheria, Pertussis) vaccine. When is it ideally recommended during pregnancy?", 
+        choices: [
+            "In the first trimester only.", 
+            "During each pregnancy, preferably between 27 and 36 weeks gestation.", 
+            "Only if she has a high-risk exposure to whooping cough."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q51', 
+        topic: 'Pediatrics & Fever', 
+        question: "A parent reports their 3-month-old has a rectal temperature of 101.5°F (38.6°C). What is the most urgent advice?", 
+        choices: [
+            "Administer age-appropriate dose of ibuprofen.", 
+            "Monitor closely and give fluids.", 
+            "Seek immediate medical attention, as fever in infants under 3 months can indicate serious infection."
+        ], 
+        correctAnswerIndex: 2, 
+        points: 50 
+    },
+    { 
+        id: 'q52', 
+        topic: 'Dermatology & OTC', 
+        question: "A patient presents with a suspicious mole that has recently changed in size and color. What is the most appropriate action for the pharmacist?", 
+        choices: [
+            "Recommend an OTC anti-itch cream.", 
+            "Advise immediate consultation with a dermatologist or doctor for evaluation.", 
+            "Suggest applying a topical antibiotic."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q53', 
+        topic: 'Drug Interactions & Chronic Pain', 
+        question: "A patient on chronic opioid therapy (e.g., Morphine ER) for cancer pain is also taking Gabapentin. What is the most significant potential interaction to counsel them on?", 
+        choices: [
+            "Increased risk of constipation.", 
+            "Increased risk of respiratory depression and sedation.", 
+            "Decreased effectiveness of Gabapentin."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q54', 
+        topic: 'Cardiology & Counseling', 
+        question: "A patient recently discharged from the hospital after a heart attack is prescribed a new statin. What is a key counseling point regarding adherence and lifestyle changes?", 
+        choices: [
+            "Statins are only needed temporarily until cholesterol levels normalize.", 
+            "Adherence to statin therapy, combined with diet and exercise, is crucial for long-term cardiovascular risk reduction.", 
+            "Diet and exercise are more important than taking statins."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q55', 
+        topic: 'Endocrinology & OTC', 
+        question: "A patient with diagnosed hypothyroidism on Levothyroxine complains of persistent fatigue despite taking their medication. What is a common cause of this symptom that the pharmacist should consider in counseling?", 
+        choices: [
+            "Over-dosing of Levothyroxine.", 
+            "Inconsistent medication adherence or timing, or interactions with food/supplements that impair absorption.", 
+            "The fatigue is unrelated to their thyroid condition."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q56', 
+        topic: 'Immunology & Autoimmune Conditions', 
+        question: "A patient with Rheumatoid Arthritis on Methotrexate asks about getting their annual flu shot. What is the primary concern when vaccinating immunosuppressed patients?", 
+        choices: [
+            "Increased risk of severe allergic reactions.", 
+            "Reduced immune response to the vaccine, potentially lowering its effectiveness.", 
+            "Exacerbation of their autoimmune condition."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q57', 
+        topic: 'Gastroenterology & Drug-Induced Issues', 
+        question: "A patient calls complaining of severe, bloody diarrhea after starting a new course of antibiotics (e.g., Clindamycin). What potentially life-threatening condition should the pharmacist suspect?", 
+        choices: [
+            "Normal antibiotic side effect.", 
+            "Clostridioides difficile (C. diff) infection.", 
+            "Simple food poisoning."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q58', 
+        topic: 'Renal Impairment & Dose Adjustment', 
+        question: "A patient with end-stage renal disease (ESRD) requires pain relief. Which analgesic is generally considered safe and requires minimal to no dose adjustment in ESRD?", 
+        choices: [
+            "Ibuprofen", 
+            "Naproxen", 
+            "Fentanyl (transdermal patch)"
+        ], 
+        correctAnswerIndex: 2, 
+        points: 50 
+    },
+    { 
+        id: 'q59', 
+        topic: 'Vaccinations & Specific Populations', 
+        question: "A diabetic patient asks about which specific pneumonia vaccine is recommended for them in addition to the standard childhood immunizations.", 
+        choices: [
+            "Only the seasonal flu vaccine.", 
+            "Pneumococcal conjugate vaccine (PCV13) and Pneumococcal polysaccharide vaccine (PPSV23) as per age-specific guidelines.", 
+            "Pneumonia vaccines are not recommended for diabetics."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q60', 
+        topic: 'Drug Information & Dispensing Errors', 
+        question: "A patient returns to the pharmacy stating the pills in their newly filled prescription bottle are a different color and shape than before. What is the most appropriate immediate action?", 
+        choices: [
+            "Tell them the manufacturer probably changed.", 
+            "Verify the prescription, drug, and strength to rule out a dispensing error.", 
+            "Advise them to take the new pills regardless."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q61', 
+        topic: 'Women\'s Health & OTC', 
+        question: "A post-menopausal woman asks for advice on managing hot flashes. Which non-hormonal OTC option has some evidence for relief, but requires consistent use?", 
+        choices: [
+            "High-dose Vitamin C.", 
+            "Black Cohosh.", 
+            "Calcium supplements."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q62', 
+        topic: 'First Aid & Burns', 
+        question: "A patient has a second-degree burn (blisters, pain) on their hand from cooking. What is the immediate first-aid advice?", 
+        choices: [
+            "Apply butter or oil to the burn.", 
+            "Run under cool (not cold) water for 10-20 minutes, then cover loosely with a sterile dressing.", 
+            "Pop the blisters immediately to release pressure."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q63', 
+        topic: 'Pediatrics & Dehydration', 
+        question: "A parent calls, concerned about their child (10 months old) having moderate diarrhea and vomiting for 12 hours. What is the most appropriate initial recommendation?", 
+        choices: [
+            "Give them a sports drink (e.g., Gatorade).", 
+            "Encourage oral rehydration solutions (ORS) in small, frequent amounts.", 
+            "Withhold all fluids for several hours."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q64', 
+        topic: 'Drug Monitoring & Side Effects', 
+        question: "A patient on Amlodipine for hypertension reports new onset ankle swelling. What is the most likely explanation?", 
+        choices: [
+            "A sign of worsening heart failure.", 
+            "A common, dose-dependent side effect of dihydropyridine calcium channel blockers like Amlodipine.", 
+            "An allergic reaction to the medication."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q65', 
+        topic: 'Gastroenterology & OTC', 
+        question: "A patient with suspected hemorrhoids asks for an OTC topical treatment to reduce swelling and itching. Which ingredient is commonly found in effective products for this?", 
+        choices: [
+            "Antibiotic (e.g., Neomycin)", 
+            "Local anesthetic (e.g., Lidocaine) or corticosteroid (e.g., Hydrocortisone).", 
+            "Antifungal (e.g., Clotrimazole)."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q66', 
+        topic: 'Drug Interactions & Herbals', 
+        question: "A patient on Cyclosporine (an immunosuppressant) for a kidney transplant asks about taking St. John's Wort for depression. What is the most critical interaction to warn them about?", 
+        choices: [
+            "Increased Cyclosporine levels, leading to toxicity.", 
+            "Decreased Cyclosporine levels, leading to transplant rejection.", 
+            "No known interaction."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q67', 
+        topic: 'Respiratory & OTC', 
+        question: "A patient with COPD who uses oxygen at home asks for an OTC sleep aid. Which ingredient should be used with extreme caution or avoided due to potential for respiratory depression?", 
+        choices: [
+            "Melatonin", 
+            "Diphenhydramine (antihistamine with sedative effects)", 
+            "Valerian root"
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q68', 
+        topic: 'Vaccinations & Timing', 
+        question: "A healthcare worker who tested positive for measles antibodies (indicating immunity) asks if they still need the MMR vaccine. What is the most accurate advice?", 
+        choices: [
+            "Yes, a booster is always recommended regardless of antibody status.", 
+            "No, positive antibody titers usually indicate sufficient immunity, and further vaccination is not typically necessary.", 
+            "Only if they plan to travel internationally."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q69', 
+        topic: 'Diabetes & Medication Timing', 
+        question: "A diabetic patient is prescribed a sulfonylurea (e.g., Glyburide). What is a crucial counseling point regarding its administration to prevent hypoglycemia?", 
+        choices: [
+            "Take it only if your blood sugar is high.", 
+            "Take it with the first bite of a meal to coincide with carbohydrate absorption.", 
+            "Take it on an empty stomach right before bed."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q70', 
+        topic: 'Emergency Medicine & Naloxone', 
+        question: "A family member of a patient on high-dose opioid pain medication asks about Naloxone. What is Naloxone primarily used for?", 
+        choices: [
+            "To prevent opioid addiction.", 
+            "To reverse opioid overdose by blocking opioid receptors.", 
+            "To enhance the pain-relieving effects of opioids."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q71', 
+        topic: 'Drug Classes & Indications', 
+        question: "A patient presents a prescription for a 'statin.' What is the primary therapeutic class and main indication of statin medications?", 
+        choices: [
+            "Antihypertensives for high blood pressure.", 
+            "HMG-CoA Reductase Inhibitors for lowering cholesterol.", 
+            "Anticoagulants for preventing blood clots."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q72', 
+        topic: 'Dermatology & Sun Protection', 
+        question: "A patient on Doxycycline (an antibiotic) for acne asks about sun exposure. What is the most important counseling point?", 
+        choices: [
+            "Doxycycline has no effect on sun sensitivity.", 
+            "Doxycycline can cause photosensitivity, increasing the risk of severe sunburn; advise strict sun protection.", 
+            "Sun exposure is beneficial for acne while on Doxycycline."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q73', 
+        topic: 'Pediatrics & OTC Pain', 
+        question: "A parent asks about alternating ibuprofen and acetaminophen for fever management in their child. What is the most accurate advice regarding this practice?", 
+        choices: [
+            "It is always recommended for severe fevers.", 
+            "While sometimes practiced, it lacks strong evidence for superior efficacy and carries a higher risk of dosing errors.", 
+            "It should never be done under any circumstances."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q74', 
+        topic: 'Drug Storage & Expiration', 
+        question: "A patient finds an epinephrine auto-injector (EpiPen) that expired 3 months ago. They ask if it's still safe to use in an emergency. What should you advise?", 
+        choices: [
+            "Expired medications are always completely ineffective and dangerous.", 
+            "While expired, it may still retain some potency and should be used in a life-threatening emergency if no unexpired alternative is available, but replacement should be sought immediately.", 
+            "Discard it immediately and wait for a new one."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q75', 
+        topic: 'Immunizations & Shingles', 
+        question: "An elderly patient (72 years old) asks about the shingles vaccine. What is the most current recommendation for healthy adults in this age group?", 
+        choices: [
+            "Only if they have had shingles before.", 
+            "Two doses of recombinant zoster vaccine (Shingrix), regardless of prior chickenpox or shingles history.", 
+            "One dose of live attenuated zoster vaccine (Zostavax)."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q76', 
+        topic: 'Drug Counseling & Adherence', 
+        question: "A patient tells you they often stop taking their blood pressure medication when they 'feel fine.' What is the most critical counseling point?", 
+        choices: [
+            "Hypertension usually has noticeable symptoms, so stopping when feeling fine is okay.", 
+            "Hypertension is often asymptomatic, and stopping medication can lead to serious cardiovascular events; consistent adherence is vital.", 
+            "They can stop if their home blood pressure readings are normal for a week."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q77', 
+        topic: 'Herbal Medicine & Interactions', 
+        question: "A patient on Warfarin asks about consuming cranberry products for urinary health. What is a potential interaction?", 
+        choices: [
+            "Cranberry significantly decreases INR.", 
+            "Cranberry products can potentiate the effect of Warfarin, increasing bleeding risk.", 
+            "Cranberry has no interaction with Warfarin."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q78', 
+        topic: 'OTC & Gastroesophageal Reflux Disease (GERD)', 
+        question: "A patient with chronic GERD is taking an OTC Proton Pump Inhibitor (PPI) daily for several months. What is a long-term risk associated with prolonged PPI use that the pharmacist should counsel on?", 
+        choices: [
+            "Increased risk of heart attack.", 
+            "Increased risk of C. diff infection, bone fractures, and kidney problems.", 
+            "Improved nutrient absorption."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q79', 
+        topic: 'Antibiotic Side Effects', 
+        question: "A patient on Amoxicillin reports developing a non-itchy, generalized rash a few days into treatment, but states they have taken amoxicillin previously without issue. What is the most likely explanation for this specific rash in the context of Amoxicillin?", 
+        choices: [
+            "A life-threatening allergic reaction (anaphylaxis).", 
+            "A common, non-allergic, maculopapular rash that can occur with amoxicillin, especially in patients with viral infections like mononucleosis.", 
+            "A sign of a secondary bacterial infection."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q80', 
+        topic: 'Drug Misuse & Prevention', 
+        question: "A customer attempts to purchase an unusually large quantity of pseudoephedrine-containing products. What is the pharmacist's legal and ethical responsibility?", 
+        choices: [
+            "Sell them the products, as it's an OTC item.", 
+            "Deny the sale, document the transaction, and report suspicious activity to law enforcement due to potential methamphetamine production.", 
+            "Ask them why they need so much and then sell it if their reason is plausible."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q81', 
+        topic: 'Pain Management & Renal Impairment', 
+        question: "A patient with stage 4 chronic kidney disease (CrCl 18 mL/min) has acute musculoskeletal pain. Which OTC pain reliever is the SAFEST option?", 
+        choices: [
+            "Naproxen (NSAID)", 
+            "Ibuprofen (NSAID)", 
+            "Acetaminophen (at appropriate doses)"
+        ], 
+        correctAnswerIndex: 2, 
+        points: 45 
+    },
+    { 
+        id: 'q82', 
+        topic: 'Cardiology & Drug Interactions', 
+        question: "A patient on Amiodarone for arrhythmia reports starting a new multivitamin containing Vitamin K. What is the potential interaction?", 
+        choices: [
+            "No significant interaction.", 
+            "Vitamin K can interfere with Amiodarone's antiarrhythmic effect.", 
+            "Amiodarone can affect Vitamin K absorption, increasing bleeding risk."
+        ], 
+        correctAnswerIndex: 0, // This is a trickier one, Amiodarone primarily interacts with Warfarin for Vit K, not direct interference. But given the options, "no significant interaction" with just a multivitamin is the most accurate.
+        points: 45 
+    },
+    { 
+        id: 'q83', 
+        topic: 'Infectious Diseases & Fungal Infections', 
+        question: "A patient with ringworm (tinea corporis) asks about treatment. Which topical medication is the most appropriate initial recommendation?", 
+        choices: [
+            "Topical antibiotic cream.", 
+            "Topical antifungal cream (e.g., Clotrimazole, Terbinafine).", 
+            "Topical steroid cream."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q84', 
+        topic: 'Pediatrics & Antibiotic Resistance', 
+        question: "A parent wants to save unused liquid antibiotic from their child's previous infection 'just in case' for a future illness. What is the most important reason to advise against this?", 
+        choices: [
+            "The antibiotic loses its potency quickly.", 
+            "It contributes to antibiotic resistance and the saved antibiotic may not be appropriate for a future infection.", 
+            "It will taste bad if stored for too long."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q85', 
+        topic: 'Drug Counseling & Dispensing', 
+        question: "When dispensing a new prescription for an oral liquid suspension, what is a crucial instruction to give the patient?", 
+        choices: [
+            "Shake well before each use.", 
+            "Store in the freezer.", 
+            "It's okay to dilute it with juice."
+        ], 
+        correctAnswerIndex: 0, 
+        points: 30 
+    },
+    { 
+        id: 'q86', 
+        topic: 'OTC & Seasonal Allergies', 
+        question: "A patient with severe seasonal allergies (rhinitis, itchy eyes, congestion) asks for the most comprehensive OTC treatment. Which combination of ingredients would be most effective?", 
+        choices: [
+            "Oral decongestant only.", 
+            "Oral non-drowsy antihistamine and intranasal corticosteroid spray.", 
+            "Topical eye drops for redness only."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q87', 
+        topic: 'Neurology & Counseling', 
+        question: "A patient with new onset cluster headaches describes excruciating pain behind one eye. They ask what OTC relief they can take. What is the pharmacist's most appropriate response?", 
+        choices: [
+            "Recommend high-dose ibuprofen.", 
+            "Suggest seeking immediate medical evaluation, as cluster headaches often require prescription-strength acute and preventive treatments.", 
+            "Advise a strong caffeine intake."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q88', 
+        topic: 'Immunosuppression & Fungal Infections', 
+        question: "An immunocompromised patient (e.g., on chemotherapy) develops oral thrush (candidiasis). What is the appropriate topical treatment recommendation?", 
+        choices: [
+            "Topical antibiotic mouthwash.", 
+            "Topical antifungal agent (e.g., Nystatin swish and swallow) and proper oral hygiene.", 
+            "Alcohol-based mouthwash."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q89', 
+        topic: 'Thyroid Disorders & Monitoring', 
+        question: "A patient on Levothyroxine reports taking their medication inconsistently, sometimes skipping doses. What is the primary concern with inconsistent levothyroxine intake?", 
+        choices: [
+            "Risk of thyroid storm.", 
+            "Fluctuating thyroid hormone levels, leading to uncontrolled symptoms and potential long-term complications.", 
+            "Weight gain only."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q90', 
+        topic: 'Drug Information & Patient Education', 
+        question: "A patient with limited literacy asks for counseling on a new medication. What is the most effective approach for the pharmacist?", 
+        choices: [
+            "Read the entire prescription label verbatim.", 
+            "Provide clear, simple verbal instructions, use visual aids if available, and ask them to 'teach back' key information.", 
+            "Just hand them the bag with the leaflet."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q91', 
+        topic: 'Geriatrics & Falls Risk', 
+        question: "An elderly patient on multiple medications reports frequent falls. Which class of medication commonly contributes to an increased risk of falls in the elderly?", 
+        choices: [
+            "Statins.", 
+            "Benzodiazepines (e.g., Diazepam) or certain antidepressants.", 
+            "Thyroid hormones."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q92', 
+        topic: 'OTC & Motion Sickness', 
+        question: "A patient prone to severe motion sickness asks for an effective OTC remedy for a long car trip. Which antihistamine is commonly used for this, despite its sedative properties?", 
+        choices: [
+            "Loratadine (Claritin).", 
+            "Dimenhydrinate (Dramamine) or Meclizine (Bonine).", 
+            "Fexofenadine (Allegra)."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q93', 
+        topic: 'Controlled Substances & Refills', 
+        question: "A patient requests a refill for a Schedule IV controlled substance (e.g., Ambien) prescription. What is the federal limit on refills for Schedule IV medications?", 
+        choices: [
+            "No refills allowed.", 
+            "Up to 5 refills within 6 months.", 
+            "Unlimited refills for one year."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q94', 
+        topic: 'Vaccinations & Travel', 
+        question: "A patient is traveling to Sub-Saharan Africa and asks about necessary vaccinations. Besides routine immunizations, which two travel-specific vaccines are often recommended?", 
+        choices: [
+            "Chickenpox and Measles.", 
+            "Yellow Fever and Meningococcal disease (for certain regions).", 
+            "Influenza and Pneumonia."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q95', 
+        topic: 'Drug Interactions & Electrolytes', 
+        question: "A patient on Spironolactone (a potassium-sparing diuretic) is advised to take a potassium supplement. What is the primary concern with this combination?", 
+        choices: [
+            "Increased risk of hyponatremia (low sodium).", 
+            "Increased risk of hyperkalemia (high potassium).", 
+            "Decreased effectiveness of Spironolactone."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q96', 
+        topic: 'Women\'s Health & Vaginal Symptoms', 
+        question: "A patient complains of vaginal itching and discharge consistent with a yeast infection. What is the most appropriate OTC treatment recommendation?", 
+        choices: [
+            "Oral antibiotic.", 
+            "Topical antifungal cream or suppository (e.g., Clotrimazole, Miconazole).", 
+            "Douche daily."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q97', 
+        topic: 'Diabetes & Monitoring', 
+        question: "A patient with Type 1 Diabetes asks about storing insulin vials. What is the correct storage for *in-use* insulin vials?", 
+        choices: [
+            "In the refrigerator.", 
+            "At room temperature (between 59-86°F or 15-30°C) for up to 28 days.", 
+            "In direct sunlight."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q98', 
+        topic: 'OTC & Heartburn', 
+        question: "A patient with occasional heartburn finds that antacids provide only temporary relief. They ask for a longer-acting OTC option. What would you suggest?", 
+        choices: [
+            "Another antacid, but at a higher dose.", 
+            "An H2 Blocker (e.g., Famotidine) or a Proton Pump Inhibitor (e.g., Omeprazole).", 
+            "Herbal remedies exclusively."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q99', 
+        topic: 'Immunosuppression & Fever', 
+        question: "An oncology patient undergoing chemotherapy calls with a fever of 101°F (38.3°C). What is the most critical advice?", 
+        choices: [
+            "Take acetaminophen and rest.", 
+            "Seek immediate emergency medical attention, as fever in immunocompromised patients can indicate a severe infection (neutropenic fever).", 
+            "Wait 24 hours to see if the fever breaks."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q100', 
+        topic: 'Drug Information & Pregnancy', 
+        question: "A pregnant patient in her second trimester asks about taking medication for severe morning sickness. Which medication, if prescribed, is generally considered safe and effective in pregnancy for nausea and vomiting?", 
+        choices: [
+            "Thalidomide.", 
+            "Pyridoxine (Vitamin B6) alone or in combination with Doxylamine.", 
+            "Misoprostol."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q101', 
+        topic: 'Dermatology & Counseling', 
+        question: "A patient with new onset hives (urticaria) asks for an OTC solution. What is the initial recommendation?", 
+        choices: [
+            "Topical antibiotic cream.", 
+            "Oral antihistamine (e.g., Loratadine, Cetirizine) and avoid triggers.", 
+            "Strong topical steroid."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q102', 
+        topic: 'Respiratory & Counseling', 
+        question: "A patient who smokes heavily has a persistent cough. What is the most important counseling advice for them?", 
+        choices: [
+            "Try a cough suppressant for long-term use.", 
+            "Strongly advise smoking cessation and recommend a medical evaluation for the cough.", 
+            "The cough is normal for smokers."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q103', 
+        topic: 'Drug Interactions & Systemic Effects', 
+        question: "A patient on Warfarin is prescribed a short course of high-dose Trimethoprim/Sulfamethoxazole (Bactrim). What is the most critical interaction to monitor for?", 
+        choices: [
+            "Increased risk of skin rash.", 
+            "Significant increase in INR, leading to a high risk of bleeding.", 
+            "Decreased effectiveness of Bactrim."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q104', 
+        topic: 'Immunizations & Child Schedule', 
+        question: "A parent asks about the Rotavirus vaccine for their infant. What is a key characteristic of this vaccine regarding administration?", 
+        choices: [
+            "It is an injectable vaccine given in multiple doses up to 1 year of age.", 
+            "It is an oral vaccine given in multiple doses, typically before 8 months of age.", 
+            "It is a single dose given at 12 months."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q105', 
+        topic: 'Cardiology & OTC', 
+        question: "A patient with atrial fibrillation on a direct oral anticoagulant (DOAC, e.g., Rivaroxaban) asks for an OTC pain reliever for a severe headache. Which OTC medication should be avoided due to significant bleeding risk?", 
+        choices: [
+            "Acetaminophen.", 
+            "Ibuprofen (NSAID).", 
+            "Topical Lidocaine cream."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q106', 
+        topic: 'Geriatrics & Polypharmacy', 
+        question: "An elderly patient reports significant dry mouth and constipation after starting a new medication. Which class of medications is highly likely to cause these anticholinergic side effects?", 
+        choices: [
+            "ACE inhibitors.", 
+            "Antihistamines (first-generation like Diphenhydramine) or tricyclic antidepressants.", 
+            "Statins."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q107', 
+        topic: 'Endocrinology & OTC', 
+        question: "A patient with Type 1 Diabetes is experiencing a mild cold and asks for an OTC cough syrup. What type of cough syrup is generally best to recommend to avoid blood sugar spikes?", 
+        choices: [
+            "Sugar-containing cough syrup.", 
+            "Sugar-free cough syrup.", 
+            "Alcohol-containing cough syrup."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q108', 
+        topic: 'Drug Administration & Patient Safety', 
+        question: "A patient asks if they can split their enteric-coated tablet in half to make it easier to swallow. What is the most important counseling point?", 
+        choices: [
+            "Yes, all tablets can be split.", 
+            "No, splitting enteric-coated tablets can destroy the coating, leading to stomach irritation or improper drug absorption.", 
+            "Only if taken with food."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q109', 
+        topic: 'Toxicology & Prevention', 
+        question: "A parent asks about child-proofing their home pharmacy. What is the most effective single measure to prevent accidental medication ingestion by children?", 
+        choices: [
+            "Store all medications on a high shelf.", 
+            "Keep all medications in their original, child-resistant containers, locked up and out of sight.", 
+            "Tell children not to touch medications."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q110', 
+        topic: 'Drug Information & Resources', 
+        question: "A pharmacist needs to quickly verify a drug interaction not commonly seen. What is the most reliable and up-to-date resource for this information?", 
+        choices: [
+            "A general internet search.", 
+            "A comprehensive drug information database (e.g., Lexicomp, Micromedex) or a pharmacist's clinical judgment.", 
+            "An old textbook from pharmacy school."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q111', 
+        topic: 'Respiratory & Counseling', 
+        question: "A patient with chronic bronchitis is prescribed an inhaled corticosteroid (ICS). What is a common local side effect and a counseling point to minimize it?", 
+        choices: [
+            "Increased risk of pneumonia; stop taking if any cough develops.", 
+            "Oral candidiasis (thrush); rinse mouth with water after each use.", 
+            "Increased heart rate; take only when symptoms are severe."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q112', 
+        topic: 'Drug Interactions & Cardiovascular', 
+        question: "A patient on Amlodipine for hypertension reports taking a new herbal supplement, Licorice Root, for digestive issues. What is a potential concern?", 
+        choices: [
+            "No interaction; Licorice Root is generally safe.", 
+            "Licorice Root can cause sodium and water retention, potentially elevating blood pressure and counteracting Amlodipine.", 
+            "Licorice Root will cause a significant drop in blood pressure."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q113', 
+        topic: 'Immunizations & Special Populations', 
+        question: "A patient with asplenia (no spleen) due to a prior splenectomy asks about vaccinations. Which specific vaccines are crucial for this patient due to increased infection risk?", 
+        choices: [
+            "Only the annual flu shot.", 
+            "Pneumococcal, Meningococcal, and Haemophilus influenzae type b (Hib) vaccines.", 
+            "No special vaccines are needed after splenectomy."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q114', 
+        topic: 'Pain Management & Side Effects', 
+        question: "A patient on long-term opioid therapy for chronic non-cancer pain complains of severe constipation unresponsive to diet/fiber. What is the most appropriate initial pharmacological intervention?", 
+        choices: [
+            "Increasing the opioid dose.", 
+            "Prescribing an opioid-induced constipation (OIC) specific laxative (e.g., senna and docusate, or prescription OIC agents).", 
+            "Recommending an antidiarrheal like Loperamide."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q115', 
+        topic: 'Dermatology & Counseling', 
+        question: "A parent asks about treating head lice in their child. After applying an OTC permethrin product, what is a crucial next step for effective eradication?", 
+        choices: [
+            "Wash hair immediately after application.", 
+            "Leave the product on for the recommended time, then use a fine-toothed comb to remove nits and repeat treatment in 7-10 days.", 
+            "Use a regular comb to remove nits."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q116', 
+        topic: 'Gastroenterology & Drug-Induced', 
+        question: "A patient on chronic NSAID therapy (e.g., Ibuprofen) for arthritis develops new onset stomach pain and dark, tarry stools. What is the most likely cause?", 
+        choices: [
+            "Simple indigestion.", 
+            "NSAID-induced peptic ulcer or GI bleeding.", 
+            "Food poisoning."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q117', 
+        topic: 'Pediatrics & Medication Dosing', 
+        question: "A parent asks for the correct dose of liquid acetaminophen for their 18-pound (8.2 kg) child. The standard dose is 10-15 mg/kg per dose. What is the appropriate dose range?", 
+        choices: [
+            "50-80 mg.", 
+            "82-123 mg.", 
+            "150-225 mg."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q118', 
+        topic: 'Drug Storage & Patient Safety', 
+        question: "A patient receives a new prescription for nitroglycerin sublingual tablets. What is a crucial counseling point regarding their storage to maintain potency?", 
+        choices: [
+            "Store in the refrigerator.", 
+            "Keep in the original amber glass bottle, tightly capped, away from light and moisture.", 
+            "Store in a weekly pill organizer."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q119', 
+        topic: 'Endocrinology & OTC', 
+        question: "A patient with diabetes asks about using an alcohol-based hand sanitizer. What is a potential concern regarding its use and glucose monitoring?", 
+        choices: [
+            "Alcohol will always cause a false high reading.", 
+            "Residual alcohol on the fingers can lead to falsely *low* blood glucose readings if not allowed to dry completely before testing.", 
+            "Alcohol interacts with test strips."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q120', 
+        topic: 'Drug Information & Contraindications', 
+        question: "A male patient with benign prostatic hyperplasia (BPH) reports he feels drowsy after taking his new OTC cold medication containing Diphenhydramine. What is the primary concern for BPH patients taking this ingredient?", 
+        choices: [
+            "Diphenhydramine can cause priapism.", 
+            "Anticholinergic effects can worsen urinary retention in BPH.", 
+            "It will not affect their BPH."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q121', 
+        topic: 'Opioid Safety & Harm Reduction', 
+        question: "A patient is prescribed a new high-dose opioid. What is an essential harm reduction strategy the pharmacist should discuss with them or their caregiver?", 
+        choices: [
+            "Encourage sharing unused medication.", 
+            "Counsel on safe storage, proper disposal of unused medication, and potential need for Naloxone.", 
+            "Advise crushing tablets for faster relief."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q122', 
+        topic: 'Renal Impairment & Drug Elimination', 
+        question: "Why is a common pain reliever like Ibuprofen problematic in advanced renal failure?", 
+        choices: [
+            "It is exclusively metabolized by the liver, putting strain on kidneys.", 
+            "It can cause acute kidney injury or worsen existing chronic kidney disease by affecting renal blood flow.", 
+            "It gets eliminated too quickly, leading to ineffective pain relief."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q123', 
+        topic: 'Cardiology & Drug Counseling', 
+        question: "A patient on a beta-blocker (e.g., Metoprolol) for heart rate control complains of feeling unusually tired and dizzy. What is a key counseling point regarding these symptoms?", 
+        choices: [
+            "These are signs the medication isn't working.", 
+            "These can be common side effects, especially initially, and should be reported to their doctor if persistent or severe.", 
+            "They should stop the medication immediately."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q124', 
+        topic: 'OTC & Constipation', 
+        question: "An elderly patient with chronic constipation asks for a long-term, gentle laxative. Which type is generally considered safest and most appropriate for regular use?", 
+        choices: [
+            "Stimulant laxatives (e.g., Senna).", 
+            "Bulk-forming laxatives (e.g., Psyllium) or osmotic laxatives (e.g., Polyethylene Glycol).", 
+            "Magnesium citrate for daily use."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q125', 
+        topic: 'Immunosuppression & Fungal Infections', 
+        question: "A patient on chronic oral corticosteroids for an autoimmune condition reports new white patches on their tongue and inner cheeks that can be scraped off. What should the pharmacist suspect?", 
+        choices: [
+            "Geographic tongue.", 
+            "Oral candidiasis (thrush).", 
+            "Aphthous ulcers."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q126', 
+        topic: 'Women\'s Health & OTC', 
+        question: "A patient reports experiencing severe premenstrual syndrome (PMS) symptoms including mood swings and breast tenderness. Which OTC supplement may offer some relief for these specific symptoms?", 
+        choices: [
+            "Iron.", 
+            "Magnesium or Vitamin B6.", 
+            "High-dose Vitamin C."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q127', 
+        topic: 'Drug Classes & Mechanism', 
+        question: "What is the primary mechanism of action for ACE inhibitors (e.g., Lisinopril) in treating hypertension?", 
+        choices: [
+            "Increase heart rate.", 
+            "Block the conversion of Angiotensin I to Angiotensin II, leading to vasodilation and reduced fluid retention.", 
+            "Directly relax smooth muscle in blood vessel walls."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q128', 
+        topic: 'Drug Information & Adverse Events', 
+        question: "A patient calls reporting sudden, severe muscle pain and dark urine after starting a new statin medication a few days ago. What serious adverse event should the pharmacist be most concerned about and advise immediate medical attention for?", 
+        choices: [
+            "Simple muscle strain.", 
+            "Rhabdomyolysis.", 
+            "Kidney stones."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q129', 
+        topic: 'Vaccinations & Adult Schedule', 
+        question: "A healthy adult (45 years old) asks about a Tetanus, Diphtheria, and Pertussis (Tdap) booster. How often is a Td booster typically recommended for adults?", 
+        choices: [
+            "Every 5 years.", 
+            "Every 10 years, with a single Tdap dose if never received.", 
+            "Only after a deep cut."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q130', 
+        topic: 'Drug Interactions & Electrolytes', 
+        question: "A patient on Lisinopril for hypertension is also taking a potassium-sparing diuretic (e.g., Triamterene). What is the primary electrolyte imbalance risk with this combination?", 
+        choices: [
+            "Hypokalemia.", 
+            "Hyperkalemia.", 
+            "Hyponatremia."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q131', 
+        topic: 'Pediatrics & Nasal Congestion', 
+        question: "A parent asks for an OTC nasal decongestant for their 6-month-old infant with a stuffy nose. What is the safest and most appropriate recommendation?", 
+        choices: [
+            "Oral pseudoephedrine drops.", 
+            "Saline nasal drops/spray and nasal aspirator.", 
+            "Oxymetazoline nasal spray."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q132', 
+        topic: 'Gastroenterology & Lifestyle', 
+        question: "A patient with recurrent heartburn and indigestion asks for non-pharmacological advice. What is a key lifestyle modification to suggest?", 
+        choices: [
+            "Eat large meals right before bedtime.", 
+            "Avoid trigger foods, eat smaller meals, avoid lying down immediately after eating, and elevate the head of the bed.", 
+            "Drink more carbonated beverages."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q133', 
+        topic: 'Emergency Medicine & Anaphylaxis', 
+        question: "A patient with a known severe allergy (e.g., bee stings, peanuts) has an EpiPen. When should they be counseled to use it?", 
+        choices: [
+            "Only after calling 911.", 
+            "Immediately at the first signs of a severe allergic reaction (anaphylaxis), then seek emergency medical care.", 
+            "Only for mild localized reactions."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q134', 
+        topic: 'Drug Administration & Absorption', 
+        question: "Why should Tetracycline antibiotics (e.g., Doxycycline) be taken separately from dairy products, antacids, or iron supplements?", 
+        choices: [
+            "To prevent stomach upset.", 
+            "These products can chelate (bind to) Tetracyclines, significantly reducing their absorption and effectiveness.", 
+            "It improves their taste."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q135', 
+        topic: 'Travel Health & Malaria', 
+        question: "A patient traveling to a malaria-endemic region for a short trip (1 week) asks about prophylaxis. What is a key counseling point regarding antimalarial medication?", 
+        choices: [
+            "Start medication upon arrival in the region.", 
+            "Start medication before travel, continue during the trip, and for a specified period after returning, as prescribed.", 
+            "Only take if symptoms of malaria develop."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q136', 
+        topic: 'Drug Monitoring & Liver Function', 
+        question: "A patient on high-dose statin therapy for dyslipidemia reports persistent fatigue and nausea, and has noticed their urine is darker. What liver-related issue should be a primary concern?", 
+        choices: [
+            "Normal adjustment to the medication.", 
+            "Drug-induced liver injury (hepatotoxicity), requiring immediate medical evaluation.", 
+            "Kidney stone formation."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q137', 
+        topic: 'OTC & Sleep', 
+        question: "A patient with chronic insomnia asks for a long-term OTC sleep solution. What is a key caution regarding regular use of Diphenhydramine (Benadryl) for sleep in older adults?", 
+        choices: [
+            "It is highly effective and safe for long-term use.", 
+            "It can lead to tolerance, rebound insomnia, and increased risk of anticholinergic side effects (e.g., confusion, falls) in older adults.", 
+            "It will improve their memory."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q138', 
+        topic: 'Antibiotic Counseling & Food', 
+        question: "A patient is prescribed Amoxicillin/Clavulanate (Augmentin). What is a common counseling point regarding taking this medication with food?", 
+        choices: [
+            "Take on an empty stomach for best absorption.", 
+            "Take with food to reduce gastrointestinal side effects like diarrhea and nausea.", 
+            "Avoid all dairy products while on this medication."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q139', 
+        topic: 'Pharmacy Law & Patient Rights', 
+        question: "A patient requests to see their pharmacy record and prescription history. What is the pharmacist's obligation regarding patient access to their records?", 
+        choices: [
+            "They can only see records if a doctor requests it.", 
+            "Patients generally have a legal right to access their own pharmacy records under privacy regulations (e.g., HIPAA).", 
+            "Pharmacy records are confidential and cannot be viewed by patients."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q140', 
+        topic: 'Diabetes & Foot Care', 
+        question: "A diabetic patient asks about managing a small cut on their foot. What is the most critical advice?", 
+        choices: [
+            "Ignore it, it will heal on its own.", 
+            "Clean the wound thoroughly, apply a sterile dressing, and monitor closely for any signs of infection, seeking medical attention if needed.", 
+            "Apply hydrogen peroxide daily."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q141', 
+        topic: 'Anticoagulation & Management', 
+        question: "A patient on Warfarin has an INR of 4.5 (target usually 2-3). They have no signs of bleeding. What is the most likely initial recommendation from their doctor or pharmacist?", 
+        choices: [
+            "Increase Warfarin dose.", 
+            "Hold one or two doses of Warfarin and recheck INR soon.", 
+            "Start aspirin immediately."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q142', 
+        topic: 'OTC & Minor Burns', 
+        question: "For a first-degree burn (redness, pain, no blisters), what OTC topical treatment is generally recommended for soothing and healing?", 
+        choices: [
+            "Topical antibiotic cream.", 
+            "Aloe vera gel or a mild moisturizer.", 
+            "Rubbing alcohol."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q143', 
+        topic: 'Respiratory & Allergies', 
+        question: "A patient with chronic allergic rhinitis is prescribed an intranasal corticosteroid spray. What is the most important counseling point for correct administration technique?", 
+        choices: [
+            "Spray directly onto the nasal septum (middle wall).", 
+            "Aim the spray away from the nasal septum towards the outer wall of the nostril, avoiding sniffing vigorously after spraying.", 
+            "Inhale deeply through the nose while spraying."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q144', 
+        topic: 'Drug Information & Pediatric Dosing', 
+        question: "A parent states they found an adult cold medication and want to give a quarter of the tablet to their 4-year-old child. What is the pharmacist's most appropriate response?", 
+        choices: [
+            "It's safe as long as the dose is reduced.", 
+            "Strongly advise against it; adult medications are not safely divisible for children, and specific pediatric formulations/doses are required.", 
+            "Only if they crush it well."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q145', 
+        topic: 'Immunizations & Adult Schedule', 
+        question: "A patient (60 years old) with no significant medical history asks about the Hepatitis B vaccine. What is the current recommendation for this age group?", 
+        choices: [
+            "Only if they are a healthcare worker.", 
+            "Recommended for all adults without evidence of prior infection or immunity.", 
+            "Not recommended after age 50."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q146', 
+        topic: 'Women\'s Health & Contraception', 
+        question: "A patient on oral contraceptives is prescribed a new antibiotic (e.g., Rifampin). What is the primary concern and counseling point?", 
+        choices: [
+            "Antibiotics always make oral contraceptives ineffective.", 
+            "Rifampin specifically can decrease the effectiveness of oral contraceptives; advise using back-up contraception.", 
+            "No interaction; antibiotics are safe with birth control."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q147', 
+        topic: 'Dietary Supplements & Interactions', 
+        question: "A patient on immunosuppressants (e.g., Tacrolimus) for a transplant asks about taking Echinacea for cold prevention. What is a potential interaction?", 
+        choices: [
+            "Echinacea enhances the effect of immunosuppressants.", 
+            "Echinacea can stimulate the immune system, potentially counteracting immunosuppressants and increasing risk of rejection.", 
+            "No known interaction."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q148', 
+        topic: 'OTC & Analgesics', 
+        question: "A patient with a history of heart attack and on daily aspirin asks for an OTC pain reliever for a muscle ache. Which OTC analgesic should be specifically avoided or used with extreme caution due to its interaction with aspirin?", 
+        choices: [
+            "Acetaminophen.", 
+            "Ibuprofen (NSAID), which can interfere with aspirin's antiplatelet effect.", 
+            "Topical diclofenac gel."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q149', 
+        topic: 'Drug Information & Patient Education', 
+        question: "A patient is prescribed a new medication that requires refrigeration. What is a key counseling point if they are traveling and cannot access refrigeration?", 
+        choices: [
+            "The medication is ruined if not refrigerated for even a short period.", 
+            "Discuss maintaining a cold chain (e.g., with ice packs) or whether a short period at room temperature is permissible, and for how long.", 
+            "They should just skip doses while traveling."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q150', 
+        topic: 'Pharmacy Ethics & Scope of Practice', 
+        question: "A patient asks the pharmacist to diagnose their unexplained abdominal pain. What is the most ethical and appropriate response?", 
+        choices: [
+            "Attempt to diagnose based on symptoms.", 
+            "Explain that pharmacists cannot diagnose conditions and advise them to see a doctor for proper diagnosis and treatment.", 
+            "Recommend an OTC medication for general pain relief."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q151', 
+        topic: 'OTC & Wound Care', 
+        question: "For a superficial wound, what is the most important step in wound care after cleaning to promote healing and prevent infection?", 
+        choices: [
+            "Leave the wound exposed to air to dry out.", 
+            "Keep the wound moist with a sterile dressing and consider a topical antibiotic ointment.", 
+            "Apply hydrogen peroxide multiple times a day."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 30 
+    },
+    { 
+        id: 'q152', 
+        topic: 'Drug Classes & Indications', 
+        question: "A patient asks about a medication for their 'cholesterol.' Which class of drugs specifically lowers LDL ('bad') cholesterol by blocking its production in the liver?", 
+        choices: [
+            "Beta-blockers.", 
+            "Statins (HMG-CoA Reductase Inhibitors).", 
+            "Diuretics."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q153', 
+        topic: 'Pediatrics & Medication Safety', 
+        question: "A parent expresses concern about giving their child (5 years old) liquid medication because they don't like the taste. What is a safe and appropriate suggestion?", 
+        choices: [
+            "Mix it with a large amount of milk.", 
+            "Mix with a small amount of palatable food or drink (e.g., applesauce, juice), avoiding essential foods or large volumes.", 
+            "Force them to take it quickly."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q154', 
+        topic: 'Drug Interactions & Food', 
+        question: "A patient on Monoamine Oxidase Inhibitor (MAOI) antidepressants (e.g., Tranylcypromine) asks about dietary restrictions. What type of food is critical to avoid due to the risk of hypertensive crisis?", 
+        choices: [
+            "Dairy products.", 
+            "Tyramine-rich foods (e.g., aged cheeses, cured meats, tap beer).", 
+            "Fresh fruits and vegetables."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q155', 
+        topic: 'Immunizations & Adverse Reactions', 
+        question: "A patient reports a sore arm, low-grade fever, and mild muscle aches the day after receiving a vaccine. What is the most appropriate advice?", 
+        choices: [
+            "These are signs of a severe allergic reaction.", 
+            "These are common and expected mild side effects; suggest rest and acetaminophen/ibuprofen if needed.", 
+            "They should go to the emergency room immediately."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q156', 
+        topic: 'Diabetes & Glucometers', 
+        question: "A diabetic patient asks why their home glucometer readings sometimes differ slightly from laboratory blood tests. What is the most likely reason?", 
+        choices: [
+            "Their glucometer is faulty.", 
+            "Home glucometers measure capillary blood, while lab tests measure plasma, leading to slight variations; proper calibration and technique are key.", 
+            "Dietary changes immediately before testing."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    { 
+        id: 'q157', 
+        topic: 'Controlled Substances & Security', 
+        question: "A pharmacist notices a pattern of multiple controlled substance prescriptions from different prescribers for the same patient. What is the appropriate action?", 
+        choices: [
+            "Fill all prescriptions without questioning.", 
+            "Investigate for potential drug diversion or 'doctor shopping' by checking prescription drug monitoring programs (PDMP) and contacting prescribers.", 
+            "Deny all prescriptions immediately and call the police."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 50 
+    },
+    { 
+        id: 'q158', 
+        topic: 'OTC & Eye Care', 
+        question: "A patient with pink eye (conjunctivitis) asks for an OTC solution. What type of pink eye generally does NOT require an antibiotic eye drop and often resolves on its own?", 
+        choices: [
+            "Bacterial conjunctivitis.", 
+            "Viral conjunctivitis.", 
+            "Allergic conjunctivitis."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 40 
+    },
+    { 
+        id: 'q159', 
+        topic: 'Drug Administration & Suppositories', 
+        question: "A patient is prescribed a rectal suppository. What is a key counseling point regarding its administration?", 
+        choices: [
+            "Insert the rounded end first.", 
+            "Insert the pointed end first, and remain lying down for a few minutes after insertion.", 
+            "Refrigerate the suppository and insert it frozen."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 35 
+    },
+    { 
+        id: 'q160', 
+        topic: 'Drug Information & Patient Safety', 
+        question: "A patient finds an old, unlabeled bottle of medication and asks if it's okay to take. What is the most important advice?", 
+        choices: [
+            "It's likely safe if it was prescribed to them before.", 
+            "Never take unlabeled medication; it's impossible to verify its contents, dosage, or expiration, leading to potential harm. Advise proper disposal.", 
+            "Try a small dose to see if it works."
+        ], 
+        correctAnswerIndex: 1, 
+        points: 45 
+    },
+    {
+        id: 'q161',
+        topic: 'Pharmacogenomics',
+        question: "A patient asks about pharmacogenomic testing for their antidepressant. What is the main potential benefit of such testing?",
+        choices: [
+            "It guarantees that the medication will have no side effects.",
+            "It can help predict how a patient might respond to certain drugs based on their genetic makeup, potentially guiding medication selection or dosing.",
+            "It eliminates the need for any further medication monitoring."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q162',
+        topic: 'Drug Interactions & Herbal Supplements',
+        question: "A patient on Warfarin reports using a new herbal supplement, **Danshen** (Salvia miltiorrhiza), for heart health. What is the most critical interaction to counsel them on?",
+        choices: [
+            "Danshen will reduce the INR, making Warfarin less effective.",
+            "Danshen can significantly increase the anticoagulant effect of Warfarin, raising the risk of bleeding.",
+            "Danshen has no known interaction with Warfarin."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q163',
+        topic: 'Pediatrics & Decongestants',
+        question: "A parent wants to use an OTC nasal spray containing Oxymetazoline for their 2-year-old's severe congestion. What is the primary caution for using this product in young children?",
+        choices: [
+            "It causes severe allergic reactions in children.",
+            "Risk of rebound congestion (Rhinitis Medicamentosa) and systemic side effects if used for more than a few days or in excessive doses.",
+            "It is completely ineffective in children under 6."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q164',
+        topic: 'Diabetic Complications',
+        question: "A patient with long-standing diabetes complains of tingling, numbness, and burning pain in their feet. What is the most likely diabetic complication this describes?",
+        choices: [
+            "Diabetic retinopathy.",
+            "Diabetic neuropathy.",
+            "Diabetic nephropathy."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q165',
+        topic: 'Immunizations & Adult Schedule',
+        question: "A healthy adult (30 years old) who never had chickenpox asks about protection. Which vaccine is recommended for adults without evidence of immunity to chickenpox?",
+        choices: [
+            "MMR vaccine.",
+            "Varicella (chickenpox) vaccine.",
+            "Influenza vaccine."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q166',
+        topic: 'Drug Counseling & Adherence',
+        question: "A patient on daily oral antibiotics for a skin infection tells you they feel much better after two days and plan to stop taking them. What is the most important counseling point?",
+        choices: [
+            "It's fine to stop if symptoms improve.",
+            "Completing the full course of antibiotics is crucial to fully eradicate the infection and prevent antibiotic resistance.",
+            "They should save the remaining pills for a future infection."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q167',
+        topic: 'Gastroenterology & Drug-Induced',
+        question: "A patient on chronic opioid therapy develops severe constipation. What is the primary mechanism by which opioids cause constipation?",
+        choices: [
+            "They increase gut motility.",
+            "They decrease gut motility and fluid secretion in the intestines.",
+            "They cause dehydration."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q168',
+        topic: 'Cardiology & OTC',
+        question: "A patient with a history of heart failure is asking for an OTC product to help with occasional leg cramps, but they also use a potassium-sparing diuretic. Which OTC product should be avoided due to potential electrolyte imbalance?",
+        choices: [
+            "Magnesium supplement.",
+            "Potassium chloride supplement.",
+            "Calcium carbonate."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q169',
+        topic: 'Drug Formulations & Administration',
+        question: "A parent has a prescription for liquid suspension medication for their child and notices sediment at the bottom of the bottle. What is the appropriate action before administering a dose?",
+        choices: [
+            "Discard the medication immediately.",
+            "Shake the bottle well to re-disperse the medication evenly.",
+            "Pour out the clear liquid, avoiding the sediment."
+        ],
+        correctAnswerIndex: 1,
+        points: 30
+    },
+    {
+        id: 'q170',
+        topic: 'Travel Health & Vaccinations',
+        question: "A patient is traveling to an area where Cholera is endemic. What type of vaccine is the oral cholera vaccine?",
+        choices: [
+            "Inactivated (killed) vaccine.",
+            "Live attenuated vaccine.",
+            "Toxoid vaccine."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q171',
+        topic: 'Women\'s Health & OTC',
+        question: "A patient suspects she has bacterial vaginosis (BV) and asks for an OTC treatment. What is the appropriate pharmacist's advice?",
+        choices: [
+            "Recommend an OTC yeast infection treatment.",
+            "Advise consultation with a doctor, as BV requires prescription antibiotics and OTC products are ineffective.",
+            "Suggest a probiotic vaginal insert."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q172',
+        topic: 'Pain Management & NSAIDs',
+        question: "A patient on chronic NSAID therapy for arthritis develops signs of fluid retention (e.g., swollen ankles). What is the primary mechanism by which NSAIDs can cause this?",
+        choices: [
+            "They increase kidney's ability to excrete fluid.",
+            "They inhibit prostaglandin synthesis, which can lead to sodium and water retention and peripheral edema.",
+            "They directly damage blood vessels."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q173',
+        topic: 'Endocrinology & OTC',
+        question: "A diabetic patient asks about foot moisturizers. Which type of ingredient should they generally avoid in a moisturizer, especially if they have neuropathy?",
+        choices: [
+            "Lanolin.",
+            "Fragrances, dyes, or harsh chemicals that can irritate sensitive skin.",
+            "Urea."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q174',
+        topic: 'Drug Information & Patient Safety',
+        question: "A patient is prescribed a medication with a narrow therapeutic index (e.g., Digoxin, Lithium). What does a narrow therapeutic index mean?",
+        choices: [
+            "The drug has very few side effects.",
+            "There is a small difference between the therapeutic dose and a toxic dose, requiring careful monitoring.",
+            "The drug is effective only at very high doses."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q175',
+        topic: 'Geriatrics & Medication Review',
+        question: "When conducting a medication review for an elderly patient on multiple medications, what is a key goal regarding potentially inappropriate medications (PIMs)?",
+        choices: [
+            "Add more medications to address all minor symptoms.",
+            "Identify and, where appropriate, deprescribe or switch PIMs to reduce adverse drug events and improve outcomes.",
+            "Maintain all current medications without changes."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q176',
+        topic: 'Antibiotic Stewardship & Viral Infections',
+        question: "A patient with a sore throat, runny nose, and sneezing (typical viral cold symptoms) demands an antibiotic. What is the most appropriate response from the pharmacist?",
+        choices: [
+            "Dispense an antibiotic to satisfy the patient.",
+            "Educate the patient that antibiotics are not effective against viral infections and provide symptomatic relief recommendations.",
+            "Suggest taking leftover antibiotics from a previous infection."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q177',
+        topic: 'Dermatology & OTC',
+        question: "A patient with chronic dry, itchy skin (eczema) asks for an OTC moisturizer. What type of moisturizer is generally best recommended?",
+        choices: [
+            "Light lotions with added fragrances.",
+            "Thick creams or ointments (e.g., petroleum jelly-based) applied immediately after bathing.",
+            "Alcohol-based gels for quick absorption."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q178',
+        topic: 'Drug Interactions & Lifestyle',
+        question: "A patient on Metronidazole (an antibiotic) reports wanting to have an alcoholic drink. What is a critical counseling point?",
+        choices: [
+            "Alcohol enhances Metronidazole's effectiveness.",
+            "Concurrent alcohol use with Metronidazole can cause a disulfiram-like reaction (nausea, vomiting, flushing, tachycardia).",
+            "There is no interaction with alcohol."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q179',
+        topic: 'Immunizations & Adult Schedule',
+        question: "A patient (55 years old) who smokes and has a history of asthma asks about the pneumonia vaccine. Which specific pneumococcal vaccine is currently recommended for adults with chronic lung conditions or who smoke?",
+        choices: [
+            "Only the seasonal flu vaccine.",
+            "Pneumococcal conjugate vaccine (PCV13) and/or Pneumococcal polysaccharide vaccine (PPSV23) depending on their vaccination history and age.",
+            "No pneumonia vaccine is needed for adults."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q180',
+        topic: 'Pharmacy Law & Controlled Substances',
+        question: "A patient presents a prescription for a Schedule II controlled substance that appears altered. What is the pharmacist's legal and ethical obligation?",
+        choices: [
+            "Fill it if it looks mostly legitimate.",
+            "Verify the prescription's authenticity with the prescriber and document any discrepancies; do not fill if invalid.",
+            "Fill it, but keep a record of the alteration."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q181',
+        topic: 'Respiratory & Inhaler Technique',
+        question: "A patient is prescribed a dry powder inhaler (DPI) for asthma. What is a key difference in technique compared to an MDI?",
+        choices: [
+            "DPIs require a slow, gentle inhalation.",
+            "DPIs require a rapid and forceful inhalation to ensure the powder is delivered.",
+            "DPIs do not require inhalation at all."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q182',
+        topic: 'Ophthalmology & OTC',
+        question: "A patient with chronic dry eyes asks about using redness-relieving eye drops frequently (e.g., Visine). What is a significant concern with prolonged daily use of these drops?",
+        choices: [
+            "They improve long-term eye health.",
+            "They can cause rebound redness and worsen dry eye symptoms over time.",
+            "They are completely harmless for daily use."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q183',
+        topic: 'Diabetes & Insulin Storage',
+        question: "A diabetic patient calls, concerned that their insulin vial accidentally froze. What should they do?",
+        choices: [
+            "Thaw it out and use it immediately.",
+            "Discard the frozen insulin, as freezing can damage the insulin molecule, rendering it ineffective.",
+            "Place it in warm water to rapidly thaw."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q184',
+        topic: 'Women\'s Health & Contraception',
+        question: "A patient on oral contraceptives misses three or more active pills in the first week of her cycle. What is the most appropriate advice?",
+        choices: [
+            "Take all missed pills immediately and continue the pack as usual.",
+            "Take the most recent missed pill, discard others, and use back-up contraception for 7 days. Consider emergency contraception if unprotected intercourse occurred.",
+            "Stop the current pack and start a new one next month."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q185',
+        topic: 'Dietary Supplements & Safety',
+        question: "A patient asks about using a 'fat-burning' dietary supplement they saw online. What is the most important caution regarding unregulated dietary supplements?",
+        choices: [
+            "They are always effective if sold online.",
+            "They may contain undisclosed or harmful ingredients, interact with medications, and lack evidence of efficacy or safety.",
+            "They are approved by the FDA before sale."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q186',
+        topic: 'Toxicology & Prevention',
+        question: "What is the primary role of Activated Charcoal in managing certain acute oral poisonings?",
+        choices: [
+            "It directly neutralizes the poison in the bloodstream.",
+            "It adsorbs (binds to) toxins in the gastrointestinal tract, preventing their absorption into the bloodstream.",
+            "It causes rapid excretion of the poison through the kidneys."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q187',
+        topic: 'Pain Management & Dose Limits',
+        question: "What is the maximum daily dose of acetaminophen for a healthy adult to avoid liver toxicity?",
+        choices: [
+            "2000 mg.",
+            "3000 mg to 4000 mg (depending on specific product/guidelines).",
+            "6000 mg."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q188',
+        topic: 'Drug Information & Generics',
+        question: "A patient asks why their generic medication looks different from the brand-name drug they previously took. What is the most accurate explanation?",
+        choices: [
+            "Generic drugs are always less effective.",
+            "Generic drugs contain the same active ingredient and work the same way as brand-name drugs, but may differ in inactive ingredients, shape, or color.",
+            "Generic drugs are made by completely different standards."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q189',
+        topic: 'Immunizations & Flu Shot',
+        question: "Why is it important to get a new flu shot every year?",
+        choices: [
+            "The vaccine only lasts for 6 months.",
+            "Flu viruses constantly change, and the vaccine is updated annually to match the circulating strains.",
+            "The vaccine provides lifelong immunity, but a booster is needed."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q190',
+        topic: 'Pharmacy Ethics & Confidentiality',
+        question: "A friend calls the pharmacy asking for information about a patient's prescription history. What is the pharmacist's ethical and legal obligation?",
+        choices: [
+            "Provide the information if they are a close friend.",
+            "Decline to provide any patient information due to patient confidentiality laws (e.g., HIPAA).",
+            "Ask the patient for permission later."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q191',
+        topic: 'Respiratory & Asthma Triggers',
+        question: "A patient with asthma is experiencing frequent exacerbations. What common indoor environmental trigger should they be advised to minimize?",
+        choices: [
+            "Fresh air.",
+            "Dust mites, pet dander, mold, and tobacco smoke.",
+            "Clean water."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q192',
+        topic: 'First Aid & Sprains',
+        question: "A patient has a mild ankle sprain. What is the initial first-aid advice using the R.I.C.E. method?",
+        choices: [
+            "Run on it to stretch the muscles.",
+            "Rest, Ice, Compression, Elevation.",
+            "Apply heat immediately and massage vigorously."
+        ],
+        correctAnswerIndex: 1,
+        points: 30
+    },
+    {
+        id: 'q193',
+        topic: 'Drug Interactions & Antacids',
+        question: "A patient on Levothyroxine for hypothyroidism regularly takes an antacid containing aluminum and magnesium. What is the most important counseling point regarding this combination?",
+        choices: [
+            "Antacids enhance Levothyroxine absorption.",
+            "Antacids containing polyvalent cations (aluminum, magnesium, calcium) can bind to Levothyroxine, reducing its absorption; advise separating doses by at least 4 hours.",
+            "No interaction exists."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q194',
+        topic: 'Pediatrics & Vomiting',
+        question: "A parent calls, concerned their child (2 years old) is vomiting frequently. What is the primary concern and initial advice?",
+        choices: [
+            "Give them anti-nausea medication immediately.",
+            "Risk of dehydration; encourage small, frequent sips of oral rehydration solution (ORS).",
+            "Withhold all food and drink for 24 hours."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q195',
+        topic: 'Immunizations & Adult Schedule',
+        question: "A patient (65 years old) asks about the vaccine for Respiratory Syncytial Virus (RSV). What is the current recommendation for this age group?",
+        choices: [
+            "Only if they have severe underlying lung disease.",
+            "A single dose of RSV vaccine is recommended for adults 60 years and older, based on shared clinical decision-making.",
+            "RSV vaccine is only for infants."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q196',
+        topic: 'Women\'s Health & UTIs',
+        question: "A patient complains of frequent, painful urination and urges. What is a common OTC product that can provide symptomatic relief for uncomplicated UTIs?",
+        choices: [
+            "Broad-spectrum antibiotic.",
+            "Phenazopyridine (urinary analgesic), which colors urine orange/red and doesn't treat infection.",
+            "A high-dose diuretic."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q197',
+        topic: 'Diabetes & Hypoglycemia',
+        question: "A diabetic patient on insulin suddenly becomes confused, sweaty, and shaky. What is the most immediate action to take if hypoglycemia is suspected?",
+        choices: [
+            "Administer more insulin.",
+            "Check blood glucose if possible; if low or suspected low, provide a fast-acting source of glucose (e.g., glucose tablets, juice).",
+            "Give them a large, protein-rich meal."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q198',
+        topic: 'Drug Administration & Eye Drops',
+        question: "What is the correct technique for administering eye drops to maximize absorption and minimize systemic absorption?",
+        choices: [
+            "Apply directly to the cornea (colored part of the eye).",
+            "Tilt head back, pull lower eyelid down to form a pouch, instill one drop, close eye gently, and apply nasolacrimal occlusion (press on inner corner of eye) for 1-2 minutes.",
+            "Blink rapidly after instilling drops."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q199',
+        topic: 'Pain Management & Chronic Conditions',
+        question: "A patient with a history of liver disease asks for an OTC pain reliever. Which option is generally preferred and less hepatotoxic at recommended doses?",
+        choices: [
+            "Ibuprofen.",
+            "Acetaminophen (at a lower maximum daily dose, e.g., 2000-3000mg, with medical supervision).",
+            "Naproxen."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q200',
+        topic: 'Pharmacy Operations & Patient Safety',
+        question: "What is the primary purpose of a 'counseling window' or 'consultation area' in a pharmacy?",
+        choices: [
+            "To allow patients to quickly pick up prescriptions.",
+            "To provide a private space for pharmacists to counsel patients on their medications and address questions.",
+            "To display OTC products more prominently."
+        ],
+        correctAnswerIndex: 1,
+        points: 30
+    },
+    {
+        id: 'q201',
+        topic: 'Hypertension & Lifestyle',
+        question: "A patient with newly diagnosed hypertension asks for non-pharmacological ways to lower blood pressure. What is a key lifestyle modification?",
+        choices: [
+            "Increase sodium intake.",
+            "Adopt the DASH (Dietary Approaches to Stop Hypertension) diet, limit sodium, engage in regular physical activity, and maintain a healthy weight.",
+            "Limit fluid intake severely."
+        ],
+        correctAnswerIndex: 1,
+        points: 35
+    },
+    {
+        id: 'q202',
+        topic: 'Travel Health & Mosquito Bites',
+        question: "A patient is traveling to a region with mosquito-borne diseases like Dengue. Besides mosquito repellents, what clothing advice is most helpful?",
+        choices: [
+            "Wear sleeveless shirts and shorts.",
+            "Wear long-sleeved shirts and long pants, especially at dawn and dusk.",
+            "Wear dark-colored clothing to attract mosquitoes away."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q203',
+        topic: 'Drug Interactions & Photosensitivity',
+        question: "A patient on Hydrochlorothiazide (a diuretic) reports an extreme sunburn despite minimal sun exposure. What is the most likely cause?",
+        choices: [
+            "They didn't apply enough sunscreen.",
+            "Hydrochlorothiazide can cause photosensitivity, increasing the risk of severe sunburn.",
+            "The sunburn is unrelated to the medication."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q204',
+        topic: 'Immunizations & Child Schedule',
+        question: "A parent asks about the MMR vaccine. What common misconception about this vaccine has been disproven by scientific evidence?",
+        choices: [
+            "It is highly effective against measles, mumps, and rubella.",
+            "It causes autism.",
+            "It needs to be given annually."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q205',
+        topic: 'Controlled Substances & Safe Disposal',
+        question: "A patient has unused opioid pain medication after surgery and asks how to dispose of it safely. What is the most appropriate advice?",
+        choices: [
+            "Flush them down the toilet.",
+            "Utilize drug take-back programs, mail-back programs, or mix with an undesirable substance (e.g., cat litter) and seal in a bag before disposal in household trash.",
+            "Keep them in the medicine cabinet for future use."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    },
+    {
+        id: 'q206',
+        topic: 'Pain Management & OTC Limitations',
+        question: "A patient with severe, acute abdominal pain asks for the strongest OTC pain reliever. What is the most appropriate action for the pharmacist?",
+        choices: [
+            "Recommend the maximum dose of ibuprofen.",
+            "Advise immediate medical evaluation, as severe abdominal pain could indicate a serious underlying condition.",
+            "Suggest applying a heat pack to the abdomen."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q207',
+        topic: 'Diabetes & Oral Medications',
+        question: "A patient on Metformin for Type 2 Diabetes experiences significant diarrhea after starting the medication. What is a common counseling point regarding this side effect?",
+        choices: [
+            "It means the medication isn't working.",
+            "Diarrhea is a common side effect, especially when starting; taking with food or using extended-release formulations can help.",
+            "They should stop the medication immediately."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q208',
+        topic: 'Drug Administration & Transdermal Patches',
+        question: "A patient is prescribed a transdermal patch (e.g., for pain or hormones). What is a crucial counseling point for proper application and safety?",
+        choices: [
+            "Apply to the same spot daily.",
+            "Apply to a clean, dry, hairless area of skin, rotating sites to prevent irritation, and remove the old patch before applying a new one.",
+            "Apply over a cut or rash for better absorption."
+        ],
+        correctAnswerIndex: 1,
+        points: 40
+    },
+    {
+        id: 'q209',
+        topic: 'Thyroid Disorders & Drug Interactions',
+        question: "A patient on Levothyroxine is prescribed a new iron supplement for anemia. What is the most important counseling point regarding the administration of these two medications?",
+        choices: [
+            "Take them together for better iron absorption.",
+            "Separate the administration of Levothyroxine and iron supplements by at least 4 hours to prevent reduced absorption of Levothyroxine.",
+            "Iron supplements can make Levothyroxine more effective."
+        ],
+        correctAnswerIndex: 1,
+        points: 45
+    },
+    {
+        id: 'q210',
+        topic: 'Pharmacy Ethics & Refusal to Fill',
+        question: "Under what circumstances might a pharmacist ethically and legally refuse to fill a prescription?",
+        choices: [
+            "If the patient seems annoying.",
+            "If they suspect the prescription is fraudulent, forged, or would cause harm to the patient.",
+            "If they are too busy to fill it at that moment."
+        ],
+        correctAnswerIndex: 1,
+        points: 50
+    }
+];
