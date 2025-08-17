@@ -1876,46 +1876,6 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     z-index: -1;
 }
 
-/* Styling for the OneSignal Custom Link Button */
-.onesignal-customlink-container {
-    /* Basic positioning and alignment if needed */
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center; /* Center the button if it's the only content in the div */
-}
-
-/* OneSignal injects a button or an anchor tag. Target that element directly. */
-.onesignal-customlink-container button,
-.onesignal-customlink-container a {
-    display: inline-block;
-    padding: 12px 25px;
-    border-radius: 8px; /* Slightly rounded corners */
-    font-size: 1rem;
-    font-weight: 600; /* Medium bold */
-    cursor: pointer;
-    text-decoration: none; /* Remove underline for links */
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    border: none; /* Remove default button border */
-    /* Use your site's accent colors */
-    background-color: var(--color-accent); /* Blue accent from your CSS */
-    color: white; /* White text */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
-}
-
-.onesignal-customlink-container button:hover,
-.onesignal-customlink-container a:hover {
-    background-color: var(--color-hover-accent); /* Dark red/maroon from your CSS */
-    transform: translateY(-2px); /* Slight lift effect */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-}
-
-/* Optional: Style for when the button is in a disabled/blocked state */
-.onesignal-customlink-container button:disabled,
-.onesignal-customlink-container a.onesignal-disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: #555; /* A greyed-out color */
-}
 	
     </style>
 </head>
