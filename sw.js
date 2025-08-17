@@ -4,7 +4,7 @@ importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
 // Define the cache name. Update this version number (e.g., v1, v2, v3)
 // whenever you make changes to the files listed in urlsToCache, or
 // if you want to force all users to get fresh versions of these assets.
-const CACHE_NAME = 'yusuf-alhelou-cache-v1';
+const CACHE_NAME = 'yusuf-alhelou-cache-v2';
 
 // List of URLs to precache during the service worker installation.
 // These are assets critical for basic site functionality, even offline.
