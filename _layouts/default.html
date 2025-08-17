@@ -82,7 +82,25 @@
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
-      appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a",
+      appId: "8edceb1f-eaad-4079-b7af-0c05f2d8c85a", // Your App ID
+      notifyButton: {
+        enable: false, 
+      },
+      promptOptions: {
+        customlink: {
+          enable: true,
+          style: "button", 
+          size: "medium",  
+          text: {
+            'subscribe': '🔔 Subscribe to Notifications',
+            'unsubscribe': '🔕 Unsubscribe from Notifications',
+          }
+        }
+      },
+      // THIS IS CRUCIAL: Explicitly tells OneSignal's SDK to NOT automatically register its own worker.
+      autoRegister: false,
+      // Useful for localhost testing, can keep or remove if only deploying to live domain
+      allowLocalhostAsSecureOrigin: true
     });
   });
 </script>
