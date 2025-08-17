@@ -1,3 +1,6 @@
+// This imports OneSignal's service worker code into existing service worker
+importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
+
 // Define the cache name. Update this version number (e.g., v1, v2, v3)
 // whenever you make changes to the files listed in urlsToCache, or
 // if you want to force all users to get fresh versions of these assets.
@@ -8,6 +11,7 @@ const CACHE_NAME = 'yusuf-alhelou-cache-v1';
 const urlsToCache = [
   '/',             // Cache the homepage (root URL)
   '/index.html',   // Ensure index.html is also cached
+  '/OneSignalSDKWorker.js',
   // paths to critical static assets
   // Example: your main stylesheet
   // Example: a critical image
