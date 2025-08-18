@@ -1,0 +1,24 @@
+name: IndexNow Submission
+
+on:
+  # This workflow runs when pushing a commit to the 'main' branch.
+  push:
+    branches: [ "main" ]
+  
+  # run on a schedule to check for changes regularly.
+  schedule:
+    - cron: '0 2 * * *' # Runs at 2:00 AM UTC every day
+
+jobs:
+  check-and-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run IndexNow Action
+        uses: bojieyang/indexnow-action@v2
+        with:
+          sitemap-location: 'https://www.yusufalhelou.com/sitemap.xml'
+          key: ${{ secrets.INDEXNOW_KEY }}
+          endpoint: 'api.indexnow.org'
