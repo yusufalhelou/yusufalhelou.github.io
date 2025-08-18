@@ -14,10 +14,6 @@ defaults:
     values:
       sitemap: false
   - scope:
-      path: "_includes/**"
-    values:
-      sitemap: false
-    - scope:
       path: "push/**"
     values:
       sitemap: false
