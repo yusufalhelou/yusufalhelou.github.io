@@ -1,18 +1,21 @@
+---
+title: "Sources"
+permalink: /sources/ 
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ page.title }} | Yusuf Alhelou</title>
+    <title>Sources | Yusuf Alhelou</title>
     <meta name="description" content="Sources for Yusuf Alhelou's YouTube videos.">
     <meta name="robots" content="index, follow">
-    <!-- Canonical tag using Jekyll's permalink for consistency -->
-    <link rel="canonical" href="{{ site.url }}{{ page.permalink }}">
+    <link rel="canonical" href="https://www.yusufalhelou.com/sources/">
 
      <!-- Open Graph Tags (for Facebook, LinkedIn, WhatsApp, etc.) -->
     <meta property="og:title" content="SOURCES & FURTHER READING">
     <meta property="og:description" content="Every claim, every fact... backed and documented.">
-    <meta property="og:url" content="{{ site.url }}{{ page.permalink }}">
+    <meta property="og:url" content="https://www.yusufalhelou.com/sources">
     <meta property="og:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/tracebackevidence.png">
     <meta property="og:type" content="website">
 
@@ -420,58 +423,7 @@
             </div>
 
             <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- Jekyll will pre-render all video and short cards here -->
-                {% assign all_content = site.data.videos %}
-                {% assign sorted_content = all_content | sort: "publishedAt" | reverse %}
-
-                {% for item in sorted_content %}
-                {% assign item_sources = site.data.sources[item.id] | default: "[]" | jsonify %}
-                {% assign is_video = item.durationSeconds | plus: 0 %}
-                {% assign content_type = "short" %}
-                {% if is_video > 180 %}
-                    {% assign content_type = "video" %}
-                {% endif %}
-
-                <div class="video-card relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg transition transform duration-300 bg-gray-900 flex flex-col"
-                     data-id="{{ item.id }}"
-                     data-title="{{ item.title | escape }}"
-                     data-thumbnail="{{ item.thumbnail }}"
-                     data-published-at="{{ item.publishedAt }}"
-                     data-duration="{{ item.durationSeconds }}"
-                     data-type="{{ content_type }}"
-                     data-sources-json="{{ item_sources }}"
-                     style="order: {% if content_type == 'video' %}1{% else %}2{% endif %};">
-                    <div class="relative w-full aspect-video rounded-t-2xl overflow-hidden">
-                        <img src="{{ item.thumbnail }}" alt="{{ item.title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                        <a href="https://www.youtube.com/{{ content_type }}s/{{ item.id }}" target="_blank" rel="noopener noreferrer"
-                            class="open-video-btn absolute top-3 right-3 z-10 p-3 rounded-xl
-                                bg-black/50 text-white hover:bg-black/70 hover:text-red-400
-                                transition-colors duration-200 backdrop-blur-sm
-                                flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="p-4">
-                        <h4 class="text-sm sm:text-base font-semibold line-clamp-2">{{ item.title }}</h4>
-                        <div class="mt-2 flex items-center space-x-4 text-xs">
-                            <div class="flex items-center space-x-1 text-gray-400">
-                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                <span>{{ item.publishedAt | date: "%B %d, %Y" }}</span>
-                            </div>
-                            <div class="flex items-center space-x-1 text-gray-400">
-                                <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{% assign total_seconds = item.durationSeconds %}{% assign hours = total_seconds | divided_by: 3600 %}{% assign minutes = total_seconds | modulo: 3600 | divided_by: 60 %}{% assign seconds = total_seconds | modulo: 60 %}{% if hours > 0 %}{{ hours | append: ":" }}{% endif %}{{ minutes | append: ":" | append: seconds | date: "%M:%S" }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+                <p id="loading-message" class="text-center text-gray-500 col-span-full">Fetching content...</p>
             </div>
         </div>
     </main>
@@ -489,7 +441,6 @@
                 </button>
             </div>
             <div id="sources-list" class="space-y-4">
-                <!-- Sources will be dynamically populated here by JS -->
             </div>
         </div>
     </div>
@@ -557,8 +508,11 @@
             }
         });
 
-        let currentContentType = 'videos'; // 'videos' or 'shorts'
-        let currentSortBy = 'newest';     // 'newest' or 'oldest'
+        let allVideos = [];
+        let allShorts = [];
+        let currentContentType = 'videos';
+        let currentSortBy = 'newest';
+        let sourcesData = {};
 
         // Cache for storing calculated colors to avoid redundant calculations
         const colorCache = {};
@@ -630,7 +584,7 @@
             return luminance > 0.5 ? 'black' : 'white';
         };
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             function handlePreloader() {
                 const preloader = document.getElementById('preloader');
                 if (preloader) {
@@ -642,86 +596,209 @@
             }
             handlePreloader();
 
-            const videoGrid = document.getElementById('video-grid');
-            const allVideoCards = Array.from(videoGrid.children); // Get all pre-rendered cards
-
-            // Apply dynamic colors to pre-rendered cards
-            allVideoCards.forEach(async card => {
-                const thumbnailUrl = card.dataset.thumbnail;
-                const dominantColor = await getDominantColor(thumbnailUrl);
-                const contrastingColor = getContrastingColor(dominantColor);
-
-                card.style.setProperty('--card-bg-color', dominantColor);
-                card.style.setProperty('--card-text-color', contrastingColor);
-
-                card.style.background = `linear-gradient(135deg, ${dominantColor}, rgba(0, 0, 0, 0.7))`;
-                const titleElement = card.querySelector('h4');
-                if (titleElement) {
-                    titleElement.style.color = contrastingColor;
-                }
-                const metaElements = card.querySelectorAll('.text-gray-400'); // Assuming these are the date/duration divs
-                metaElements.forEach(el => {
-                    el.style.color = `rgba(${parseInt(contrastingColor.match(/\d+/g)[0])}, ${parseInt(contrastingColor.match(/\d+/g)[1])}, ${parseInt(contrastingColor.match(/\d+/g)[2])}, 0.6)`;
-                });
-
-                // Update the hover state using JavaScript for a more pronounced effect
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'scale(1.05)';
-                    card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'scale(1)';
-                    card.style.boxShadow = 'none';
-                });
-            });
-
-
-            const filterAndSortContent = () => {
-                // Sort all cards (both visible and hidden) first to ensure correct logical order
-                allVideoCards.sort((a, b) => {
-                    const dateA = new Date(a.dataset.publishedAt);
-                    const dateB = new Date(b.dataset.publishedAt);
-                    if (currentSortBy === 'oldest') {
-                        return dateA - dateB;
-                    } else { // 'newest'
-                        return dateB - dateA;
+            const fetchSourcesJson = async () => {
+                try {
+                    const response = await fetch('https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/refs/heads/main/sources.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                });
+                    return await response.json();
+                } catch (error) {
+                    console.error("Could not fetch sources.json:", error);
+                    return {};
+                }
+            };
 
-                // Now, re-append them to the grid in their new sorted order
-                // And then apply visibility based on the current content type
-                allVideoCards.forEach(card => {
-                    videoGrid.appendChild(card); // This moves the element in the DOM to ensure proper order
-                    const cardType = card.dataset.type; // 'video' or 'short'
-                    card.style.display = (cardType === currentContentType) ? 'flex' : 'none'; // Show/hide
+            const fetchVideosFromJSON = async () => {
+                try {
+                    const response = await fetch('https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/refs/heads/main/videos.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return await response.json();
+                } catch (error) {
+                    console.error("Could not fetch videos.json:", error);
+                    return [];
+                }
+            };
+
+
+            const fetchAndFilterAllContent = async () => {
+                const loadingMessage = document.getElementById('loading-message');
+                loadingMessage.textContent = 'Fetching content...';
+
+                try {
+                    const allContent = await fetchVideosFromJSON();
+
+                    if (allContent.length === 0) {
+                        loadingMessage.textContent = 'No videos found.';
+                        return;
+                    }
+
+                    sourcesData = await fetchSourcesJson();
+
+                    allVideos = allContent.filter(item => item.durationSeconds > 180);
+                    allShorts = allContent.filter(item => item.durationSeconds <= 180);
+
+                    loadingMessage.remove();
+                    // Call sortContent() to apply the default 'newest' sort order
+                    sortContent();
+
+                } catch (error) {
+                    console.error("Failed to fetch content from JSON file:", error);
+                    loadingMessage.textContent = `Error fetching content: ${error.message}`;
+                }
+            };
+
+            // Helper function to format duration from seconds to HH:MM:SS or MM:SS
+            const formatDuration = (seconds) => {
+                const h = Math.floor(seconds / 3600);
+                const m = Math.floor((seconds % 3600) / 60);
+                const s = seconds % 60;
+                const pad = (num) => String(num).padStart(2, '0');
+                if (h > 0) {
+                    return `${h}:${pad(m)}:${pad(s)}`;
+                }
+                return `${pad(m)}:${pad(s)}`;
+            };
+
+            // Helper function to format the date string
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                const options = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                return date.toLocaleDateString('en-US', options);
+            };
+
+            const renderContent = (content) => {
+                const videoGrid = document.getElementById('video-grid');
+                videoGrid.innerHTML = '';
+
+                if (content.length === 0) {
+                    videoGrid.innerHTML = `<p class="text-center text-gray-500 col-span-full">No ${currentContentType} found on this channel.</p>`;
+                    return;
+                }
+
+                content.forEach(async item => {
+                    const videoUrl = currentContentType === 'videos' ?
+                        `https://www.youtube.com/watch?v=${item.id}` :
+                        `https://www.youtube.com/shorts/${item.id}`;
+
+                    const formattedDuration = formatDuration(item.durationSeconds);
+                    const formattedDate = formatDate(item.publishedAt);
+
+                    const videoCard = document.createElement('div');
+                    videoCard.classList.add(
+                        'video-card', 'relative', 'group', 'cursor-pointer', 'overflow-hidden',
+                        'rounded-2xl', 'shadow-lg', 'transition', 'transform', 'hover:scale-105',
+                        'duration-300', 'bg-gray-900', 'flex', 'flex-col'
+                    );
+
+                    // Get the dominant color for the card's background
+                    const dominantColor = await getDominantColor(item.thumbnail);
+                    const contrastingColor = getContrastingColor(dominantColor);
+
+                    // Set CSS custom properties for the dynamic colors
+                    videoCard.style.setProperty('--card-bg-color', dominantColor);
+                    videoCard.style.setProperty('--card-text-color', contrastingColor);
+
+                    videoCard.style.background = `linear-gradient(135deg, ${dominantColor}, rgba(0, 0, 0, 0.7))`;
+                    videoCard.style.color = contrastingColor;
+                    videoCard.style.transition = 'all 0.5s ease-in-out';
+
+                    // Update the hover state using JavaScript for a more pronounced effect
+                    videoCard.addEventListener('mouseenter', () => {
+                        videoCard.style.transform = 'scale(1.05)';
+                        videoCard.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
+                    });
+                    videoCard.addEventListener('mouseleave', () => {
+                        videoCard.style.transform = 'scale(1)';
+                        videoCard.style.boxShadow = 'none';
+                    });
+
+
+                    // Build the card's HTML content
+                    videoCard.innerHTML = `
+                        <div class="relative w-full aspect-video rounded-t-2xl overflow-hidden">
+                            <img src="${item.thumbnail}" alt="${item.title}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                            <a href="${videoUrl}" target="_blank" rel="noopener noreferrer"
+                                class="open-video-btn absolute top-3 right-3 z-10 p-3 rounded-xl
+                                    bg-black/50 text-white hover:bg-black/70 hover:text-red-400
+                                    transition-colors duration-200 backdrop-blur-sm
+                                    flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-sm sm:text-base font-semibold line-clamp-2" style="color: var(--card-text-color);">${item.title}</h4>
+                            <div class="mt-2 flex items-center space-x-4 text-xs">
+                                <div class="flex items-center space-x-1" style="color: rgba(var(--card-text-color), 0.6);">
+                                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>${formattedDate}</span>
+                                </div>
+                                <div class="flex items-center space-x-1" style="color: rgba(var(--card-text-color), 0.6);">
+                                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>${formattedDuration}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    videoCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.open-video-btn')) {
+                            showSourcesModal(item);
+                        }
+                    });
+
+                    videoGrid.appendChild(videoCard);
                 });
             };
 
-            const showSourcesModal = (item) => {
+            const sortContent = () => {
+                let contentToSort = currentContentType === 'videos' ? allVideos : allShorts;
+                let sortedContent = [...contentToSort];
+                if (currentSortBy === 'oldest') {
+                    sortedContent.sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
+                } else {
+                    // Default to 'newest' if not explicitly 'oldest'
+                    sortedContent.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                }
+                renderContent(sortedContent);
+            };
+
+            const showSourcesModal = async (item) => {
                 const modal = document.getElementById('sources-modal');
                 const modalTitle = document.getElementById('modal-video-title');
                 const sourcesList = document.getElementById('sources-list');
 
                 modalTitle.textContent = item.title;
-                sourcesList.innerHTML = '<p class="text-center text-gray-500">Loading sources...</p>'; // Default loading state
+                sourcesList.innerHTML = '<p class="text-center text-gray-500">Loading sources...</p>';
                 modal.classList.add('active');
 
-                // Get sources directly from the data-sources-json attribute
-                let videoSources = [];
-                try {
-                    videoSources = JSON.parse(item.dataset.sourcesJson || '[]');
-                } catch (e) {
-                    console.error("Error parsing sources JSON:", e);
-                }
+                const videoSources = sourcesData[item.id] || [];
 
-                sourcesList.innerHTML = ''; // Clear loading message
-
+                sourcesList.innerHTML = '';
                 if (videoSources.length > 0) {
-                    videoSources.forEach(source => {
+                    videoSources.forEach(async source => {
                         const sourceItem = document.createElement('div');
                         sourceItem.classList.add('source-item');
 
-                        const displayTitle = source.title || "Title not available"; // Fallback for empty title
+                        let displayTitle = source.title;
+
+                        if (source.title === "") {
+                            displayTitle = "Fetching title...";
+                            const fetchedTitle = "Title not available";
+                            displayTitle = fetchedTitle;
+                        }
 
                         sourceItem.innerHTML = `
                             <p class="font-medium text-white mb-1">${displayTitle}</p>
@@ -729,6 +806,7 @@
                                 ${source.url}
                             </a>
                         `;
+
                         sourcesList.appendChild(sourceItem);
                     });
                 } else {
@@ -747,15 +825,6 @@
                 }
             });
 
-            // Add click listeners to each video card to show sources modal
-            allVideoCards.forEach(card => {
-                card.addEventListener('click', (e) => {
-                    if (!e.target.closest('.open-video-btn')) {
-                        showSourcesModal(card); // Pass the entire card element
-                    }
-                });
-            });
-
             const toggleButtons = document.querySelectorAll('.content-toggle-btn');
             const shortsMessage = document.getElementById('shorts-message');
             toggleButtons.forEach(button => {
@@ -763,13 +832,17 @@
                     toggleButtons.forEach(btn => btn.classList.remove('bg-gray-800'));
                     e.target.classList.add('bg-gray-800');
                     currentContentType = e.target.dataset.type;
-
+                    
+                    // Show or hide the shorts message based on the selected content type
                     if (currentContentType === 'shorts') {
                         shortsMessage.classList.remove('hidden');
                     } else {
                         shortsMessage.classList.add('hidden');
                     }
-                    filterAndSortContent(); // Now filters and sorts already present elements
+
+                    // CRUCIAL FIX: Call sortContent() instead of renderContent()
+                    // This ensures the current sorting preference is applied immediately.
+                    sortContent();
                 });
             });
 
@@ -779,12 +852,12 @@
                     sortingButtons.forEach(btn => btn.classList.remove('bg-gray-800'));
                     e.target.classList.add('bg-gray-800');
                     currentSortBy = e.target.dataset.sort;
-                    filterAndSortContent(); // Now filters and sorts already present elements
+                    sortContent();
                 });
             });
 
-            // Initial filter and sort to show default 'videos' and 'newest'
-            filterAndSortContent();
+            // Initial data fetch and sort
+            fetchAndFilterAllContent();
         });
     </script>
 </body>
