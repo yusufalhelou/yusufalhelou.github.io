@@ -3565,5 +3565,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         gameContainer.appendChild(closeGameButton);        
 </script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+  const oneSignalContainer = document.querySelector('.onesignal-customlink-container');
+  const modal = document.getElementById('notification-guide-modal');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+
+  // Add a click event listener to the OneSignal container
+  oneSignalContainer.addEventListener('click', function() {
+    // Show the modal
+    modal.style.display = 'block';
+  });
+
+  // Add a click event listener to the close button
+  closeModalBtn.addEventListener('click', function() {
+    // Hide the modal
+    modal.style.display = 'none';
+  });
+
+  // Optional: Hide the modal if the user clicks anywhere outside of it
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+});
+</script>
 </body>
 </html>
