@@ -1,7 +1,3 @@
----
-title: "Sources"
-permalink: /sources/ 
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -430,7 +426,7 @@ permalink: /sources/
 
                 {% for item in sorted_content %}
                 {% assign item_sources = site.data.sources[item.id] | default: "[]" | jsonify %}
-                {% assign is_video = item.durationSeconds | plus: 0 %} 
+                {% assign is_video = item.durationSeconds | plus: 0 %}
                 {% assign content_type = "short" %}
                 {% if is_video > 180 %}
                     {% assign content_type = "video" %}
@@ -444,7 +440,7 @@ permalink: /sources/
                      data-duration="{{ item.durationSeconds }}"
                      data-type="{{ content_type }}"
                      data-sources-json="{{ item_sources }}"
-                     style="order: {% if content_type == 'video' %}1{% else %}2{% endif %};"> 
+                     style="order: {% if content_type == 'video' %}1{% else %}2{% endif %};">
                     <div class="relative w-full aspect-video rounded-t-2xl overflow-hidden">
                         <img src="{{ item.thumbnail }}" alt="{{ item.title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                         <a href="https://www.youtube.com/{{ content_type }}s/{{ item.id }}" target="_blank" rel="noopener noreferrer"
@@ -681,14 +677,8 @@ permalink: /sources/
 
 
             const filterAndSortContent = () => {
-                allVideoCards.forEach(card => {
-                    const cardType = card.dataset.type; // 'video' or 'short'
-                    card.style.display = (cardType === currentContentType) ? 'flex' : 'none'; // Show/hide
-                });
-
-                // Re-sort visible cards
-                const visibleCards = Array.from(videoGrid.children).filter(card => card.style.display !== 'none');
-                visibleCards.sort((a, b) => {
+                // Sort all cards (both visible and hidden) first to ensure correct logical order
+                allVideoCards.sort((a, b) => {
                     const dateA = new Date(a.dataset.publishedAt);
                     const dateB = new Date(b.dataset.publishedAt);
                     if (currentSortBy === 'oldest') {
@@ -698,8 +688,13 @@ permalink: /sources/
                     }
                 });
 
-                // Append sorted cards back to maintain order
-                visibleCards.forEach(card => videoGrid.appendChild(card));
+                // Now, re-append them to the grid in their new sorted order
+                // And then apply visibility based on the current content type
+                allVideoCards.forEach(card => {
+                    videoGrid.appendChild(card); // This moves the element in the DOM to ensure proper order
+                    const cardType = card.dataset.type; // 'video' or 'short'
+                    card.style.display = (cardType === currentContentType) ? 'flex' : 'none'; // Show/hide
+                });
             };
 
             const showSourcesModal = (item) => {
@@ -718,7 +713,7 @@ permalink: /sources/
                 } catch (e) {
                     console.error("Error parsing sources JSON:", e);
                 }
-                
+
                 sourcesList.innerHTML = ''; // Clear loading message
 
                 if (videoSources.length > 0) {
@@ -768,7 +763,7 @@ permalink: /sources/
                     toggleButtons.forEach(btn => btn.classList.remove('bg-gray-800'));
                     e.target.classList.add('bg-gray-800');
                     currentContentType = e.target.dataset.type;
-                    
+
                     if (currentContentType === 'shorts') {
                         shortsMessage.classList.remove('hidden');
                     } else {
