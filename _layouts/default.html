@@ -1878,8 +1878,8 @@ body.invert-fixed-colors #benzene-pattern-container svg {
     z-index: -1;
 }
 
-		.pixel-button {
-			font-family: 'Press Start 2P', cursive;
+        .pixel-button {
+            font-family: 'Press Start 2P', cursive;
             background-color: #f39c12;
             color: white;
             padding: 12px 24px;
@@ -1887,7 +1887,7 @@ body.invert-fixed-colors #benzene-pattern-container svg {
             border-radius: 4px;
             font-size: 1.1em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
             box-shadow: 3px 3px 0 #e67e22;
             margin-bottom: 20px;
         }
@@ -1897,6 +1897,54 @@ body.invert-fixed-colors #benzene-pattern-container svg {
         .pixel-button:active {
             transform: translate(3px, 3px);
             box-shadow: none;
+        }
+
+        /* Game Container Styles */
+        #gameContainer {
+            position: fixed; /* Fixed position relative to the viewport */
+            top: 50%;
+            left: 50%;
+            width: 1px;    /* Start very small */
+            height: 1px;
+            opacity: 0;    /* Completely hidden */
+            transform: translate(-50%, -50%) scale(0.1); /* Start scaled down and centered */
+            background-color: #000; /* Black background to fill during expansion */
+            z-index: 9999; /* Ensure it's on top of everything */
+            overflow: hidden; /* Hide overflow content during transition */
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Smooth, slightly bouncy transition */
+            border-radius: 8px; /* Slightly rounded corners */
+        }
+
+        #gameContainer.fullscreen {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            transform: translate(0, 0) scale(1); /* Expand to full size */
+            border-radius: 0; /* No rounded corners when fullscreen */
+        }
+
+        #gameFrame {
+            width: 100%;
+            height: 100%;
+            border: none; /* Remove iframe border */
+            display: block;
+            opacity: 0; /* Hide iframe content initially */
+            transition: opacity 0.5s ease 0.7s; /* Delay opacity transition until after size transition */
+        }
+
+        #gameContainer.fullscreen #gameFrame {
+            opacity: 1; /* Show iframe content when fullscreen */
+        }
+
+        /* Content that might be behind the game */
+        #mainContent {
+            transition: opacity 0.5s ease;
+        }
+        body.game-active #mainContent {
+            opacity: 0; /* Fade out main content when game is active */
+            pointer-events: none; /* Prevent interaction with background content */
         }
 	
     </style>
@@ -3459,6 +3507,47 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+</script>
+<script>
+        document.getElementById('startGameButton').addEventListener('click', function() {
+            const gameContainer = document.getElementById('gameContainer');
+            const gameFrame = document.getElementById('gameFrame');
+            const body = document.body;
+
+            // Add class to trigger fullscreen transition
+            gameContainer.classList.add('fullscreen');
+            body.classList.add('game-active'); // To fade out other content
+
+            // Load the game URL into the iframe after the transition starts
+            // This prevents a blank iframe from showing while expanding
+            setTimeout(() => {
+                gameFrame.src = "https://www.yusufalhelou.com/game";
+            }, 100); // Small delay to allow initial size transition to start
+        });
+
+        // Optional: Add a way to close the game if your game doesn't have its own "exit" button
+        // You would need to add a close button *inside* the gameContainer in the HTML
+        // For example:
+        /*
+        const closeGameButton = document.createElement('button');
+        closeGameButton.textContent = 'X';
+        closeGameButton.style.cssText = `
+            position: absolute; top: 10px; right: 10px; z-index: 10000;
+            background-color: red; color: white; border: none; padding: 5px 10px;
+            cursor: pointer; font-family: 'Press Start 2P', cursive;
+            border: 2px solid darkred; box-shadow: 2px 2px 0 darkred;
+        `;
+        closeGameButton.addEventListener('click', function() {
+            const gameContainer = document.getElementById('gameContainer');
+            const gameFrame = document.getElementById('gameFrame');
+            const body = document.body;
+
+            gameContainer.classList.remove('fullscreen');
+            body.classList.remove('game-active');
+            gameFrame.src = "about:blank"; // Unload the iframe content
+        });
+        gameContainer.appendChild(closeGameButton);
+        */
 </script>
 </body>
 </html>
