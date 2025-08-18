@@ -3525,10 +3525,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 100); // Small delay to allow initial size transition to start
         });
 
-        // Optional: Add a way to close the game if your game doesn't have its own "exit" button
-        // You would need to add a close button *inside* the gameContainer in the HTML
-        // For example:
-        /*
+        // Optional: Adding a way to close the game since the game doesn't have its own "exit" button
+        // a close button *inside* the gameContainer in the HTML
+        // /* */
         const closeGameButton = document.createElement('button');
         closeGameButton.textContent = 'X';
         closeGameButton.style.cssText = `
@@ -3546,8 +3545,7 @@ document.addEventListener('DOMContentLoaded', function() {
             body.classList.remove('game-active');
             gameFrame.src = "about:blank"; // Unload the iframe content
         });
-        gameContainer.appendChild(closeGameButton);
-        */
+        gameContainer.appendChild(closeGameButton);        
 </script>
 </body>
 </html>
