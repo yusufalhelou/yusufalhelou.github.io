@@ -3566,18 +3566,26 @@ document.addEventListener('DOMContentLoaded', function() {
         gameContainer.appendChild(closeGameButton);        
 </script>
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
   const oneSignalContainer = document.querySelector('.onesignal-customlink-container');
   const modal = document.getElementById('notification-guide-modal');
   const closeModalBtn = document.getElementById('close-modal-btn');
+  const oneSignalButton = oneSignalContainer.querySelector('button');
 
   // Add a click event listener to the OneSignal container
   oneSignalContainer.addEventListener('click', function() {
-    // Show the modal
+    // Check if the button has the "state-subscribed" class
+    if (oneSignalButton.classList.contains('state-subscribed')) {
+      // If it's subscribed, hide the modal and do nothing else
+      modal.style.display = 'none';
+      return; // Exit the function
+    }
+
+    // If it's NOT subscribed, show the modal as planned
     modal.style.display = 'block';
   });
 
-  // Add a click event listener to the close button
+  // a click event listener to the close button
   closeModalBtn.addEventListener('click', function() {
     // Hide the modal
     modal.style.display = 'none';
@@ -3589,6 +3597,12 @@ document.addEventListener('DOMContentLoaded', function() {
       modal.style.display = 'none';
     }
   });
+
+  // Optional: A small addition to handle the initial page load if the user is already subscribed
+  // might not need this depending on when OneSignal loads, but it's good practice.
+  if (oneSignalButton.classList.contains('state-subscribed')) {
+      modal.style.display = 'none';
+  }
 });
 </script>
 </body>
