@@ -512,7 +512,12 @@ permalink: /sources/
         let allShorts = [];
         let currentContentType = 'videos';
         let currentSortBy = 'newest';
-        let sourcesData = {};
+        
+        // Jekyll will inject data directly from _data/videos.json and _data/sources.json
+        // Ensure you have these files in _data directory.
+        const allContentData = {{ site.data.videos | jsonify }};
+        const sourcesData = {{ site.data.sources | jsonify }};
+
 
         // Cache for storing calculated colors to avoid redundant calculations
         const colorCache = {};
@@ -596,58 +601,20 @@ permalink: /sources/
             }
             handlePreloader();
 
-            const fetchSourcesJson = async () => {
-                try {
-                    const response = await fetch('https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/refs/heads/main/sources.json');
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    console.error("Could not fetch sources.json:", error);
-                    return {};
-                }
-            };
-
-            const fetchVideosFromJSON = async () => {
-                try {
-                    const response = await fetch('https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/refs/heads/main/videos.json');
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return await response.json();
-                } catch (error) {
-                    console.error("Could not fetch videos.json:", error);
-                    return [];
-                }
-            };
-
-
-            const fetchAndFilterAllContent = async () => {
+            const processJekyllData = () => {
                 const loadingMessage = document.getElementById('loading-message');
-                loadingMessage.textContent = 'Fetching content...';
 
-                try {
-                    const allContent = await fetchVideosFromJSON();
-
-                    if (allContent.length === 0) {
-                        loadingMessage.textContent = 'No videos found.';
-                        return;
-                    }
-
-                    sourcesData = await fetchSourcesJson();
-
-                    allVideos = allContent.filter(item => item.durationSeconds > 180);
-                    allShorts = allContent.filter(item => item.durationSeconds <= 180);
-
-                    loadingMessage.remove();
-                    // Call sortContent() to apply the default 'newest' sort order
-                    sortContent();
-
-                } catch (error) {
-                    console.error("Failed to fetch content from JSON file:", error);
-                    loadingMessage.textContent = `Error fetching content: ${error.message}`;
+                if (allContentData.length === 0) {
+                    loadingMessage.textContent = 'No videos found.';
+                    return;
                 }
+
+                allVideos = allContentData.filter(item => item.durationSeconds > 180);
+                allShorts = allContentData.filter(item => item.durationSeconds <= 180);
+
+                loadingMessage.remove();
+                // Call sortContent() to apply the default 'newest' sort order
+                sortContent();
             };
 
             // Helper function to format duration from seconds to HH:MM:SS or MM:SS
@@ -784,6 +751,7 @@ permalink: /sources/
                 sourcesList.innerHTML = '<p class="text-center text-gray-500">Loading sources...</p>';
                 modal.classList.add('active');
 
+                // Access data directly from the global `sourcesData` object
                 const videoSources = sourcesData[item.id] || [];
 
                 sourcesList.innerHTML = '';
@@ -794,10 +762,8 @@ permalink: /sources/
 
                         let displayTitle = source.title;
 
-                        if (source.title === "") {
-                            displayTitle = "Fetching title...";
-                            const fetchedTitle = "Title not available";
-                            displayTitle = fetchedTitle;
+                        if (displayTitle === "") { // Check for empty string rather than null/undefined
+                            displayTitle = "Title not available";
                         }
 
                         sourceItem.innerHTML = `
@@ -856,8 +822,8 @@ permalink: /sources/
                 });
             });
 
-            // Initial data fetch and sort
-            fetchAndFilterAllContent();
+            // Initial data processing from Jekyll
+            processJekyllData();
         });
     </script>
 </body>
