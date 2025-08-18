@@ -7,7 +7,7 @@ permalink: /sources/
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ page.title }}</title>
+    <title>{{ page.title }} | Yusuf Alhelou</title>
     <meta name="description" content="Sources for Yusuf Alhelou's YouTube videos.">
     <meta name="robots" content="index, follow">
     <!-- Canonical tag using Jekyll's permalink for consistency -->
@@ -430,7 +430,7 @@ permalink: /sources/
 
                 {% for item in sorted_content %}
                 {% assign item_sources = site.data.sources[item.id] | default: "[]" | jsonify %}
-                {% assign is_video = item.durationSeconds | plus: 0 %} {# Ensure it's treated as a number #}
+                {% assign is_video = item.durationSeconds | plus: 0 %} 
                 {% assign content_type = "short" %}
                 {% if is_video > 180 %}
                     {% assign content_type = "video" %}
@@ -444,7 +444,7 @@ permalink: /sources/
                      data-duration="{{ item.durationSeconds }}"
                      data-type="{{ content_type }}"
                      data-sources-json="{{ item_sources }}"
-                     style="order: {% if content_type == 'video' %}1{% else %}2{% endif %};"> {# Default order for JS sorting #}
+                     style="order: {% if content_type == 'video' %}1{% else %}2{% endif %};"> 
                     <div class="relative w-full aspect-video rounded-t-2xl overflow-hidden">
                         <img src="{{ item.thumbnail }}" alt="{{ item.title }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                         <a href="https://www.youtube.com/{{ content_type }}s/{{ item.id }}" target="_blank" rel="noopener noreferrer"
