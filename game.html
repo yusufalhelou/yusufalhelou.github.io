@@ -267,7 +267,7 @@
             border-top: 4px solid #000;
             box-shadow: 0 -4px 0 #000;
             position: absolute;
-            bottom: 352px; /* Adjusted to sit on top of the original counter base */
+            bottom: 452px; /* Adjusted from 352px for the new 700px height */
             left: 0;
             right: 0;
             z-index: 2;
@@ -596,7 +596,7 @@
         </div>
 
         <!-- Patient Area -->
-        <div id="patient-area" class="absolute bottom-[352px] left-1/2 -translate-x-1/2">
+        <div id="patient-area" class="absolute bottom-[452px] left-1/2 -translate-x-1/2">
              <div id="patient" class="relative w-24 h-32 opacity-0 transition-opacity duration-500">
                 <div id="patient-sprite-container"></div>
                 <div class="patient-bubble"><span id="patient-bubble-text"></span></div>
@@ -1025,8 +1025,10 @@
                 answeredQuestions.push(question.id);
 
                 // Calculate patience based on question length (100ms per character, min 10s, max 30s)
-                const questionLength = question.question.length + question.choices.reduce((sum, c) => sum + c.length, 0);
-                const patience = Math.min(30000, Math.max(10000, questionLength * 100));
+				const readingTime = (question.question.length + question.choices.reduce((sum, c) => sum + c.length, 0)) * 150; // 150ms per character for reading
+				const thinkingTime = 7000; // 7-second fixed buffer for thinking
+				const totalPatience = readingTime + thinkingTime;
+				const patience = Math.min(45000, Math.max(15000, totalPatience));
 
                 currentPatient = {
                     question,
