@@ -52,26 +52,18 @@ title: Yusuf Alhelou
 <div id="notification-guide-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
   <div style="background-color: #fefefe; margin: 1% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px; font-family: sans-serif; color: #000;">
     <span id="close-modal-btn" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-    <h2>One little step... 🥺</h2>
-    <p>Sometimes your browser might block notification requests by default. If you don't see a prompt to subscribe, you might need to manually allow notifications.</p>
+    <h2 style="font-size: 1.5em; font-weight: 700;">One little step... 🥺</h2>
+    <p>Sometimes your browser might <strong>block notification requests</strong> by default. If you don't see a prompt to subscribe, you might need to <strong>manually allow</strong> notifications.</p>
     
     <h3>How to allow notifications:</h3>
     
-    <p>1. In the address bar, look for a lock icon 🔒, an information icon ⓘ or a notification icon 🔔. <br>2. Click on it. <br>3. Find "Notifications" under "Permissions" and make sure it's set to "Allow".</p>
-
+    <p>1. In the address bar, look for a <strong>lock icon 🔒</strong>, an <strong>information icon ⓘ</strong> or a <strong>notification icon 🔔</strong>.<br>2. Click on it.<br>3. Find <strong>"Notifications"</strong> under <strong>"Permissions"</strong> and make sure it's set to <strong>"Allow"</strong>.</p>
+    
     <img src="/assets/website/notificationsguide.webp" alt="Guide showing how to allow notifications" style="width:100%; max-width:400px; display:block; margin: 20px auto;">
-      
-    <p>Once you've changed the settings, please click the subscribe button again until it says that [We Are Friends 💞]. Thank you!</p>
+    
+    <p>Once you've changed the settings, please click the subscribe button again until it says that <strong>[We Are Friends! 💞]</strong>. Thank you!</p>
   </div>
 </div>
-        <div class="mb-8 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <input type="text" id="search-input" placeholder="Search posts..."
-                    class="w-full sm:w-1/2 px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <select id="sort-by" class="px-4 py-2 rounded-full bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-            </select>
-        </div>
 
         <ul id="posts-list" class="list-none p-0 m-0 space-y-6 text-left w-full relative z-10">
         </ul>
