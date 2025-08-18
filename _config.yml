@@ -13,9 +13,18 @@ defaults:
       path: "assets/**" 
     values:
       sitemap: false
-      
+  - scope:
+      path: "_includes/**"
+    values:
+      sitemap: false
+    - scope:
+      path: "push/**"
+    values:
+      sitemap: false
+
 sitemap:
   exclude:
+    - /push/
     - /assets/ 
     - HBDYomna.html 
     - holo-card.html
