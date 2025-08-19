@@ -3536,6 +3536,22 @@ document.addEventListener('DOMContentLoaded', function() {
             gameContainer.classList.add('fullscreen');
             body.classList.add('game-active'); // To fade out other content
 
+       // --- Logic to auto-click the button if URL hash is '#game' ---
+        // Check the URL's hash fragment
+        if (window.location.hash === '#game') {
+            // Use setTimeout to ensure the DOM is fully ready and the button is interactive.
+            // This can prevent issues on very fast page loads or if script execution order
+            // sometimes causes the button not to be fully ready immediately.
+            setTimeout(() => {
+                if (startGameButton) {
+                    startGameButton.click(); // Programmatically trigger the button's click event
+                } else {
+                    console.error("startGameButton not found for auto-click. Make sure the ID is correct.");
+                }
+            }, 100); // Small delay to ensure button is ready
+        }
+        // --- End of auto-click logic ---
+			
             // Load the game URL into the iframe after the transition starts
             // This prevents a blank iframe from showing while expanding
             setTimeout(() => {
