@@ -9,7 +9,7 @@
             "Ibuprofen, often found in cold remedies, increasing bleeding risk with Warfarin."
         ], 
         "correctAnswerIndex": 2, 
-        "points": 45 
+        "points": 15 
     }, 
     { 
         "id": "q2", 
@@ -21,7 +21,7 @@
             "Celecoxib (minimal renal excretion but watch fluid retention)"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     }, 
     { 
         "id": "q3", 
@@ -33,7 +33,7 @@
             "It can be used but only for a maximum of 3 days."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     }, 
     { 
         "id": "q4", 
@@ -45,7 +45,7 @@
             "Guaifenesin (expectorant)"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     }, 
     { 
         "id": "q5", 
@@ -57,7 +57,7 @@
             "Aluminum hydroxide/magnesium hydroxide combination (Maalox)"
         ], 
         "correctAnswerIndex": 2, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q6", 
@@ -69,7 +69,7 @@
             "Oral antifungals are typically unnecessary; OTCs are just as potent."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q7", 
@@ -81,7 +81,7 @@
             "Menthol"
         ], 
         "correctAnswerIndex": 0, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q8", 
@@ -93,7 +93,7 @@
             "It should only be considered if there's a high-risk factor like asthma."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q9", 
@@ -105,7 +105,7 @@
             "Suggest they try an antibiotic and return if symptoms don't improve."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q10", 
@@ -117,7 +117,7 @@
             "Topical Lidocaine patch"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q11", 
@@ -129,7 +129,7 @@
             "Inhale while pressing the canister, then immediately exhale."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q12", 
@@ -141,7 +141,7 @@
             "Lubricating eye drops for contact lens users"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q13", 
@@ -153,7 +153,7 @@
             "Psyllium (bulk-forming laxative)"
         ], 
         "correctAnswerIndex": 0, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q14", 
@@ -165,7 +165,7 @@
             "Only if taken with a large glass of water."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q15", 
@@ -177,7 +177,7 @@
             "Take the two missed pills immediately, continue the pack, and use back-up contraception until the next cycle."
         ], 
         "correctAnswerIndex": 0, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q16", 
@@ -189,7 +189,7 @@
             "Fish oil will counteract the anticoagulant effect."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q17", 
@@ -201,7 +201,7 @@
             "Valerian root"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q18", 
@@ -213,7 +213,7 @@
             "To minimize the risk of side effects."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q19", 
@@ -225,7 +225,7 @@
             "Seek immediate emergency medical attention, as iron overdose can be life-threatening."
         ], 
         "correctAnswerIndex": 2, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q20", 
@@ -237,7 +237,7 @@
             "The vaccine will cause severe allergic reaction."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q21", 
@@ -249,7 +249,7 @@
             "Guaifenesin (expectorant)"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q22", 
@@ -261,7 +261,7 @@
             "There is no interaction between Omeprazole and calcium."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q23", 
@@ -273,7 +273,7 @@
             "Coincidence, unrelated to the eye drops."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q24", 
@@ -285,7 +285,7 @@
             "Insufficient pain relief."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q25", 
@@ -297,7 +297,7 @@
             "Ginkgo Biloba is generally safe with all medications."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q26", 
@@ -309,7 +309,7 @@
             "Apply heat packs to the lesions frequently."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q27", 
@@ -321,7 +321,7 @@
             "Normal side effects of Digoxin; continue medication."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q28", 
@@ -333,7 +333,7 @@
             "An appropriate use of their rescue inhaler."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q29", 
@@ -345,7 +345,7 @@
             "Apple juice"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q30", 
@@ -357,7 +357,7 @@
             "Any flu vaccine is completely safe regardless of egg allergy."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q31", 
@@ -369,7 +369,7 @@
             "It's safe for indefinite use on the face."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q32", 
@@ -381,7 +381,7 @@
             "It only works if taken exactly 24 hours after intercourse."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q33", 
@@ -393,7 +393,7 @@
             "Eat a large, fatty meal."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q34", 
@@ -405,7 +405,7 @@
             "Take calcium only on an empty stomach."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q35", 
@@ -417,7 +417,7 @@
             "An allergic reaction requiring immediate discontinuation."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q36", 
@@ -429,7 +429,7 @@
             "Broad-spectrum antibiotics for routine prevention."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q37", 
@@ -441,7 +441,7 @@
             "Topical capsaicin cream"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q38", 
@@ -453,7 +453,7 @@
             "Store in direct sunlight for activation."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q39", 
@@ -465,7 +465,7 @@
             "Save remaining pills for future infections."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q40", 
@@ -477,7 +477,7 @@
             "Naproxen"
         ], 
         "correctAnswerIndex": 0, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q41", 
@@ -489,7 +489,7 @@
             "Hypernatremia (high sodium)"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q42", 
@@ -501,7 +501,7 @@
             "They must be filled within 24 hours."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q43", 
@@ -513,7 +513,7 @@
             "Eat as much as possible to boost Vitamin K levels."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q44", 
@@ -525,7 +525,7 @@
             "Guaifenesin (expectorant)"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q45", 
@@ -537,7 +537,7 @@
             "Administer another vaccine dose to counteract the effect."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q46", 
@@ -549,7 +549,7 @@
             "Calcium supplements enhance levothyroxine absorption."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q47", 
@@ -561,7 +561,7 @@
             "Soak feet in hot water with salts daily."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q48", 
@@ -573,7 +573,7 @@
             "Call emergency services (e.g., 911 or local emergency number) immediately, as acetaminophen overdose can cause severe liver damage and is time-sensitive."
         ], 
         "correctAnswerIndex": 2, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q49", 
@@ -585,7 +585,7 @@
             "Assume it's safe if it looks like a common pill."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q50", 
@@ -597,7 +597,7 @@
             "Only if she has a high-risk exposure to whooping cough."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q51", 
@@ -609,7 +609,7 @@
             "Seek immediate medical attention, as fever in infants under 3 months can indicate serious infection."
         ], 
         "correctAnswerIndex": 2, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q52", 
@@ -621,7 +621,7 @@
             "Suggest applying a topical antibiotic."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q53", 
@@ -633,7 +633,7 @@
             "Decreased effectiveness of Gabapentin."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q54", 
@@ -645,7 +645,7 @@
             "Diet and exercise are more important than taking statins."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q55", 
@@ -657,7 +657,7 @@
             "The fatigue is unrelated to their thyroid condition."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q56", 
@@ -669,7 +669,7 @@
             "Exacerbation of their autoimmune condition."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q57", 
@@ -681,7 +681,7 @@
             "Simple food poisoning."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q58", 
@@ -693,7 +693,7 @@
             "Fentanyl (transdermal patch)"
         ], 
         "correctAnswerIndex": 2, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q59", 
@@ -705,7 +705,7 @@
             "Pneumonia vaccines are not recommended for diabetics."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q60", 
@@ -717,7 +717,7 @@
             "Advise them to take the new pills regardless."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q61", 
@@ -729,7 +729,7 @@
             "Calcium supplements."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q62", 
@@ -741,7 +741,7 @@
             "Pop the blisters immediately to release pressure."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q63", 
@@ -753,7 +753,7 @@
             "Withhold all fluids for several hours."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q64", 
@@ -765,7 +765,7 @@
             "An allergic reaction to the medication."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q65", 
@@ -777,7 +777,7 @@
             "Antifungal (e.g., Clotrimazole)."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q66", 
@@ -789,7 +789,7 @@
             "No known interaction."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q67", 
@@ -801,7 +801,7 @@
             "Valerian root"
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q68", 
@@ -813,7 +813,7 @@
             "Only if they plan to travel internationally."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q69", 
@@ -825,7 +825,7 @@
             "Take it on an empty stomach right before bed."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q70", 
@@ -837,7 +837,7 @@
             "To enhance the pain-relieving effects of opioids."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q71", 
@@ -849,7 +849,7 @@
             "Anticoagulants for preventing blood clots."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q72", 
@@ -861,7 +861,7 @@
             "Sun exposure is beneficial for acne while on Doxycycline."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q73", 
@@ -873,7 +873,7 @@
             "It should never be done under any circumstances."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q74", 
@@ -885,7 +885,7 @@
             "Discard it immediately and wait for a new one."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q75", 
@@ -897,7 +897,7 @@
             "One dose of live attenuated zoster vaccine (Zostavax)."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q76", 
@@ -909,7 +909,7 @@
             "They can stop if their home blood pressure readings are normal for a week."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q77", 
@@ -921,7 +921,7 @@
             "Cranberry has no interaction with Warfarin."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q78", 
@@ -933,7 +933,7 @@
             "Improved nutrient absorption."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q79", 
@@ -945,7 +945,7 @@
             "A sign of a secondary bacterial infection."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q80", 
@@ -957,7 +957,7 @@
             "Ask them why they need so much and then sell it if their reason is plausible."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q81", 
@@ -969,7 +969,7 @@
             "Acetaminophen (at appropriate doses)"
         ], 
         "correctAnswerIndex": 2, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q82", 
@@ -981,7 +981,7 @@
             "Amiodarone can affect Vitamin K absorption, increasing bleeding risk."
         ], 
         "correctAnswerIndex": 0, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q83", 
@@ -993,7 +993,7 @@
             "Topical steroid cream."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q84", 
@@ -1005,7 +1005,7 @@
             "It will taste bad if stored for too long."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q85", 
@@ -1017,7 +1017,7 @@
             "It's okay to dilute it with juice."
         ], 
         "correctAnswerIndex": 0, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q86", 
@@ -1029,7 +1029,7 @@
             "Topical eye drops for redness only."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q87", 
@@ -1041,7 +1041,7 @@
             "Advise a strong caffeine intake."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q88", 
@@ -1053,7 +1053,7 @@
             "Alcohol-based mouthwash."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q89", 
@@ -1065,7 +1065,7 @@
             "Weight gain only."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q90", 
@@ -1077,7 +1077,7 @@
             "Just hand them the bag with the leaflet."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q91", 
@@ -1089,7 +1089,7 @@
             "Thyroid hormones."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q92", 
@@ -1101,7 +1101,7 @@
             "Fexofenadine (Allegra)."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q93", 
@@ -1113,7 +1113,7 @@
             "Unlimited refills for one year."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q94", 
@@ -1125,7 +1125,7 @@
             "Influenza and Pneumonia."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q95", 
@@ -1137,7 +1137,7 @@
             "Decreased effectiveness of Spironolactone."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q96", 
@@ -1149,7 +1149,7 @@
             "Douche daily."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q97", 
@@ -1161,7 +1161,7 @@
             "In direct sunlight."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q98", 
@@ -1173,7 +1173,7 @@
             "Herbal remedies exclusively."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q99", 
@@ -1185,7 +1185,7 @@
             "Wait 24 hours to see if the fever breaks."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q100", 
@@ -1197,7 +1197,7 @@
             "Misoprostol."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q101", 
@@ -1209,7 +1209,7 @@
             "Strong topical steroid."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q102", 
@@ -1221,7 +1221,7 @@
             "The cough is normal for smokers."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q103", 
@@ -1233,7 +1233,7 @@
             "Decreased effectiveness of Bactrim."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q104", 
@@ -1245,7 +1245,7 @@
             "It is a single dose given at 12 months."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q105", 
@@ -1257,7 +1257,7 @@
             "Topical Lidocaine cream."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q106", 
@@ -1269,7 +1269,7 @@
             "Statins."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q107", 
@@ -1281,7 +1281,7 @@
             "Alcohol-containing cough syrup."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q108", 
@@ -1293,7 +1293,7 @@
             "Only if taken with food."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q109", 
@@ -1305,7 +1305,7 @@
             "Tell children not to touch medications."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q110", 
@@ -1317,7 +1317,7 @@
             "An old textbook from pharmacy school."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q111", 
@@ -1329,7 +1329,7 @@
             "Increased heart rate; take only when symptoms are severe."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q112", 
@@ -1341,7 +1341,7 @@
             "Licorice Root will cause a significant drop in blood pressure."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q113", 
@@ -1353,7 +1353,7 @@
             "No special vaccines are needed after splenectomy."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q114", 
@@ -1365,7 +1365,7 @@
             "Recommending an antidiarrheal like Loperamide."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q115", 
@@ -1377,7 +1377,7 @@
             "Use a regular comb to remove nits."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q116", 
@@ -1389,7 +1389,7 @@
             "Food poisoning."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q117", 
@@ -1401,7 +1401,7 @@
             "150-225 mg."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q118", 
@@ -1413,7 +1413,7 @@
             "Store in a weekly pill organizer."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q119", 
@@ -1425,7 +1425,7 @@
             "Alcohol interacts with test strips."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q120", 
@@ -1437,7 +1437,7 @@
             "It will not affect their BPH."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q121", 
@@ -1449,7 +1449,7 @@
             "Advise crushing tablets for faster relief."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q122", 
@@ -1461,7 +1461,7 @@
             "It gets eliminated too quickly, leading to ineffective pain relief."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q123", 
@@ -1473,7 +1473,7 @@
             "They should stop the medication immediately."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q124", 
@@ -1485,7 +1485,7 @@
             "Magnesium citrate for daily use."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q125", 
@@ -1497,7 +1497,7 @@
             "Aphthous ulcers."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q126", 
@@ -1509,7 +1509,7 @@
             "High-dose Vitamin C."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q127", 
@@ -1521,7 +1521,7 @@
             "Directly relax smooth muscle in blood vessel walls."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q128", 
@@ -1533,7 +1533,7 @@
             "Kidney stones."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q129", 
@@ -1545,7 +1545,7 @@
             "Only after a deep cut."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q130", 
@@ -1557,7 +1557,7 @@
             "Hyponatremia."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q131", 
@@ -1569,7 +1569,7 @@
             "Oxymetazoline nasal spray."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q132", 
@@ -1581,7 +1581,7 @@
             "Drink more carbonated beverages."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q133", 
@@ -1593,7 +1593,7 @@
             "Only for mild localized reactions."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q134", 
@@ -1605,7 +1605,7 @@
             "It improves their taste."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q135", 
@@ -1617,7 +1617,7 @@
             "Only take if symptoms of malaria develop."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q136", 
@@ -1629,7 +1629,7 @@
             "Kidney stone formation."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q137", 
@@ -1641,7 +1641,7 @@
             "It will improve their memory."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q138", 
@@ -1653,7 +1653,7 @@
             "Avoid all dairy products while on this medication."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q139", 
@@ -1665,7 +1665,7 @@
             "Pharmacy records are confidential and cannot be viewed by patients."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q140", 
@@ -1677,7 +1677,7 @@
             "Apply hydrogen peroxide daily."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q141", 
@@ -1689,7 +1689,7 @@
             "Start aspirin immediately."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q142", 
@@ -1701,7 +1701,7 @@
             "Rubbing alcohol."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q143", 
@@ -1713,7 +1713,7 @@
             "Inhale deeply through the nose while spraying."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q144", 
@@ -1725,7 +1725,7 @@
             "Only if they crush it well."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q145", 
@@ -1737,7 +1737,7 @@
             "Not recommended after age 50."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q146", 
@@ -1749,7 +1749,7 @@
             "No interaction; antibiotics are safe with birth control."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q147", 
@@ -1761,7 +1761,7 @@
             "No known interaction."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q148", 
@@ -1773,7 +1773,7 @@
             "Topical diclofenac gel."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q149", 
@@ -1785,7 +1785,7 @@
             "They should just skip doses while traveling."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q150", 
@@ -1797,7 +1797,7 @@
             "Recommend an OTC medication for general pain relief."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q151", 
@@ -1809,7 +1809,7 @@
             "Apply hydrogen peroxide multiple times a day."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 30 
+        "points": 10 
     },
     { 
         "id": "q152", 
@@ -1821,7 +1821,7 @@
             "Diuretics."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q153", 
@@ -1833,7 +1833,7 @@
             "Force them to take it quickly."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q154", 
@@ -1845,7 +1845,7 @@
             "Fresh fruits and vegetables."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q155", 
@@ -1857,7 +1857,7 @@
             "They should go to the emergency room immediately."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q156", 
@@ -1869,7 +1869,7 @@
             "Dietary changes immediately before testing."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     { 
         "id": "q157", 
@@ -1881,7 +1881,7 @@
             "Deny all prescriptions immediately and call the police."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 50 
+        "points": 20 
     },
     { 
         "id": "q158", 
@@ -1893,7 +1893,7 @@
             "Allergic conjunctivitis."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 40 
+        "points": 10 
     },
     { 
         "id": "q159", 
@@ -1905,7 +1905,7 @@
             "Refrigerate the suppository and insert it frozen."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 35 
+        "points": 15 
     },
     { 
         "id": "q160", 
@@ -1917,7 +1917,7 @@
             "Try a small dose to see if it works."
         ], 
         "correctAnswerIndex": 1, 
-        "points": 45 
+        "points": 15 
     },
     {
         "id": "q161",
@@ -1929,7 +1929,7 @@
             "It eliminates the need for any further medication monitoring."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q162",
@@ -1941,7 +1941,7 @@
             "Danshen has no known interaction with Warfarin."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q163",
@@ -1953,7 +1953,7 @@
             "It is completely ineffective in children under 6."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q164",
@@ -1965,7 +1965,7 @@
             "Diabetic nephropathy."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q165",
@@ -1977,7 +1977,7 @@
             "Influenza vaccine."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q166",
@@ -1989,7 +1989,7 @@
             "They should save the remaining pills for a future infection."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q167",
@@ -2001,7 +2001,7 @@
             "They cause dehydration."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q168",
@@ -2013,7 +2013,7 @@
             "Calcium carbonate."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q169",
@@ -2025,7 +2025,7 @@
             "Pour out the clear liquid, avoiding the sediment."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q170",
@@ -2037,7 +2037,7 @@
             "Toxoid vaccine."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q171",
@@ -2049,7 +2049,7 @@
             "Suggest a probiotic vaginal insert."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q172",
@@ -2061,7 +2061,7 @@
             "They directly damage blood vessels."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q173",
@@ -2073,7 +2073,7 @@
             "Urea."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q174",
@@ -2085,7 +2085,7 @@
             "The drug is effective only at very high doses."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q175",
@@ -2097,7 +2097,7 @@
             "Maintain all current medications without changes."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q176",
@@ -2109,7 +2109,7 @@
             "Suggest taking leftover antibiotics from a previous infection."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q177",
@@ -2121,7 +2121,7 @@
             "Alcohol-based gels for quick absorption."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q178",
@@ -2133,7 +2133,7 @@
             "There is no interaction with alcohol."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q179",
@@ -2145,7 +2145,7 @@
             "No pneumonia vaccine is needed for adults."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q180",
@@ -2157,7 +2157,7 @@
             "Fill it, but keep a record of the alteration."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q181",
@@ -2169,7 +2169,7 @@
             "DPIs do not require inhalation at all."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q182",
@@ -2181,7 +2181,7 @@
             "They are completely harmless for daily use."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q183",
@@ -2193,7 +2193,7 @@
             "Place it in warm water to rapidly thaw."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q184",
@@ -2205,7 +2205,7 @@
             "Stop the current pack and start a new one next month."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q185",
@@ -2217,7 +2217,7 @@
             "They are approved by the FDA before sale."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q186",
@@ -2229,7 +2229,7 @@
             "It causes rapid excretion of the poison through the kidneys."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q187",
@@ -2241,7 +2241,7 @@
             "6000 mg."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q188",
@@ -2253,7 +2253,7 @@
             "Generic drugs are made by completely different standards."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q189",
@@ -2265,7 +2265,7 @@
             "The vaccine provides lifelong immunity, but a booster is needed."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q190",
@@ -2277,7 +2277,7 @@
             "Ask the patient for permission later."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q191",
@@ -2289,7 +2289,7 @@
             "Clean water."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q192",
@@ -2301,7 +2301,7 @@
             "Apply heat immediately and massage vigorously."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q193",
@@ -2313,7 +2313,7 @@
             "No interaction exists."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q194",
@@ -2325,7 +2325,7 @@
             "Withhold all food and drink for 24 hours."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q195",
@@ -2337,7 +2337,7 @@
             "RSV vaccine is only for infants."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q196",
@@ -2349,7 +2349,7 @@
             "A high-dose diuretic."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q197",
@@ -2361,7 +2361,7 @@
             "Give them a large, protein-rich meal."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q198",
@@ -2373,7 +2373,7 @@
             "Blink rapidly after instilling drops."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q199",
@@ -2385,7 +2385,7 @@
             "Naproxen."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q200",
@@ -2397,7 +2397,7 @@
             "To display OTC products more prominently."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q201",
@@ -2409,7 +2409,7 @@
             "Limit fluid intake severely."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q202",
@@ -2421,7 +2421,7 @@
             "Wear dark-colored clothing to attract mosquitoes away."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q203",
@@ -2433,7 +2433,7 @@
             "The sunburn is unrelated to the medication."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q204",
@@ -2445,7 +2445,7 @@
             "It needs to be given annually."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q205",
@@ -2457,7 +2457,7 @@
             "Keep them in the medicine cabinet for future use."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q206",
@@ -2469,7 +2469,7 @@
             "Suggest applying a heat pack to the abdomen."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q207",
@@ -2481,7 +2481,7 @@
             "They should stop the medication immediately."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q208",
@@ -2493,7 +2493,7 @@
             "Apply over a cut or rash for better absorption."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q209",
@@ -2505,7 +2505,7 @@
             "Iron supplements can make Levothyroxine more effective."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q210",
@@ -2517,7 +2517,7 @@
             "If they are too busy to fill it at that moment."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q211",
@@ -2529,7 +2529,7 @@
             "A dry powder inhaler."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q212",
@@ -2541,7 +2541,7 @@
             "Offer them a sandwich."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q213",
@@ -2553,7 +2553,7 @@
             "Guaifenesin."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q214",
@@ -2565,7 +2565,7 @@
             "It's an unrelated allergic reaction."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q215",
@@ -2577,7 +2577,7 @@
             "Iron absorption is not affected by other substances."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q216",
@@ -2589,7 +2589,7 @@
             "Diuretics."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q217",
@@ -2601,7 +2601,7 @@
             "Take immediately."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q218",
@@ -2613,7 +2613,7 @@
             "Drink bottled water, but ice is always safe."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q219",
@@ -2625,7 +2625,7 @@
             "Give them a small amount of adult pain reliever."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q220",
@@ -2637,7 +2637,7 @@
             "Magnesium will decrease Diltiazem's effectiveness."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q221",
@@ -2649,7 +2649,7 @@
             "Pseudoephedrine (decongestant)."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q222",
@@ -2661,7 +2661,7 @@
             "Antifungal cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q223",
@@ -2673,7 +2673,7 @@
             "They will become more potent."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q224",
@@ -2685,7 +2685,7 @@
             "Cinnamon will have no effect on blood sugar."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q225",
@@ -2697,7 +2697,7 @@
             "Antibiotics for bacterial infections."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q226",
@@ -2709,7 +2709,7 @@
             "Shingles and HPV."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q227",
@@ -2721,7 +2721,7 @@
             "Patient's favorite color."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q228",
@@ -2733,7 +2733,7 @@
             "Increase the opioid dose."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q229",
@@ -2745,7 +2745,7 @@
             "Antifungal cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q230",
@@ -2757,7 +2757,7 @@
             "Insert rectally."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q231",
@@ -2769,7 +2769,7 @@
             "Topical capsaicin cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q232",
@@ -2781,7 +2781,7 @@
             "Only drink fruit juices."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q233",
@@ -2793,7 +2793,7 @@
             "Grapefruit juice causes a rash."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q234",
@@ -2805,7 +2805,7 @@
             "Everyone annually."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q235",
@@ -2817,7 +2817,7 @@
             "Only take it every other day."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q236",
@@ -2829,7 +2829,7 @@
             "No interaction exists."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q237",
@@ -2841,7 +2841,7 @@
             "Monitor their breathing for an hour."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q238",
@@ -2853,7 +2853,7 @@
             "It replaces the need for pharmacist counseling."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q239",
@@ -2865,7 +2865,7 @@
             "Phenylephrine."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q240",
@@ -2877,7 +2877,7 @@
             "Never, it's illegal."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q241",
@@ -2889,7 +2889,7 @@
             "Pop the blister with a needle."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q242",
@@ -2901,7 +2901,7 @@
             "They should double the dose if symptoms return."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q243",
@@ -2913,7 +2913,7 @@
             "The biologic will make the vaccine useless."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q244",
@@ -2925,7 +2925,7 @@
             "Topical steroid cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q245",
@@ -2937,7 +2937,7 @@
             "The maximum concentration a drug reaches in the body."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q246",
@@ -2949,7 +2949,7 @@
             "Hair loss and dry skin."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q247",
@@ -2961,7 +2961,7 @@
             "When a patient refuses to take their medications."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q248",
@@ -2973,7 +2973,7 @@
             "Spray while holding breath."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q249",
@@ -2985,7 +2985,7 @@
             "Antibiotic eye drops."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q250",
@@ -2997,7 +2997,7 @@
             "Hold onto it until the rightful owner calls."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q251",
@@ -3009,7 +3009,7 @@
             "A new infection."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q252",
@@ -3021,7 +3021,7 @@
             "They cause hypertension."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q253",
@@ -3033,7 +3033,7 @@
             "They will not get enough nutrients."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q254",
@@ -3045,7 +3045,7 @@
             "Antifungal cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q255",
@@ -3057,7 +3057,7 @@
             "Mild fever."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q256",
@@ -3069,7 +3069,7 @@
             "Eat less carbohydrates."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q257",
@@ -3081,7 +3081,7 @@
             "Fill it and ask the patient to bring the original next time."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q258",
@@ -3093,7 +3093,7 @@
             "Topical lidocaine."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q259",
@@ -3105,7 +3105,7 @@
             "Use a regular spoon."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q260",
@@ -3117,7 +3117,7 @@
             "Shout instructions as they walk out."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q261",
@@ -3129,7 +3129,7 @@
             "Only if they crush the tablet and mix it with food."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q262",
@@ -3141,7 +3141,7 @@
             "It is not recommended after childhood."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q263",
@@ -3153,7 +3153,7 @@
             "Antibiotics will make the oral contraceptives more effective."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q264",
@@ -3165,7 +3165,7 @@
             "CoQ10 has no interaction with Warfarin."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q265",
@@ -3177,7 +3177,7 @@
             "Topical capsaicin cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q266",
@@ -3189,7 +3189,7 @@
             "Generic drugs have different active ingredients."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q267",
@@ -3201,7 +3201,7 @@
             "Faxed prescriptions are only valid if called in by the patient."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q268",
@@ -3213,7 +3213,7 @@
             "A cough syrup."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q269",
@@ -3225,7 +3225,7 @@
             "Leave it open to the air."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q270",
@@ -3237,7 +3237,7 @@
             "Grapefruit changes the color of the medication."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q271",
@@ -3249,7 +3249,7 @@
             "Severe hypoglycemia."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q272",
@@ -3261,7 +3261,7 @@
             "Bismuth Subsalicylate."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q273",
@@ -3273,7 +3273,7 @@
             "It will not affect their effectiveness."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q274",
@@ -3285,7 +3285,7 @@
             "Inject into muscle tissue."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q275",
@@ -3297,7 +3297,7 @@
             "The drug is ineffective."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q276",
@@ -3309,7 +3309,7 @@
             "Arrhythmia."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q277",
@@ -3321,7 +3321,7 @@
             "Suggest a general anti-itch cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q278",
@@ -3333,7 +3333,7 @@
             "SPF 100+ for all situations."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q279",
@@ -3345,7 +3345,7 @@
             "No known interaction."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q280",
@@ -3357,7 +3357,7 @@
             "Wait for symptoms to develop."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q281",
@@ -3369,7 +3369,7 @@
             "Menthol cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q282",
@@ -3381,7 +3381,7 @@
             "One dose of live attenuated zoster vaccine (Zostavax)."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q283",
@@ -3393,7 +3393,7 @@
             "Increased appetite."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q284",
@@ -3405,7 +3405,7 @@
             "150-225 mg."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q285",
@@ -3417,7 +3417,7 @@
             "To reduce the cost of medications."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q286",
@@ -3429,7 +3429,7 @@
             "Take an extra dose of the statin."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q287",
@@ -3441,7 +3441,7 @@
             "They are always safe for weight loss."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q288",
@@ -3453,7 +3453,7 @@
             "A regular tablespoon."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q289",
@@ -3465,7 +3465,7 @@
             "Severe constipation."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q290",
@@ -3477,7 +3477,7 @@
             "Call their insurance company and demand immediate activation."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q291",
@@ -3489,7 +3489,7 @@
             "Breathe out through the device."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q292",
@@ -3501,7 +3501,7 @@
             "Lubricating eye drops only."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q293",
@@ -3513,7 +3513,7 @@
             "It needs to be frozen once opened."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q294",
@@ -3525,7 +3525,7 @@
             "Iron."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q295",
@@ -3537,7 +3537,7 @@
             "Improved concentration."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q296",
@@ -3549,7 +3549,7 @@
             "Strong laxatives."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q297",
@@ -3561,7 +3561,7 @@
             "To promote new drugs."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q298",
@@ -3573,7 +3573,7 @@
             "Give them a complex written leaflet and nothing else."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q299",
@@ -3585,7 +3585,7 @@
             "To prepare for a drug audit."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q300",
@@ -3597,7 +3597,7 @@
             "To improve skin complexion."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q301",
@@ -3609,7 +3609,7 @@
             "Alcohol will make the benzodiazepine less effective."
         ],
         "correctAnswerIndex": 1,
-        "points": 50
+        "points": 20
     },
     {
         "id": "q302",
@@ -3621,7 +3621,7 @@
             "A normal fluctuation in blood sugar."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q303",
@@ -3633,7 +3633,7 @@
             "Give them a cold shower."
         ],
         "correctAnswerIndex": 1,
-        "points": 35
+        "points": 15
     },
     {
         "id": "q304",
@@ -3645,7 +3645,7 @@
             "Topical antibiotic cream."
         ],
         "correctAnswerIndex": 1,
-        "points": 30
+        "points": 10
     },
     {
         "id": "q305",
@@ -3657,7 +3657,7 @@
             "To share with friends."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q306",
@@ -3669,7 +3669,7 @@
             "Eat as much spinach as possible."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q307",
@@ -3681,7 +3681,7 @@
             "Take only one product at a time."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q308",
@@ -3693,7 +3693,7 @@
             "HPV vaccine."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     },
     {
         "id": "q309",
@@ -3705,7 +3705,7 @@
             "Suggest they skip doses to make the medication last longer."
         ],
         "correctAnswerIndex": 1,
-        "points": 40
+        "points": 10
     },
     {
         "id": "q310",
@@ -3717,6 +3717,6 @@
             "Only if they crush it first."
         ],
         "correctAnswerIndex": 1,
-        "points": 45
+        "points": 15
     }
 ]
