@@ -3527,59 +3527,90 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </script>
 <script>
-        document.getElementById('startGameButton').addEventListener('click', function() {
-            const gameContainer = document.getElementById('gameContainer');
-            const gameFrame = document.getElementById('gameFrame');
-            const body = document.body;
+    document.addEventListener('DOMContentLoaded', function() {
+        const startGameButton = document.getElementById('startGameButton');
+        const gameContainer = document.getElementById('gameContainer');
+        const gameFrame = document.getElementById('gameFrame');
+        const body = document.body;
 
-            // Add class to trigger fullscreen transition
+        // Function to open the game iframe.
+        // This function encapsulates the logic for opening the game.
+        function openGame() {
+            // Add class to trigger fullscreen transition for the container
             gameContainer.classList.add('fullscreen');
-            body.classList.add('game-active'); // To fade out other content
+            // Add class to body to fade out other content
+            body.classList.add('game-active');
 
-       // --- Logic to auto-click the button if URL hash is '#game' ---
-        // Check the URL's hash fragment
-        if (window.location.hash === '#game') {
-            // Use setTimeout to ensure the DOM is fully ready and the button is interactive.
-            // This can prevent issues on very fast page loads or if script execution order
-            // sometimes causes the button not to be fully ready immediately.
+            // Load the game URL into the iframe after a small delay.
+            // This allows the container's expansion transition to start first,
+            // preventing a blank iframe from showing during the visual effect.
             setTimeout(() => {
-                if (startGameButton) {
-                    startGameButton.click(); // Programmatically trigger the button's click event
-                } else {
-                    console.error("startGameButton not found for auto-click. Make sure the ID is correct.");
-                }
-            }, 100); // Small delay to ensure button is ready
+                gameFrame.src = "https://www.yusufalhelou.com/game"; // **IMPORTANT: Replace with your actual game URL**
+            }, 100); // 100ms delay for smoother transition start
+        }
+
+        // Function to close the game iframe
+        function closeGame() {
+            // Remove classes to reverse the fullscreen transition and fade in other content
+            gameContainer.classList.remove('fullscreen');
+            body.classList.remove('game-active');
+            // Unload the iframe content to stop the game and free up resources
+            gameFrame.src = "about:blank";
+        }
+
+        // Add event listener for the "Play the Game!" button.
+        // When the button is clicked, it simply calls the openGame function.
+        if (startGameButton) {
+            startGameButton.addEventListener('click', openGame);
+        }
+
+        // --- Logic to auto-click the button if URL hash is '#game' ---
+        // This logic runs independently when the DOM is loaded.
+        // It's placed here so it can trigger openGame without a user click.
+        if (window.location.hash === '#game') {
+            // Use setTimeout to ensure the DOM is fully ready and the button/functions are interactive.
+            // This can prevent issues on very fast page loads or if script execution order
+            // sometimes causes elements not to be fully ready immediately.
+            setTimeout(() => {
+                // Instead of simulating a click, directly call the openGame function
+                // as that's what the button's click event would do.
+                openGame();
+            }, 100); // Small delay to ensure everything is ready
         }
         // --- End of auto-click logic ---
-			
-            // Load the game URL into the iframe after the transition starts
-            // This prevents a blank iframe from showing while expanding
-            setTimeout(() => {
-                gameFrame.src = "https://www.yusufalhelou.com/game";
-            }, 100); // Small delay to allow initial size transition to start
+
+
+        // Optional: a way to close the game if the Escape key is pressed
+        document.addEventListener('keydown', (event) => {
+            // Check if the pressed key is 'Escape' and if the game container is currently active/fullscreen
+            if (event.key === 'Escape' && gameContainer.classList.contains('fullscreen')) {
+                closeGame(); // Call the close game function
+            }
         });
 
-        // Optional: Adding a way to close the game since the game doesn't have its own "exit" button
-        // a close button *inside* the gameContainer in the HTML
-        // /* */
+        // Optional: Add a close button directly to the gameContainer for user convenience
+        // This button is appended dynamically for simplicity. You could also include it directly in your HTML.
         const closeGameButton = document.createElement('button');
-        closeGameButton.textContent = 'X';
+        closeGameButton.textContent = 'X'; // Text for the close button
         closeGameButton.style.cssText = `
             position: absolute; top: 10px; right: 10px; z-index: 10000;
             background-color: red; color: white; border: none; padding: 5px 10px;
-            cursor: pointer; font-family: 'Press Start 2P', cursive;
-            border: 2px solid darkred; box-shadow: 2px 2px 0 darkred;
+            cursor: pointer; font-family: 'Press Start 2P', cursive; /* Use your pixel font for consistency */
+            border: 2px solid darkred; box-shadow: 2px 2px 0 darkred; /* Pixel-style button effect */
+            border-radius: 4px; /* Slight rounding for pixel buttons */
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
         `;
-        closeGameButton.addEventListener('click', function() {
-            const gameContainer = document.getElementById('gameContainer');
-            const gameFrame = document.getElementById('gameFrame');
-            const body = document.body;
+        // hover/active styles for the close button
+        closeGameButton.onmouseover = () => { closeGameButton.style.backgroundColor = '#cc0000'; };
+        closeGameButton.onmouseout = () => { closeGameButton.style.backgroundColor = 'red'; };
+        closeGameButton.onmousedown = () => { closeGameButton.style.transform = 'translate(2px, 2px)'; closeGameButton.style.boxShadow = 'none'; };
+        closeGameButton.onmouseup = () => { closeGameButton.style.transform = 'translate(0, 0)'; closeGameButton.style.boxShadow = '2px 2px 0 darkred'; };
 
-            gameContainer.classList.remove('fullscreen');
-            body.classList.remove('game-active');
-            gameFrame.src = "about:blank"; // Unload the iframe content
-        });
-        gameContainer.appendChild(closeGameButton);        
+        // click event listener to the dynamically created close button
+        closeGameButton.addEventListener('click', closeGame);
+        // Append the close button to the game container
+        gameContainer.appendChild(closeGameButton);
+    });
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
