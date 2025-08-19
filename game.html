@@ -1,6 +1,3 @@
----
-title: "Game"
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,11 +21,13 @@ title: "Game"
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Community Pharmacy Quiz Game">
     <meta name="twitter:description" content="Test your pharmacy knowledge with this fun and interactive Community Pharmacy Quiz game! Answer patient questions, earn points, and become the best pharmacist.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/assets/game/welcometothepharmacyresized.png"> 
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/assets/game/welcometothepharmacyresized.png"> 
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- New: Arabic Font - Handjet -->
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;700&display=swap" rel="stylesheet">
     <style>
         @keyframes bounce {
             0%, 100% {
@@ -46,6 +45,12 @@ title: "Game"
         @keyframes shine {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
+        }
+        
+        /* New: Shimmer animation for loading text */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .animate-bounce {
@@ -82,6 +87,7 @@ title: "Game"
             transform: translate(4px, 4px);
             box-shadow: none;
         }
+		
         .patient-bubble {
             position: absolute;
             top: -60px;
@@ -150,10 +156,10 @@ title: "Game"
             background-color: #4CAF50;
             transition: width 0.2s linear;
         }
-        #modal-overlay, #question-answer-modal, #feedback-modal-overlay, #search-modal-overlay {
+        #modal-overlay, #question-answer-modal, #feedback-modal-overlay, #search-modal-overlay, #leaderboard-modal-overlay, #name-input-modal-overlay {
             background-color: rgba(0,0,0,0.7);
         }
-        #feedback-modal {
+        #feedback-modal, #leaderboard-modal, #name-input-modal {
             padding: 20px;
             font-size: 2em;
             font-weight: bold;
@@ -370,7 +376,7 @@ title: "Game"
             display: block;
         }
         #search-button svg path {
-            fill: #000; /* Black color for the icon */
+            fill: #000;
         }
 
         /* Search Modal Overlay */
@@ -394,7 +400,7 @@ title: "Game"
             position: relative;
         }
 
-        #search-modal .close-button {
+        #search-modal .close-button, #name-input-modal .close-button {
             position: absolute;
             top: 8px;
             right: 8px;
@@ -408,7 +414,23 @@ title: "Game"
             line-height: 1;
             image-rendering: pixelated;
         }
-        #search-modal .close-button:hover {
+		
+		#leaderboard-modal .close-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000;
+            padding: 4px;
+            line-height: 1;
+            image-rendering: pixelated;
+        }
+		
+        #search-modal .close-button:hover, #leaderboard-modal .close-button:hover, #name-input-modal .close-button:hover {
             color: #e74c3c;
         }
 
@@ -532,8 +554,217 @@ title: "Game"
             fill: #000;
         }
 		#patient-area {
-    z-index: 2; /* a value greater than the shelves */
-}
+            z-index: 2; /* a value greater than the shelves */
+        }
+
+         /* Leaderboard Modal Styles */
+        #leaderboard-modal-overlay {
+            position: absolute;
+            inset: 0;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 35; /* Between game modals and search modal */
+        }
+
+        #leaderboard-modal {
+            background-color: #f0f0f0;
+            color: black;
+            padding: 20px;
+            text-align: center;
+            pixel-border;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #leaderboard-modal h2 {
+            font-family: 'Press Start 2P', cursive; /* Default for English */
+            font-size: 0.8em; /* Default font size */
+            margin-bottom: 15px;
+            color: #4CAF50; /* Green title */
+            text-shadow: 1px 1px 0 #000;
+        }
+
+
+        #leaderboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        #leaderboard-list li {
+            background-color: #e0e0e0;
+            border: 2px solid #000;
+            padding: 8px 10px;
+            margin-bottom: 5px;
+            display: flex; /* This is key for side-by-side content */
+            justify-content: space-between; /* Pushes first child left, second child right */
+            align-items: center;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        #leaderboard-list li span {
+            font-weight: bold;
+            /* Apply Handjet to ALL player names */
+            font-family: 'Handjet', cursive;
+            font-size: 0.8em; /* Adjusted for better Handjet readability */
+			padding: 0px 5px;
+			text-shadow: 1px 1px 0 #555;
+        }
+        
+        /* New: Styles for loading text shimmer */
+        .loading-text-shimmer {
+            color: transparent !important; /* Hide text */
+            background-color: #d0d0d0; /* Base color for shimmer */
+            background: linear-gradient(100deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            min-width: 80px; /* Ensure some visible width */
+            height: 1.2em; /* Match line height for visual consistency */
+            display: inline-block; /* Essential for background to apply */
+            border-radius: 4px; /* Slight rounding for loading blocks */
+            vertical-align: middle; /* Align with other content */
+        }
+
+        #leaderboard-list li:nth-child(odd) {
+            background-color: #d0d0d0; /* Alternate row color */
+        }
+
+        #leaderboard-list li:first-child {
+            background-color: #FFD700; /* Gold for 1st place */
+            color: #000;
+            font-size: 1em;
+            padding: 10px 15px;
+            text-shadow: 1px 1px 0 #555;
+        }
+        #leaderboard-list li:nth-child(2) {
+            background-color: #C0C0C0; /* Silver for 2nd place */
+            color: #000;
+            font-size: 0.95em;
+            padding: 9px 14px;
+            text-shadow: 1px 1px 0 #555;
+        }
+        #leaderboard-list li:nth-child(3) {
+            background-color: #CD7F32; /* Bronze for 3rd place */
+            color: #000;
+            font-size: 0.9em;
+            padding: 8px 13px;
+            text-shadow: 1px 1px 0 #555;
+        }
+
+        /* New style for the alias under 'سونيك' */
+        .owner-alias {
+            font-size: 0.8rem; /* Very small */
+            color: #007bff; /* Sonic blue color */
+            margin-top: 2px; /* Small spacing below the main name */
+            direction: ltr; /* Ensure LTR for the alias text */
+            text-align: left; /* Ensure left alignment */
+            font-family: 'Press Start 2P', cursive; /* Pixel font for the alias */
+        }
+
+        /* New style for player avatar images */
+        .player-avatar {
+            width: 100px; /* 1:1 aspect ratio */
+            height: 100px; /* 1:1 aspect ratio */
+            object-fit: cover; /* Ensures image covers the area without distortion */
+            border: 2px solid #4CAF50; /* Green pixel border */
+            box-shadow: 2px 2px 0 #000; /* Pixel shadow */
+            image-rendering: pixelated; /* Keeps the pixelated look for low-res images */
+            flex-shrink: 0; /* Prevents image from shrinking in flex container */
+        }
+
+        #leaderboard-modal .pixel-button {
+            margin-top: 20px;
+        }
+
+        /* Name Input Modal Styles */
+        #name-input-modal-overlay {
+            position: absolute;
+            inset: 0;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 45; /* Highest z-index to be on top of all other modals */
+        }
+
+        #name-input-modal {
+            background-color: #f0f0f0;
+            color: black;
+            padding: 20px;
+            text-align: center;
+            pixel-border;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        #name-input-modal h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #333;
+            text-shadow: 1px 1px 0 #AAA;
+        }
+
+        #name-input-modal input {
+            background-color: white;
+            border: 2px solid #000;
+            padding: 8px;
+            width: calc(100% - 16px);
+            margin-bottom: 15px;
+            /* Default font for input, will be overridden by [lang="ar"] if Arabic */
+            font-family: 'Handjet', cursive;
+            font-size: 0.8em;
+            color: #000;
+            box-shadow: 2px 2px 0 #000;
+            outline: none;
+            direction: ltr; /* Ensure LTR direction by default */
+            text-align: left; /* Ensure left alignment by default */
+        }
+        
+		.pixel-button-two {
+            background-color: #af9e4c;
+            border: 4px solid #000;
+            box-shadow:
+                4px 4px 0 #000;
+            transition: all 0.1s ease-in-out;
+            image-rendering: pixelated;
+
+			animation: color-shift 5s linear infinite;
+        }
+        .pixel-button-two:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+		
+		@keyframes color-shift {
+		  0% {
+			filter: hue-rotate(0deg);
+		  }
+		  100% {
+			filter: hue-rotate(360deg);
+		  }
+		}
+		
+        /* Style for the player count text */
+        #player-count-display {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9em; /* Smaller text */
+            color: #4CAF50; /* Green color to match the leaderboard theme */
+            margin-top:10px; /* Small margin above */
+            text-shadow: 1px 1px 0 #000;
+            /* Added min-height to ensure space is reserved even if content is empty initially */
+            min-height: 1.2em; 
+            /* Added min-width to ensure some visual presence */
+            min-width: 150px; 
+        }
+
+		.pixel-border.incorrect {
+			max-width: 90%;
+		}
 
     </style>
 </head>
@@ -613,12 +844,14 @@ title: "Game"
 
         <!-- Start/Game Over Modal -->
         <div id="modal-overlay" class="absolute inset-0 flex items-center justify-center z-20" style="display: flex; opacity: 1;">
-            <div id="modal" class="bg-[#f0f0f0] text-black p-8 text-center pixel-border w-80">
+            <div id="modal" class="bg-[#f0f0f0] text-black p-8 text-center pixel-border w-96">
                 <h2 id="modal-title" class="text-2xl mb-4">Welcome to the Pharmacy!</h2>
                 <p id="modal-text" class="mb-6">Test your pharmacy knowledge! Answer patient questions correctly to earn points. Good luck!</p>
                 <p id="final-score" class="text-xl mb-4 hidden"></p>
                 <p id="high-score" class="text-lg mb-4 hidden">Highest Score: 0</p>
                 <button id="start-button" class="pixel-button text-white px-6 py-3 text-lg">Start Game</button>
+                <button id="view-leaderboard-button" class="pixel-button-two text-white px-6 py-3 text-lg mt-4">Top Pharmacists</button> <!-- New Leaderboard button -->
+                <div id="player-count-display" class="text-center text-sm mt-2">Loading players...</div> <!-- New: Player count display with initial text -->
             </div>
         </div>
 
@@ -633,7 +866,7 @@ title: "Game"
                     </svg>
                 </button>
                 <h2 class="text-xl mb-4" id="question-text"></h2>
-                <div id="answer-choices" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div id="answer-choices" class="grid grid-cols-1 gap-1 mb-4">
                 </div>
                 <div id="modal-patience-container" class="w-full px-4 hidden">
                     <div class="text-xs mb-1 text-center">Time remaining:</div>
@@ -663,11 +896,35 @@ title: "Game"
                     <button id="search-input-button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z" clip-rule="evenodd" />
-                        </svg>
+                    </svg>
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- Leaderboard Modal -->
+        <div id="leaderboard-modal-overlay" class="absolute inset-0 flex items-center justify-center z-30">
+            <div id="leaderboard-modal" class="bg-[#f0f0f0] text-black p-8 text-center pixel-border">
+                <button class="close-button" id="close-leaderboard-modal">X</button>
+                <h2>Top Pharmacists</h2>
+                <ul id="leaderboard-list" class="list-none p-0 m-0">
+                    <!-- Leaderboard items will be inserted here -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Name Input Modal -->
+        <div id="name-input-modal-overlay" class="absolute inset-0 flex items-center justify-center z-45">
+            <div id="name-input-modal" class="bg-[#f0f0f0] text-black p-8 text-center pixel-border">
+                <h2>Enter Your Name!</h2>
+                <p class="text-sm mb-4">Your score: <span id="name-input-score-display">0</span></p>
+                <div id="name-input-message" class="text-red-600 text-sm mb-2 hidden"></div> <!-- Added for validation message -->
+                <input type="text" id="player-name-input" placeholder="Your Name (max 20 chars)" maxlength="20" class="w-full text-black mb-4">
+                <button id="submit-name-button" class="pixel-button text-white px-6 py-3 text-lg">Submit Score</button>
+                <button id="cancel-name-button" class="pixel-button text-white bg-gray-500 px-6 py-3 text-lg mt-2">No, Thanks</button>
+            </div>
+        </div>
+
 
         <!-- Feedback Modal (Correct/Incorrect) -->
         <div id="feedback-modal-overlay" class="absolute inset-0 hidden items-center justify-center z-30">
@@ -724,7 +981,27 @@ title: "Game"
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        // Import the functions you need from the SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        // Import Firestore specific functions: getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where, updateDoc
+        import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs, where, updateDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        // Use __firebase_config if available in the environment, otherwise use hardcoded
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyCKFARdMNaVXmvrvcP4aJPE6TB8LRusfrE",
+            authDomain: "welcome-to-the-pharmacy.firebaseapp.com",
+            projectId: "welcome-to-the-pharmacy",
+            storageBucket: "welcome-to-the-pharmacy.firebaseastorage.app",
+            messagingSenderId: "663040590491",
+            appId: "1:663040590491:web:2a8fcb645ab893499c3c3e"
+        };
+
+        // Initialize Firebase and Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         document.addEventListener('DOMContentLoaded', async () => {
             const patientEl = document.getElementById('patient');
             const patientSpriteContainerEl = document.getElementById('patient-sprite-container');
@@ -740,7 +1017,7 @@ title: "Game"
             const answerChoicesEl = document.getElementById('answer-choices');
             const feedbackModalOverlay = document.getElementById('feedback-modal-overlay');
             const feedbackModal = document.getElementById('feedback-modal');
-            const feedbackTextEl = document.getElementById('feedback-text');
+            const feedbackTextEl = document.getElementById('feedback-text'); 
             const correctAnswerTextEl = document.getElementById('correct-answer-text');
             const skipFeedbackButton = document.getElementById('skip-feedback-button');
             const pixelClockEl = document.getElementById('pixel-clock');
@@ -752,7 +1029,27 @@ title: "Game"
             const closeSearchModalButton = document.getElementById('close-search-modal');
             const searchInput = document.getElementById('search-input');
             const searchInputButton = document.getElementById('search-input-button');
-            // searchResultsDisplay is removed as it's not needed for external Google search
+            
+            // New Leaderboard elements
+            const viewLeaderboardButton = document.getElementById('view-leaderboard-button');
+            const leaderboardModalOverlay = document.getElementById('leaderboard-modal-overlay');
+            const leaderboardModal = document.getElementById('leaderboard-modal');
+            const closeLeaderboardModalButton = document.getElementById('close-leaderboard-modal');
+            const leaderboardList = document.getElementById('leaderboard-list');
+            const leaderboardTitle = document.querySelector('#leaderboard-modal h2'); // Get leaderboard title
+
+            // New Name Input Modal elements
+            const nameInputModalOverlay = document.getElementById('name-input-modal-overlay');
+            const nameInputModal = document.getElementById('name-input-modal');
+            const playerNameInput = document.getElementById('player-name-input');
+            const submitNameButton = document.getElementById('submit-name-button');
+            const cancelNameButton = document.getElementById('cancel-name-button');
+            const nameInputScoreDisplay = document.getElementById('name-input-score-display');
+            const nameInputMessageEl = document.getElementById('name-input-message'); // Added for validation message
+
+            // New: Player Count Display element
+            const playerCountDisplayEl = document.getElementById('player-count-display');
+
 
             // --- Game State ---
             let score = 0;
@@ -760,8 +1057,9 @@ title: "Game"
             let currentPatient = null;
             let patientTimer;
             let answeredQuestions = [];
-            let highestScore = 0;
+            let highestScore = 0; // This will now primarily be a local fallback/display, real high score is from Firebase
             let feedbackTimeoutId;
+            let finalGameScore = 0; // To store the score before asking for name
 
             // --- Sound Engine (Tone.js) ---
             const synth = new Tone.Synth().toDestination();
@@ -878,6 +1176,9 @@ title: "Game"
                         }
                         backgroundAudio.play().catch(e => console.error("Error playing background audio:", e));
 
+                        // Load and display player count on initial load
+                        await updatePlayerCountDisplay();
+
                     }, 500);
                 }, 500);
             } catch (error) {
@@ -886,7 +1187,7 @@ title: "Game"
                 const gameContainer = document.getElementById('game-container');
                 loadingScreen.innerHTML = `
                     <div class="text-white text-lg mb-4 text-center text-shadow">
-                        Error loading game. Please check your internet connection and ensure gameconfig.json is correctly formatted as an array of questions.
+                        Error loading game. Please check your internet connection.
                         <br><br>Details: ${error.message || error}
                     </div>
                     <button onclick="window.location.reload()" class="pixel-button text-white px-6 py-3 text-lg mt-4">
@@ -1215,24 +1516,227 @@ title: "Game"
                 scoreEl.textContent = score;
             }
 
-            function loadHighestScore() {
-                const storedHighScore = localStorage.getItem('communityPharmacyHighScore');
-                if (storedHighScore) {
-                    highestScore = parseInt(storedHighScore, 10);
-                } else {
-                    highestScore = 0;
-                }
-                highScoreEl.textContent = `Highest Score: ${highestScore}`;
-                highScoreEl.classList.remove('hidden');
+            // Function to check if a string contains Arabic characters
+            function containsArabic(text) {
+                // This regex covers most common Arabic Unicode ranges
+                const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+                return arabicRegex.test(text);
             }
 
-            function saveHighestScore() {
-                if (score > highestScore) {
-                    highestScore = score;
-                    localStorage.setItem('communityPharmacyHighScore', highestScore);
-                    highScoreEl.textContent = `Highest Score: ${highestScore}`;
+            // Firebase Integration Functions
+            async function saveHighScoreToFirebase(originalPlayerName, currentScore) {
+                if (currentScore < 0) return; // Don't save negative scores
+
+                // Normalize the player name to uppercase for consistent storage and querying
+                const normalizedPlayerName = originalPlayerName.toUpperCase().replace(/\s/g, ''); // Ensure no spaces
+
+                try {
+                    // Query for existing high score for this player using the normalized name
+                    const q = query(collection(db, "leaderboard"), where("normalizedPlayerName", "==", normalizedPlayerName), orderBy("score", "desc"), limit(1));
+                    const querySnapshot = await getDocs(q);
+
+                    if (!querySnapshot.empty) {
+                        // Player exists, check if new score is higher
+                        const existingDoc = querySnapshot.docs[0];
+                        const existingScore = existingDoc.data().score;
+                        // Retrieve existing imgUrl to preserve it, or set to empty string if not present
+                        const existingImgUrl = existingDoc.data().imgUrl || ""; 
+
+                        if (currentScore > existingScore) {
+                            // Update existing document if new score is higher
+                            await updateDoc(existingDoc.ref, {
+                                originalPlayerName: originalPlayerName, // Store the original casing for display
+                                normalizedPlayerName: normalizedPlayerName, // CRITICAL: Ensure this is also sent on update
+                                score: currentScore,
+                                timestamp: new Date(), // Update timestamp for freshness/tie-breaking
+                                imgUrl: existingImgUrl // Preserve existing imgUrl
+                            });
+                            console.log(`Score updated for ${originalPlayerName} (normalized: ${normalizedPlayerName}) to ${currentScore}!`);
+                        } else {
+                            console.log(`New score ${currentScore} for ${originalPlayerName} (normalized: ${normalizedPlayerName}) is not higher than existing score ${existingScore}. Not updating.`);
+                        }
+                    } else {
+                        // Player does not exist, add a new document
+                        await addDoc(collection(db, "leaderboard"), {
+                            originalPlayerName: originalPlayerName, // Store the original casing for display
+                            normalizedPlayerName: normalizedPlayerName, // Store normalized name for querying
+                            score: currentScore,
+                            timestamp: new Date(),
+                            imgUrl: "" // New field, initially empty
+                        });
+                        console.log(`New score saved for ${originalPlayerName} (normalized: ${normalizedPlayerName}): ${currentScore}`);
+                    }
+                    // After saving/updating, refresh the player count display
+                    await updatePlayerCountDisplay();
+
+                } catch (e) {
+                    console.error("Error saving/updating score to Firebase: ", e);
                 }
             }
+
+            async function loadLeaderboardFromFirebase() {
+                try {
+                    leaderboardList.innerHTML = '<li>Loading scores...</li>'; // Show loading message
+                    // Query all scores, sorted as before. We will filter for unique names client-side.
+                    // This query needs an index on 'score' (desc) and 'timestamp' (asc)
+                    const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), orderBy("timestamp", "asc"));
+                    const querySnapshot = await getDocs(q);
+
+                    const uniqueScores = new Map(); // Map to store highest score per normalized player name
+
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const currentNormalizedName = data.normalizedPlayerName; // Use normalized name for map key
+
+                        // Only add/update if this is the first time we see this normalized name OR
+                        // if the current score is higher than what we've already recorded for this normalized name
+                        if (!uniqueScores.has(currentNormalizedName) || data.score > uniqueScores.get(currentNormalizedName).score) {
+                            uniqueScores.set(currentNormalizedName, { 
+                                originalPlayerName: data.originalPlayerName, // Keep original casing for display
+                                normalizedPlayerName: data.normalizedPlayerName,
+                                score: data.score,
+                                timestamp: data.timestamp, // Keep timestamp for tie-breaking if re-sorting
+                                imgUrl: data.imgUrl || "" // Retrieve imgUrl, default to empty string
+                            });
+                        }
+                    });
+                    
+                    // Convert Map values back to an array and sort again to ensure true top 10 unique players
+                    // The initial query only gives us documents in a specific order. The uniqueScores map
+                    // collects the *highest* score for each unique normalized name. We then need to
+                    // re-sort this unique set and slice the top 10.
+                    const finalScores = Array.from(uniqueScores.values())
+                                        .sort((a, b) => b.score - a.score || a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime())
+                                        .slice(0, 10); // Limit to top 10 unique entries
+
+                    displayLeaderboard(finalScores);
+
+                } catch (e) {
+                    console.error("Error loading leaderboard from Firebase: ", e);
+                    leaderboardList.innerHTML = '<li>Error loading leaderboard.</li>';
+                }
+            }
+
+            // New function to update the player count display
+            async function updatePlayerCountDisplay() {
+                playerCountDisplayEl.textContent = "Loading players..."; // Show loading state
+                try {
+                    // Fetch all documents from the leaderboard collection
+                    const querySnapshot = await getDocs(collection(db, "leaderboard"));
+                    const uniquePlayers = new Set(); // Use a Set to store unique normalized player names
+
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        if (data.normalizedPlayerName) {
+                            uniquePlayers.add(data.normalizedPlayerName);
+                        }
+                    });
+
+                    playerCountDisplayEl.textContent = `Registered Pharmacists: ${uniquePlayers.size}`;
+                } catch (e) {
+                    console.error("Error fetching player count:", e);
+                    playerCountDisplayEl.textContent = `Error loading player count.`;
+                }
+            }
+
+
+            // Function to display leaderboard scores
+            function displayLeaderboard(scores) {
+                leaderboardList.innerHTML = ''; // Clear existing list
+
+                // Check if the title text itself is Arabic and apply lang attribute
+                if (containsArabic(leaderboardTitle.textContent)) {
+                    leaderboardTitle.setAttribute('lang', 'ar');
+                } else {
+                    leaderboardTitle.removeAttribute('lang'); // Ensure it defaults if not Arabic
+                }
+
+                if (scores.length === 0) {
+                    leaderboardList.innerHTML = '<li>No scores yet! Be the first!</li>';
+                    return;
+                }
+
+                scores.forEach((entry, index) => {
+                    const li = document.createElement('li');
+                    
+                    // Container for image and player name/alias
+                    const playerVisualAndNameContainer = document.createElement('div');
+                    playerVisualAndNameContainer.style.display = 'flex';
+                    playerVisualAndNameContainer.style.alignItems = 'center';
+                    playerVisualAndNameContainer.style.gap = '10px'; // Space between image and text
+
+                    // Add player avatar image if imgUrl exists and is not empty
+                    if (entry.imgUrl && entry.imgUrl.trim() !== '') {
+                        const playerImage = document.createElement('img');
+                        playerImage.src = entry.imgUrl;
+                        playerImage.alt = `${entry.originalPlayerName}'s avatar`;
+                        playerImage.classList.add('player-avatar'); // Apply new CSS class for 1:1 square
+                        playerVisualAndNameContainer.appendChild(playerImage);
+                    }
+
+                    // Container for rank, name, and alias
+                    const nameAndAliasContainer = document.createElement('div');
+                    nameAndAliasContainer.style.display = 'flex';
+                    nameAndAliasContainer.style.flexDirection = 'column'; // Stack elements vertically
+                    nameAndAliasContainer.style.alignItems = 'flex-start'; // Align text to the left within this container
+
+                    const rankAndNameSpan = document.createElement('span');
+                    const rank = (index + 1).toString().padStart(Math.min(3, scores.length.toString().length), '0'); 
+                    rankAndNameSpan.textContent = `${rank}. ${entry.originalPlayerName}`;
+                    rankAndNameSpan.style.direction = 'ltr'; // Ensure LTR for rank and name
+                    rankAndNameSpan.style.textAlign = 'left';
+                    rankAndNameSpan.classList.add('loading-text-shimmer'); // Keep shimmer for the name
+
+                    nameAndAliasContainer.appendChild(rankAndNameSpan);
+
+                    // Check if the current player's normalized name matches "سونيك" for special alias
+                    const entryNormalizedName = entry.originalPlayerName.toUpperCase().replace(/\s/g, '');
+                    if (entryNormalizedName === "سونيك".toUpperCase().replace(/\s/g, '')) {
+                        const ownerAlias = document.createElement('div');
+                        ownerAlias.classList.add('owner-alias'); // Apply the new styling for alias
+                        ownerAlias.textContent = "also: Sonic, Yusuf"; // Custom alias text
+                        nameAndAliasContainer.appendChild(ownerAlias); // Append alias under the name
+                    }
+                    
+                    playerVisualAndNameContainer.appendChild(nameAndAliasContainer); // Add name and alias container to the player visual container
+
+                    // Create a separate span for the score
+                    const scoreSpan = document.createElement('span');
+                    scoreSpan.textContent = entry.score;
+                    // The 'justify-content: space-between' on the parent 'li' will naturally push this to the right
+
+                    // Append both main parts to the list item
+                    li.appendChild(playerVisualAndNameContainer);
+                    li.appendChild(scoreSpan);
+                    leaderboardList.appendChild(li);
+                });
+
+                // After populating the list, wait for the Handjet font to load and remove shimmer
+                document.fonts.ready.then(() => {
+                    const nameSpans = leaderboardList.querySelectorAll('li span.loading-text-shimmer');
+                    nameSpans.forEach(span => {
+                        span.classList.remove('loading-text-shimmer');
+                    });
+                    const ownerAliases = leaderboardList.querySelectorAll('.owner-alias');
+                    ownerAliases.forEach(alias => {
+                        alias.style.color = '#007bff'; // Re-apply color in case shimmer hid it
+                    });
+
+                }).catch(err => {
+                    console.error("Error loading fonts:", err);
+                    // Fallback: If font loading fails, ensure text is still visible
+                    const nameSpans = leaderboardList.querySelectorAll('li span.loading-text-shimmer');
+                    nameSpans.forEach(span => {
+                        span.classList.remove('loading-text-shimmer');
+                        span.style.color = 'black'; // Ensure text is visible
+                    });
+                    const ownerAliases = leaderboardList.querySelectorAll('.owner-alias');
+                    ownerAliases.forEach(alias => {
+                        alias.style.color = '#007bff'; // Ensure it's visible even without Handjet
+                    });
+                });
+            }
+
 
             function startGame() {
                 score = 0;
@@ -1249,18 +1753,54 @@ title: "Game"
             function gameOver() {
                 gameActive = false;
                 clearInterval(patientTimer);
+                
+                // Store the final score before showing the name input modal
+                finalGameScore = score; 
+
                 modalTitle.textContent = "Game Over";
                 modalText.textContent = "You've completed your shift at the pharmacy. Great job answering all the patient questions!";
-                finalScoreEl.textContent = `Final Score: ${score}`;
+                finalScoreEl.textContent = `Final Score: ${finalGameScore}`;
                 finalScoreEl.classList.remove('hidden');
                 startButton.textContent = "Play Again";
-                modalOverlay.style.display = 'flex';
-
-                saveHighestScore();
-                loadHighestScore();
+                
+                // Hide main modal and show name input modal
+                modalOverlay.style.display = 'none';
+                showNameInputModal();
+                
+                loadHighestScore(); // Update local high score display
             }
 
-            loadHighestScore();
+            // Function to show the custom name input modal
+            function showNameInputModal() {
+                nameInputScoreDisplay.textContent = finalGameScore; // Display the score
+                nameInputModalOverlay.style.display = 'flex';
+                playerNameInput.value = ''; // Clear previous input
+                nameInputMessageEl.classList.add('hidden'); // Hide any previous error message
+                playerNameInput.focus(); // Focus the input field
+            }
+
+            // Local highest score logic (can be kept for quick local feedback)
+            function loadHighestScore() {
+                const storedHighScore = localStorage.getItem('communityPharmacyHighScore');
+                if (storedHighScore) {
+                    highestScore = parseInt(storedHighScore, 10);
+                } else {
+                    highestScore = 0;
+                }
+                highScoreEl.textContent = `Highest Score: ${highestScore}`;
+                highScoreEl.classList.remove('hidden');
+            }
+
+            function saveHighestScore() {
+                // This is now redundant for the main leaderboard but keeps local high score working
+                if (score > highestScore) {
+                    highestScore = score;
+                    localStorage.setItem('communityPharmacyHighScore', highestScore);
+                    highScoreEl.textContent = `Highest Score: ${highestScore}`;
+                }
+            }
+
+            loadHighestScore(); // Load local high score on initial page load
 
             const stopButton = document.getElementById('stop-button');
             function stopGame() {
@@ -1277,7 +1817,7 @@ title: "Game"
                 searchModalOverlay.style.display = 'none'; // Close search modal on game stop
                 searchButton.style.display = 'none'; // Hide search button on game stop
                 stopButton.classList.add('hidden');
-                gameOver();
+                gameOver(); // Call gameOver to handle score saving and modal display
             }
 
             // --- Event Listeners ---
@@ -1324,8 +1864,7 @@ title: "Game"
                 questionAnswerModal.style.display = 'none'; // Hide question modal
                 searchModalOverlay.style.display = 'flex'; // Show search modal
                 searchInput.value = ''; // Clear previous search
-                // searchResultsDisplay is removed, so no need to update its text
-                searchInput.focus(); // Focus the search input
+                searchInput.focus(); // Focus the input field
             });
 
             // Event listener for Close Search Modal Button
@@ -1334,12 +1873,11 @@ title: "Game"
                 questionAnswerModal.style.display = 'flex'; // Show question modal again
             });
 
-            // Function to perform Google Search (original from v18)
+            // Function to perform Google Search
             function performSearch() {
                 const query = searchInput.value.trim();
                 if (query) {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
-                    // Optionally close search modal after opening new tab
                     searchModalOverlay.style.display = 'none';
                     questionAnswerModal.style.display = 'flex'; // Bring back question
                 }
@@ -1355,6 +1893,75 @@ title: "Game"
                     event.preventDefault(); // Prevent default form submission if any
                 }
             });
+            
+            // Event listener to dynamically apply lang="ar" to the input field if Arabic is typed
+            // and ensure LTR for consistency
+            playerNameInput.addEventListener('input', () => {
+                if (containsArabic(playerNameInput.value)) {
+                    playerNameInput.setAttribute('lang', 'ar');
+                    // Direction and text-align are now handled by CSS, but good to set them explicitly here
+                    playerNameInput.style.direction = 'ltr'; 
+                    playerNameInput.style.textAlign = 'left';
+                } else {
+                    playerNameInput.removeAttribute('lang');
+                    playerNameInput.style.direction = 'ltr'; 
+                    playerNameInput.style.textAlign = 'left';
+                }
+            });
+
+            // Define forbidden names (normalized to uppercase, no spaces)
+            const FORBIDDEN_NAMES = [
+                "YUSUF", "YUSUFALHELOU", "YUSUFMUHSIN", "YUSUF ALHELOU", "YUSUF MUHSIN", "YUSUF MUHSIN ALHELOU", "يوسف الحلو", "SONIC", "القط السوفيتى"
+            ].map(name => name.toUpperCase().replace(/\s/g, '')); // Normalize all forbidden names
+
+            // Event listeners for Name Input Modal
+            submitNameButton.addEventListener('click', async () => { // Made async to await saveHighScoreToFirebase
+                let playerName = playerNameInput.value.trim();
+                const normalizedPlayerNameForCheck = playerName.toUpperCase().replace(/\s/g, ''); // Normalize user input for checking
+
+                // Check for forbidden names, but explicitly allow "سونيك"
+                if (FORBIDDEN_NAMES.includes(normalizedPlayerNameForCheck) && normalizedPlayerNameForCheck !== "سونيك".toUpperCase().replace(/\s/g, '')) {
+                    nameInputMessageEl.textContent = "Sorry, that name is reserved for the game owner! Please choose another.";
+                    nameInputMessageEl.classList.remove('hidden');
+                    return; // Stop the function here, do not save score
+                }
+
+                // If the name is valid, hide any previous error message
+                nameInputMessageEl.classList.add('hidden');
+
+                if (playerName === "") {
+                    playerName = "Anonymous";
+                } else {
+                    playerName = playerName.substring(0, 20); // Limit name length
+                }
+                await saveHighScoreToFirebase(playerName, finalGameScore); // Call updated function, await it
+                nameInputModalOverlay.style.display = 'none'; // Hide name input modal
+                modalOverlay.style.display = 'flex'; // Show main game modal again
+            });
+
+            cancelNameButton.addEventListener('click', () => {
+                nameInputModalOverlay.style.display = 'none'; // Hide name input modal
+                modalOverlay.style.display = 'flex'; // Show main game modal again
+                nameInputMessageEl.classList.add('hidden'); // Hide any error message
+                // Do not save score if user cancels
+            });
+
+
+            // Event listener for View Leaderboard Button
+            viewLeaderboardButton.addEventListener('click', () => {
+                modalOverlay.style.display = 'none'; // Hide main modal
+                leaderboardModalOverlay.style.display = 'flex'; // Show leaderboard modal
+                loadLeaderboardFromFirebase(); // Load and display scores
+            });
+
+            // Event listener for Close Leaderboard Modal Button
+            closeLeaderboardModalButton.addEventListener('click', () => {
+                leaderboardModalOverlay.style.display = 'none'; // Hide leaderboard modal
+                modalOverlay.style.display = 'flex'; // Show main modal again
+            });
+
+            updatePlayerCountDisplay();
+
         });
     </script>
 </body>
