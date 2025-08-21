@@ -1611,7 +1611,7 @@ permalink: /game/
                     // re-sort this unique set and slice the top 10.
                     const finalScores = Array.from(uniqueScores.values())
                                         .sort((a, b) => b.score - a.score || a.timestamp.toDate().getTime() - b.timestamp.toDate().getTime())
-                                        .slice(0, 10); // Limit to top 10 unique entries
+                                        .slice(0, 20); // Limit to top # unique entries
 
                     displayLeaderboard(finalScores);
 
