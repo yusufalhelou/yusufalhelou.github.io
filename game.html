@@ -1925,7 +1925,7 @@ permalink: /game/
 
                 // Check for forbidden names, but explicitly allow "سونيك"
                 if (FORBIDDEN_NAMES.includes(normalizedPlayerNameForCheck) && normalizedPlayerNameForCheck !== "سونيك".toUpperCase().replace(/\s/g, '')) {
-                    nameInputMessageEl.textContent = "Sorry, that name is reserved for the game owner! Please choose another.";
+                    nameInputMessageEl.textContent = "Sorry, that name is reserved for the game developer! Please choose another.";
                     nameInputMessageEl.classList.remove('hidden');
                     return; // Stop the function here, do not save score
                 }
