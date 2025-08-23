@@ -678,11 +678,10 @@ permalink: /flashcards/
         // Variables to manage touch states per item for tap/drag differentiation
         let touchStartX = 0;
         let touchStartY = 0;
-        let touchStartTime = 0; // Renamed to touchStartTime for clarity
-        let isTouchDragging = false; // Flag to indicate if a touch-drag is actively happening for an item
-        let isLongPress = false; // Flag for long press if needed in future
-        const TAP_THRESHOLD_MS = 250; // Max time for a tap
-        const MOVE_THRESHOLD_PX = 10; // Max pixels moved for a tap
+        let touchStartTime = 0;
+        let isTouchDragging = false;
+        const TAP_THRESHOLD_MS = 250; 
+        const MOVE_THRESHOLD_PX = 10;
 
         async function init() {
             try {
@@ -849,7 +848,6 @@ permalink: /flashcards/
                 
                 // --- Desktop: Click to toggle, Drag Handle for dragging ---
                 itemDiv.addEventListener('click', (e) => {
-                    // Only toggle checkbox if not clicking the drag handle or the checkbox itself (which has its own change listener)
                     if (!e.target.closest('.drag-handle') && e.target !== checkbox) {
                         checkbox.checked = !checkbox.checked;
                         checkbox.dispatchEvent(new Event('change'));
@@ -858,8 +856,8 @@ permalink: /flashcards/
 
                 // Desktop Drag Start on Handle
                 dragHandle.addEventListener('dragstart', (e) => {
-                    e.stopPropagation(); // Prevent itemDiv from also trying to drag
-                    draggedItem = itemDiv; // Mark this item as the one being dragged
+                    e.stopPropagation(); 
+                    draggedItem = itemDiv; 
                     e.dataTransfer.setDragImage(itemDiv, 20, 20);
                     e.dataTransfer.effectAllowed = 'move';
                     itemDiv.classList.add('dragging', 'opacity-50');
@@ -881,7 +879,7 @@ permalink: /flashcards/
                         document.body.removeChild(ghostElement);
                         ghostElement = null;
                     }
-                    draggedItem = null; // Clear the dragged item
+                    draggedItem = null; 
                     if (dragOverElement) {
                         dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
                         dragOverElement = null;
@@ -911,8 +909,7 @@ permalink: /flashcards/
                         targetItem.classList.remove('drag-over-left-indicator');
                     }
                     dragOverElement = targetItem;
-                    // Ghost element update for desktop drag (touchmove handles mobile)
-                    if (ghostElement && e.dataTransfer) { // Check dataTransfer to ensure it's a desktop drag event
+                    if (ghostElement && e.dataTransfer) { 
                          ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
                          ghostElement.style.top = `${e.clientY - ghostElement.offsetHeight / 2}px`;
                     }
@@ -962,8 +959,8 @@ permalink: /flashcards/
 
                 // --- Mobile: Touch Handle for dragging, Tap anywhere else to toggle ---
                 dragHandle.addEventListener('touchstart', (e) => {
-                    e.stopPropagation(); // Stop propagation to itemDiv's touchstart to avoid conflicts
-                    e.preventDefault(); // Prevent default scrolling to ensure drag can be initiated
+                    e.stopPropagation(); 
+                    e.preventDefault(); 
 
                     touchStartX = e.touches[0].clientX;
                     touchStartY = e.touches[0].clientY;
@@ -972,7 +969,6 @@ permalink: /flashcards/
                     
                     draggedItem = itemDiv; 
 
-                    // Create ghost element immediately for visual feedback during potential drag
                     ghostElement = itemDiv.cloneNode(true);
                     ghostElement.classList.add('ghost-drag');
                     document.body.appendChild(ghostElement);
@@ -982,11 +978,11 @@ permalink: /flashcards/
                     ghostElement.style.left = `${e.touches[0].clientX - rect.width / 2}px`;
                     ghostElement.style.top = `${e.touches[0].clientY - rect.height / 2}px`;
 
-                    itemDiv.classList.add('dragging', 'opacity-50'); // Add dragging styles
+                    itemDiv.classList.add('dragging', 'opacity-50'); 
                 }, { passive: false }); 
 
                 itemDiv.addEventListener('touchmove', (e) => {
-                    if (draggedItem === itemDiv) { // Only process if this item is the one being dragged
+                    if (draggedItem === itemDiv) {
                         const currentTouchX = e.touches[0].clientX;
                         const currentTouchY = e.touches[0].clientY;
                         const distanceX = Math.abs(currentTouchX - touchStartX);
@@ -997,28 +993,41 @@ permalink: /flashcards/
                         }
 
                         if (isTouchDragging) {
-                            e.preventDefault(); // Prevent scrolling only when actively dragging
+                            e.preventDefault(); 
                             const touch = e.touches[0];
                             if (ghostElement) {
                                 ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
                                 ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
                             }
-                            // Simulate dragover for visual indicators
-                            const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
-                            const eventForDragOver = { clientX: touch.clientX, target: elementUnderTouch };
-                            itemDiv.dispatchEvent(new CustomEvent('dragover', { detail: eventForDragOver, bubbles: true }));
+                            // Directly apply drag-over visual indicators for touch
+                            const targetItem = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
+
+                            if (dragOverElement && dragOverElement !== targetItem) {
+                                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                            }
+
+                            if (targetItem && targetItem !== draggedItem) {
+                                const rect = targetItem.getBoundingClientRect();
+                                const middleX = rect.left + rect.width / 2;
+                                
+                                if (touch.clientX < middleX) {
+                                    targetItem.classList.add('drag-over-left-indicator');
+                                    targetItem.classList.remove('drag-over-right-indicator');
+                                } else {
+                                    targetItem.classList.add('drag-over-right-indicator');
+                                    targetItem.classList.remove('drag-over-left-indicator');
+                                }
+                                dragOverElement = targetItem;
+                            } else {
+                                dragOverElement = null;
+                            }
                         }
-                    } else if (e.target.closest('.draggable-item') === itemDiv && !isTouchDragging) {
-                        // If touch started on the item (not handle) but didn't trigger drag yet, allow scrolling
-                        // Do not prevent default here, as it might be a scroll
-                    }
+                    } 
                 }, { passive: false }); 
 
                 itemDiv.addEventListener('touchend', (e) => {
-                    // Check if a drag was initiated from the handle for this specific item
                     const wasThisItemDragged = (draggedItem === itemDiv);
 
-                    // Clear drag related visual feedback first
                     if (wasThisItemDragged) {
                         itemDiv.classList.remove('dragging', 'opacity-50');
                         if (ghostElement) {
@@ -1031,26 +1040,23 @@ permalink: /flashcards/
                         }
                     }
                     
-                    // If it was a drag, perform drop logic
                     if (wasThisItemDragged && isTouchDragging) {
                         const touch = e.changedTouches[0]; 
                         const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
                         
-                        // Clear all existing dragover indicators
                         const allItems = [...draggableContentList.querySelectorAll('.draggable-item')];
                         allItems.forEach(item => {
                             item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
                         });
                         
                         if (afterElement == null) {
-                            draggableContentList.appendChild(itemDiv); // Use itemDiv directly, not draggedItem
+                            draggableContentList.appendChild(itemDiv); 
                         } else {
-                            draggableContentList.insertBefore(itemDiv, afterElement); // Use itemDiv directly
+                            draggableContentList.insertBefore(itemDiv, afterElement); 
                         }
                         updateContentOrder();
                         displayCurrentCard();
                     } 
-                    // If it was a tap (not a drag) AND the touch target was not the drag handle itself AND not the checkbox itself
                     else if (wasThisItemDragged && !isTouchDragging) {
                         const touchDuration = Date.now() - touchStartTime;
                         const currentTouchX = e.changedTouches[0].clientX;
@@ -1058,7 +1064,6 @@ permalink: /flashcards/
                         const distanceX = Math.abs(currentTouchX - touchStartX);
                         const distanceY = Math.abs(currentTouchY - touchStartY);
 
-                        // If it's a short press, minimal movement, and not explicitly on drag handle or checkbox
                         if (touchDuration < TAP_THRESHOLD_MS && 
                             distanceX < MOVE_THRESHOLD_PX && distanceY < MOVE_THRESHOLD_PX &&
                             !e.target.closest('.drag-handle') && e.target !== checkbox && !e.target.closest('label[for^="checkbox-"]')) {
@@ -1068,7 +1073,6 @@ permalink: /flashcards/
                         }
                     }
                     
-                    // Reset global drag state flags
                     draggedItem = null;
                     isTouchDragging = false;
                     touchStartX = 0;
@@ -1326,7 +1330,6 @@ permalink: /flashcards/
             return array;
         }
 
-        // Helper function for drag-over detection (used by both desktop and mobile drag)
         function getDragAfterElement(container, x) {
             const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
             
@@ -1351,3 +1354,4 @@ permalink: /flashcards/
     </script>
 </body>
 </html>
+
