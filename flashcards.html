@@ -673,7 +673,7 @@ permalink: /flashcards/
         // Global state for drag operations
         let draggedItem = null;
         let ghostElement = null;
-        let dragOverElement = null;
+        let dragOverElement = null; // Stores the element currently showing drag-over indicators
 
         // Variables to manage touch states per item for tap/drag differentiation
         let touchStartX = 0;
@@ -872,44 +872,36 @@ permalink: /flashcards/
                     ghostElement.style.top = `${e.clientY - rect.height / 2}px`;
                 });
 
-                // Desktop Drag End on itemDiv
-                itemDiv.addEventListener('dragend', (e) => {
-                    itemDiv.classList.remove('dragging', 'opacity-50');
-                    if (ghostElement) {
-                        document.body.removeChild(ghostElement);
-                        ghostElement = null;
-                    }
-                    draggedItem = null; 
-                    if (dragOverElement) {
-                        dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-                        dragOverElement = null;
-                    }
-                    updateContentOrder();
-                    displayCurrentCard();
-                });
-
-                // --- Shared Drag Over/Enter/Leave/Drop Logic (Desktop & Mobile Visuals) ---
+                // Desktop Drag Over
                 itemDiv.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'move';
-                    const targetItem = e.target.closest('.draggable-item');
-                    if (!targetItem || targetItem === draggedItem) {
-                        return;
-                    }
-                    if (dragOverElement && dragOverElement !== targetItem) {
+                    
+                    const dropInfo = getDragAfterElement(draggableContentList, e.clientX, e.clientY);
+
+                    // Clear previous indicators on different elements
+                    if (dragOverElement && dragOverElement !== dropInfo.element) {
                         dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
                     }
-                    const rect = targetItem.getBoundingClientRect();
-                    const middleX = rect.left + rect.width / 2;
-                    if (e.clientX < middleX) {
-                        targetItem.classList.add('drag-over-left-indicator');
-                        targetItem.classList.remove('drag-over-right-indicator');
+
+                    if (dropInfo.element && draggedItem !== dropInfo.element) {
+                        if (dropInfo.insertPosition === 'before') {
+                            dropInfo.element.classList.add('drag-over-left-indicator');
+                            dropInfo.element.classList.remove('drag-over-right-indicator');
+                        } else {
+                            dropInfo.element.classList.add('drag-over-right-indicator');
+                            dropInfo.element.classList.remove('drag-over-left-indicator');
+                        }
+                        dragOverElement = dropInfo.element;
                     } else {
-                        targetItem.classList.add('drag-over-right-indicator');
-                        targetItem.classList.remove('drag-over-left-indicator');
+                        // If not over any valid element, clear indicators
+                        if (dragOverElement) {
+                            dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                            dragOverElement = null;
+                        }
                     }
-                    dragOverElement = targetItem;
-                    if (ghostElement && e.dataTransfer) { 
+
+                    if (ghostElement) {
                          ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
                          ghostElement.style.top = `${e.clientY - ghostElement.offsetHeight / 2}px`;
                     }
@@ -923,34 +915,41 @@ permalink: /flashcards/
                     }
                 });
 
+                // Desktop Drop
                 itemDiv.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    const items = [...draggableContentList.querySelectorAll('.draggable-item')];
-                    items.forEach(item => {
+                    
+                    const dropInfo = getDragAfterElement(draggableContentList, e.clientX, e.clientY);
+
+                    const allItems = [...draggableContentList.querySelectorAll('.draggable-item')];
+                    allItems.forEach(item => {
                         item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator', 'drag-over');
                     });
                     
-                    let dropTarget = null;
-                    if (dragOverElement) {
-                        dropTarget = dragOverElement;
-                    } else {
-                        const lastItem = items[items.length - 1];
-                        if (lastItem && draggedItem !== lastItem) {
-                            draggableContentList.appendChild(draggedItem);
-                            updateContentOrder();
-                            displayCurrentCard();
-                            return;
-                        }
-                    }
-
-                    if (dropTarget && draggedItem !== dropTarget) {
-                        const rect = dropTarget.getBoundingClientRect();
-                        const middleX = rect.left + rect.width / 2;
-                        if (e.clientX < middleX) {
-                            draggableContentList.insertBefore(draggedItem, dropTarget);
+                    if (dropInfo.element && draggedItem !== dropInfo.element) {
+                        if (dropInfo.insertPosition === 'before') {
+                            draggableContentList.insertBefore(draggedItem, dropInfo.element);
                         } else {
-                            draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
+                            draggableContentList.insertBefore(draggedItem, dropInfo.element.nextElementSibling);
                         }
+                    } else if (!dropInfo.element && draggedItem) { 
+                        draggableContentList.appendChild(draggedItem);
+                    }
+                    updateContentOrder();
+                    displayCurrentCard();
+                });
+
+                // Desktop Drag End
+                itemDiv.addEventListener('dragend', (e) => {
+                    itemDiv.classList.remove('dragging', 'opacity-50');
+                    if (ghostElement) {
+                        document.body.removeChild(ghostElement);
+                        ghostElement = null;
+                    }
+                    draggedItem = null; 
+                    if (dragOverElement) {
+                        dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                        dragOverElement = null;
                     }
                     updateContentOrder();
                     displayCurrentCard();
@@ -999,27 +998,29 @@ permalink: /flashcards/
                                 ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
                                 ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
                             }
-                            // Directly apply drag-over visual indicators for touch
-                            const targetItem = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
+                            
+                            const dropInfo = getDragAfterElement(draggableContentList, touch.clientX, touch.clientY);
 
-                            if (dragOverElement && dragOverElement !== targetItem) {
+                            // Remove previous indicators on different elements
+                            if (dragOverElement && dragOverElement !== dropInfo.element) {
                                 dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
                             }
 
-                            if (targetItem && targetItem !== draggedItem) {
-                                const rect = targetItem.getBoundingClientRect();
-                                const middleX = rect.left + rect.width / 2;
-                                
-                                if (touch.clientX < middleX) {
-                                    targetItem.classList.add('drag-over-left-indicator');
-                                    targetItem.classList.remove('drag-over-right-indicator');
+                            if (dropInfo.element && draggedItem !== dropInfo.element) {
+                                if (dropInfo.insertPosition === 'before') {
+                                    dropInfo.element.classList.add('drag-over-left-indicator');
+                                    dropInfo.element.classList.remove('drag-over-right-indicator');
                                 } else {
-                                    targetItem.classList.add('drag-over-right-indicator');
-                                    targetItem.classList.remove('drag-over-left-indicator');
+                                    dropInfo.element.classList.add('drag-over-right-indicator');
+                                    dropInfo.element.classList.remove('drag-over-left-indicator');
                                 }
-                                dragOverElement = targetItem;
+                                dragOverElement = dropInfo.element;
                             } else {
-                                dragOverElement = null;
+                                // If not over any valid element, clear indicators
+                                if (dragOverElement) {
+                                    dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                                    dragOverElement = null;
+                                }
                             }
                         }
                     } 
@@ -1028,6 +1029,7 @@ permalink: /flashcards/
                 itemDiv.addEventListener('touchend', (e) => {
                     const wasThisItemDragged = (draggedItem === itemDiv);
 
+                    // Clear drag related visual feedback first
                     if (wasThisItemDragged) {
                         itemDiv.classList.remove('dragging', 'opacity-50');
                         if (ghostElement) {
@@ -1042,17 +1044,22 @@ permalink: /flashcards/
                     
                     if (wasThisItemDragged && isTouchDragging) {
                         const touch = e.changedTouches[0]; 
-                        const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
+                        const dropInfo = getDragAfterElement(draggableContentList, touch.clientX, touch.clientY);
                         
+                        // Clear all existing dragover indicators
                         const allItems = [...draggableContentList.querySelectorAll('.draggable-item')];
                         allItems.forEach(item => {
                             item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
                         });
                         
-                        if (afterElement == null) {
+                        if (dropInfo.element && draggedItem !== dropInfo.element) {
+                            if (dropInfo.insertPosition === 'before') {
+                                draggableContentList.insertBefore(itemDiv, dropInfo.element); 
+                            } else {
+                                draggableContentList.insertBefore(itemDiv, dropInfo.element.nextElementSibling); 
+                            }
+                        } else if (!dropInfo.element && draggedItem) { 
                             draggableContentList.appendChild(itemDiv); 
-                        } else {
-                            draggableContentList.insertBefore(itemDiv, afterElement); 
                         }
                         updateContentOrder();
                         displayCurrentCard();
@@ -1330,19 +1337,36 @@ permalink: /flashcards/
             return array;
         }
 
-        function getDragAfterElement(container, x) {
+        /**
+         * Determines the closest draggable element to the given clientX/clientY and its insert position.
+         * Accounts for flex-wrap layouts by considering both X and Y coordinates.
+         * @param {HTMLElement} container The parent container of draggable items.
+         * @param {number} clientX The X coordinate of the pointer.
+         * @param {number} clientY The Y coordinate of the pointer.
+         * @returns {{element: HTMLElement|null, distance: number, insertPosition: 'before'|'after'}}
+         */
+        function getDragAfterElement(container, clientX, clientY) {
             const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
             
-            return draggableElements.reduce((closest, child) => {
+            let closestInfo = { element: null, distance: Number.POSITIVE_INFINITY, insertPosition: 'after' };
+
+            draggableElements.forEach(child => {
                 const box = child.getBoundingClientRect();
-                const offset = x - box.left - box.width / 2;
-                
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
+                const centerX = box.left + box.width / 2;
+                const centerY = box.top + box.height / 2;
+
+                // Calculate Euclidean distance to the center of the child element
+                const distance = Math.sqrt(Math.pow(clientX - centerX, 2) + Math.pow(clientY - centerY, 2));
+
+                if (distance < closestInfo.distance) {
+                    closestInfo.distance = distance;
+                    closestInfo.element = child;
+                    // Determine insert position based on X relative to the center of the closest element
+                    closestInfo.insertPosition = (clientX < centerX) ? 'before' : 'after';
                 }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
+            });
+
+            return closestInfo;
         }
 
         function updateContentOrder() {
