@@ -1964,6 +1964,90 @@ body.invert-fixed-colors #benzene-pattern-container svg {
             opacity: 0; /* Fade out main content when game is active */
             pointer-events: none; /* Prevent interaction with background content */
         }
+
+	/* Flashcards Button Style */
+.flashcards-button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #8A2BE2; /* Blue Violet */
+    color: white;
+    padding: 12px 24px;
+    border: 2px solid #9400D3; /* Dark Violet */
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    box-shadow: 3px 3px 0 #9400D3;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.flashcards-button:hover {
+    background-color: #9400D3;
+}
+
+.flashcards-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .flashcards-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .flashcards-button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+
+	/* Flashcards Container Styles */
+#flashcardsContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.1);
+    background-color: #000;
+    z-index: 9999;
+    overflow: hidden;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    border-radius: 8px;
+}
+
+#flashcardsContainer.fullscreen {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    border-radius: 0;
+}
+
+#flashcardsFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.7s;
+}
+
+#flashcardsContainer.fullscreen #flashcardsFrame {
+    opacity: 1;
+}
+
+/* Body and Content Styles */
+body.flashcards-active #mainContent {
+    opacity: 0;
+    pointer-events: none;
+}
 	
     </style>
 </head>
@@ -3647,6 +3731,70 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Variables and functions for the new flashcards button ---
+        const flashcardsButton = document.getElementById('drugFlashcardsButton');
+        const flashcardsContainer = document.getElementById('flashcardsContainer');
+        const flashcardsFrame = document.getElementById('flashcardsFrame');
+        const body = document.body;
+
+        // Function to open the flashcards iframe
+        function openFlashcards() {
+            flashcardsContainer.classList.add('fullscreen');
+            body.classList.add('flashcards-active');
+
+            setTimeout(() => {
+                flashcardsFrame.src = "https://www.yusufalhelou.com/flashcards";
+            }, 100);
+        }
+
+        // Function to close the flashcards iframe
+        function closeFlashcards() {
+            flashcardsContainer.classList.remove('fullscreen');
+            body.classList.remove('flashcards-active');
+            flashcardsFrame.src = "about:blank";
+        }
+
+        // Add event listener for the "Drug Flashcards" button
+        if (flashcardsButton) {
+            flashcardsButton.addEventListener('click', openFlashcards);
+        }
+
+        // --- Logic to auto-click the button if URL hash is '#flashcards' ---
+        if (window.location.hash === '#flashcards') {
+            setTimeout(() => {
+                openFlashcards();
+            }, 100);
+        }
+
+        // Optional: a way to close the flashcards if the Escape key is pressed
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && flashcardsContainer.classList.contains('fullscreen')) {
+                closeFlashcards();
+            }
+        });
+
+        // Add a close button directly to the flashcards container for user convenience
+        const closeFlashcardsButton = document.createElement('button');
+        closeFlashcardsButton.textContent = 'X';
+        closeFlashcardsButton.style.cssText = `
+            position: absolute; top: 10px; right: 10px; z-index: 10000;
+            background-color: red; color: white; border: none; padding: 5px 10px;
+            cursor: pointer; font-family: 'Press Start 2P', cursive;
+            border: 2px solid darkred; box-shadow: 2px 2px 0 darkred;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
+        `;
+        closeFlashcardsButton.onmouseover = () => { closeFlashcardsButton.style.backgroundColor = '#cc0000'; };
+        closeFlashcardsButton.onmouseout = () => { closeFlashcardsButton.style.backgroundColor = 'red'; };
+        closeFlashcardsButton.onmousedown = () => { closeFlashcardsButton.style.transform = 'translate(2px, 2px)'; closeFlashcardsButton.style.boxShadow = 'none'; };
+        closeFlashcardsButton.onmouseup = () => { closeFlashcardsButton.style.transform = 'translate(0, 0)'; closeFlashcardsButton.style.boxShadow = '2px 2px 0 darkred'; };
+
+        closeFlashcardsButton.addEventListener('click', closeFlashcards);
+        flashcardsContainer.appendChild(closeFlashcardsButton);
+    });
 </script>
 </body>
 </html>
