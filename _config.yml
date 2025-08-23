@@ -5,6 +5,8 @@ baseurl: ""
 og_image: "/assets/website/YusufAlhelouWebsiteBanner.png"
 permalink: /:title/
 
+theme: minima
+
 plugins:
   - jekyll-sitemap 
   - jekyll-seo-tag
