@@ -165,6 +165,7 @@ permalink: /flashcards/
             transition: all 0.2s ease;
             position: relative;
             min-width: 140px;
+            cursor: pointer; /* Indicate clickability for the whole item */
         }
 
         .draggable-item:hover {
@@ -841,12 +842,23 @@ permalink: /flashcards/
                 itemDiv.appendChild(label);
                 draggableContentList.appendChild(itemDiv);
                 
+                // Add click listener to the entire itemDiv
+                itemDiv.addEventListener('click', (e) => {
+                    // Check if the click target or any of its parents is the drag handle
+                    if (!e.target.closest('.drag-handle') && e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked; // Toggle checkbox state
+                        checkbox.dispatchEvent(new Event('change')); // Trigger change event
+                    }
+                });
+
                 itemDiv.addEventListener('dragover', handleDragOver);
                 itemDiv.addEventListener('dragenter', handleDragEnter);
                 itemDiv.addEventListener('dragleave', handleDragLeave);
                 itemDiv.addEventListener('drop', handleDrop);
                 itemDiv.addEventListener('dragend', handleDragEnd);
                 
+                // For touch events, we only want the drag handle to initiate a drag
+                // Clicks outside the handle will be handled by the itemDiv.addEventListener('click')
                 itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
                 itemDiv.addEventListener('touchend', handleTouchEnd);
             });
