@@ -670,10 +670,19 @@ permalink: /flashcards/
         const cardCounter = document.getElementById('card-counter');
         const loadingScreen = document.getElementById('loading-screen');
 
+        // Global state for drag operations
         let draggedItem = null;
         let ghostElement = null;
-        let dragStartIndex = -1;
-        let dragOverElement = null; // Changed to store the element that's being dragged over
+        let dragOverElement = null;
+
+        // Variables to manage touch states per item for tap/drag differentiation
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchStartTime = 0; // Renamed to touchStartTime for clarity
+        let isTouchDragging = false; // Flag to indicate if a touch-drag is actively happening for an item
+        let isLongPress = false; // Flag for long press if needed in future
+        const TAP_THRESHOLD_MS = 250; // Max time for a tap
+        const MOVE_THRESHOLD_PX = 10; // Max pixels moved for a tap
 
         async function init() {
             try {
@@ -807,18 +816,14 @@ permalink: /flashcards/
                 itemDiv.className = 'draggable-item';
                 itemDiv.dataset.key = key;
                 itemDiv.dataset.index = index;
-                // itemDiv.draggable is handled by the drag handle
                 
                 const dragHandle = document.createElement('div');
                 dragHandle.className = 'drag-handle';
-                dragHandle.draggable = true; // Make only the handle draggable
+                dragHandle.draggable = true; 
                 dragHandle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>`;
 
-                dragHandle.addEventListener('dragstart', handleDragStart);
-                dragHandle.addEventListener('touchstart', handleTouchStart, { passive: false });
-                
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.id = `checkbox-${key}`;
@@ -834,33 +839,242 @@ permalink: /flashcards/
                 
                 const label = document.createElement('label');
                 label.htmlFor = `checkbox-${key}`;
-                label.className = 'cursor-pointer select-none flex items-center flex-grow'; // flex-grow to take available space
+                label.className = 'cursor-pointer select-none flex items-center flex-grow'; 
                 label.innerHTML = `${contentIcons[key]} <span class="ml-1">${contentLabels[key]}</span>`;
                 
-                itemDiv.appendChild(dragHandle); // Add drag handle first
+                itemDiv.appendChild(dragHandle); 
                 itemDiv.appendChild(checkbox);
                 itemDiv.appendChild(label);
                 draggableContentList.appendChild(itemDiv);
                 
-                // Add click listener to the entire itemDiv
+                // --- Desktop: Click to toggle, Drag Handle for dragging ---
                 itemDiv.addEventListener('click', (e) => {
-                    // Check if the click target or any of its parents is the drag handle
+                    // Only toggle checkbox if not clicking the drag handle or the checkbox itself (which has its own change listener)
                     if (!e.target.closest('.drag-handle') && e.target !== checkbox) {
-                        checkbox.checked = !checkbox.checked; // Toggle checkbox state
-                        checkbox.dispatchEvent(new Event('change')); // Trigger change event
+                        checkbox.checked = !checkbox.checked;
+                        checkbox.dispatchEvent(new Event('change'));
                     }
                 });
 
-                itemDiv.addEventListener('dragover', handleDragOver);
-                itemDiv.addEventListener('dragenter', handleDragEnter);
-                itemDiv.addEventListener('dragleave', handleDragLeave);
-                itemDiv.addEventListener('drop', handleDrop);
-                itemDiv.addEventListener('dragend', handleDragEnd);
-                
-                // For touch events, we only want the drag handle to initiate a drag
-                // Clicks outside the handle will be handled by the itemDiv.addEventListener('click')
-                itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
-                itemDiv.addEventListener('touchend', handleTouchEnd);
+                // Desktop Drag Start on Handle
+                dragHandle.addEventListener('dragstart', (e) => {
+                    e.stopPropagation(); // Prevent itemDiv from also trying to drag
+                    draggedItem = itemDiv; // Mark this item as the one being dragged
+                    e.dataTransfer.setDragImage(itemDiv, 20, 20);
+                    e.dataTransfer.effectAllowed = 'move';
+                    itemDiv.classList.add('dragging', 'opacity-50');
+
+                    ghostElement = itemDiv.cloneNode(true);
+                    ghostElement.classList.add('ghost-drag');
+                    document.body.appendChild(ghostElement);
+                    const rect = itemDiv.getBoundingClientRect();
+                    ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
+                    ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
+                    ghostElement.style.left = `${e.clientX - rect.width / 2}px`;
+                    ghostElement.style.top = `${e.clientY - rect.height / 2}px`;
+                });
+
+                // Desktop Drag End on itemDiv
+                itemDiv.addEventListener('dragend', (e) => {
+                    itemDiv.classList.remove('dragging', 'opacity-50');
+                    if (ghostElement) {
+                        document.body.removeChild(ghostElement);
+                        ghostElement = null;
+                    }
+                    draggedItem = null; // Clear the dragged item
+                    if (dragOverElement) {
+                        dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                        dragOverElement = null;
+                    }
+                    updateContentOrder();
+                    displayCurrentCard();
+                });
+
+                // --- Shared Drag Over/Enter/Leave/Drop Logic (Desktop & Mobile Visuals) ---
+                itemDiv.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    const targetItem = e.target.closest('.draggable-item');
+                    if (!targetItem || targetItem === draggedItem) {
+                        return;
+                    }
+                    if (dragOverElement && dragOverElement !== targetItem) {
+                        dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                    }
+                    const rect = targetItem.getBoundingClientRect();
+                    const middleX = rect.left + rect.width / 2;
+                    if (e.clientX < middleX) {
+                        targetItem.classList.add('drag-over-left-indicator');
+                        targetItem.classList.remove('drag-over-right-indicator');
+                    } else {
+                        targetItem.classList.add('drag-over-right-indicator');
+                        targetItem.classList.remove('drag-over-left-indicator');
+                    }
+                    dragOverElement = targetItem;
+                    // Ghost element update for desktop drag (touchmove handles mobile)
+                    if (ghostElement && e.dataTransfer) { // Check dataTransfer to ensure it's a desktop drag event
+                         ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
+                         ghostElement.style.top = `${e.clientY - ghostElement.offsetHeight / 2}px`;
+                    }
+                });
+
+                itemDiv.addEventListener('dragenter', (e) => { e.preventDefault(); });
+                itemDiv.addEventListener('dragleave', () => {
+                    if (dragOverElement) {
+                        dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                        dragOverElement = null;
+                    }
+                });
+
+                itemDiv.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const items = [...draggableContentList.querySelectorAll('.draggable-item')];
+                    items.forEach(item => {
+                        item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator', 'drag-over');
+                    });
+                    
+                    let dropTarget = null;
+                    if (dragOverElement) {
+                        dropTarget = dragOverElement;
+                    } else {
+                        const lastItem = items[items.length - 1];
+                        if (lastItem && draggedItem !== lastItem) {
+                            draggableContentList.appendChild(draggedItem);
+                            updateContentOrder();
+                            displayCurrentCard();
+                            return;
+                        }
+                    }
+
+                    if (dropTarget && draggedItem !== dropTarget) {
+                        const rect = dropTarget.getBoundingClientRect();
+                        const middleX = rect.left + rect.width / 2;
+                        if (e.clientX < middleX) {
+                            draggableContentList.insertBefore(draggedItem, dropTarget);
+                        } else {
+                            draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
+                        }
+                    }
+                    updateContentOrder();
+                    displayCurrentCard();
+                });
+
+
+                // --- Mobile: Touch Handle for dragging, Tap anywhere else to toggle ---
+                dragHandle.addEventListener('touchstart', (e) => {
+                    e.stopPropagation(); // Stop propagation to itemDiv's touchstart to avoid conflicts
+                    e.preventDefault(); // Prevent default scrolling to ensure drag can be initiated
+
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    touchStartTime = Date.now(); 
+                    isTouchDragging = false; 
+                    
+                    draggedItem = itemDiv; 
+
+                    // Create ghost element immediately for visual feedback during potential drag
+                    ghostElement = itemDiv.cloneNode(true);
+                    ghostElement.classList.add('ghost-drag');
+                    document.body.appendChild(ghostElement);
+                    const rect = itemDiv.getBoundingClientRect();
+                    ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
+                    ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
+                    ghostElement.style.left = `${e.touches[0].clientX - rect.width / 2}px`;
+                    ghostElement.style.top = `${e.touches[0].clientY - rect.height / 2}px`;
+
+                    itemDiv.classList.add('dragging', 'opacity-50'); // Add dragging styles
+                }, { passive: false }); 
+
+                itemDiv.addEventListener('touchmove', (e) => {
+                    if (draggedItem === itemDiv) { // Only process if this item is the one being dragged
+                        const currentTouchX = e.touches[0].clientX;
+                        const currentTouchY = e.touches[0].clientY;
+                        const distanceX = Math.abs(currentTouchX - touchStartX);
+                        const distanceY = Math.abs(currentTouchY - touchStartY);
+
+                        if (!isTouchDragging && (distanceX > MOVE_THRESHOLD_PX || distanceY > MOVE_THRESHOLD_PX)) {
+                            isTouchDragging = true; 
+                        }
+
+                        if (isTouchDragging) {
+                            e.preventDefault(); // Prevent scrolling only when actively dragging
+                            const touch = e.touches[0];
+                            if (ghostElement) {
+                                ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
+                                ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
+                            }
+                            // Simulate dragover for visual indicators
+                            const elementUnderTouch = document.elementFromPoint(touch.clientX, touch.clientY);
+                            const eventForDragOver = { clientX: touch.clientX, target: elementUnderTouch };
+                            itemDiv.dispatchEvent(new CustomEvent('dragover', { detail: eventForDragOver, bubbles: true }));
+                        }
+                    } else if (e.target.closest('.draggable-item') === itemDiv && !isTouchDragging) {
+                        // If touch started on the item (not handle) but didn't trigger drag yet, allow scrolling
+                        // Do not prevent default here, as it might be a scroll
+                    }
+                }, { passive: false }); 
+
+                itemDiv.addEventListener('touchend', (e) => {
+                    // Check if a drag was initiated from the handle for this specific item
+                    const wasThisItemDragged = (draggedItem === itemDiv);
+
+                    // Clear drag related visual feedback first
+                    if (wasThisItemDragged) {
+                        itemDiv.classList.remove('dragging', 'opacity-50');
+                        if (ghostElement) {
+                            document.body.removeChild(ghostElement);
+                            ghostElement = null;
+                        }
+                        if (dragOverElement) {
+                            dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                            dragOverElement = null;
+                        }
+                    }
+                    
+                    // If it was a drag, perform drop logic
+                    if (wasThisItemDragged && isTouchDragging) {
+                        const touch = e.changedTouches[0]; 
+                        const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
+                        
+                        // Clear all existing dragover indicators
+                        const allItems = [...draggableContentList.querySelectorAll('.draggable-item')];
+                        allItems.forEach(item => {
+                            item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                        });
+                        
+                        if (afterElement == null) {
+                            draggableContentList.appendChild(itemDiv); // Use itemDiv directly, not draggedItem
+                        } else {
+                            draggableContentList.insertBefore(itemDiv, afterElement); // Use itemDiv directly
+                        }
+                        updateContentOrder();
+                        displayCurrentCard();
+                    } 
+                    // If it was a tap (not a drag) AND the touch target was not the drag handle itself AND not the checkbox itself
+                    else if (wasThisItemDragged && !isTouchDragging) {
+                        const touchDuration = Date.now() - touchStartTime;
+                        const currentTouchX = e.changedTouches[0].clientX;
+                        const currentTouchY = e.changedTouches[0].clientY;
+                        const distanceX = Math.abs(currentTouchX - touchStartX);
+                        const distanceY = Math.abs(currentTouchY - touchStartY);
+
+                        // If it's a short press, minimal movement, and not explicitly on drag handle or checkbox
+                        if (touchDuration < TAP_THRESHOLD_MS && 
+                            distanceX < MOVE_THRESHOLD_PX && distanceY < MOVE_THRESHOLD_PX &&
+                            !e.target.closest('.drag-handle') && e.target !== checkbox && !e.target.closest('label[for^="checkbox-"]')) {
+                            
+                            checkbox.checked = !checkbox.checked;
+                            checkbox.dispatchEvent(new Event('change'));
+                        }
+                    }
+                    
+                    // Reset global drag state flags
+                    draggedItem = null;
+                    isTouchDragging = false;
+                    touchStartX = 0;
+                    touchStartY = 0;
+                    touchStartTime = 0;
+                });
             });
             
             priceNoticeRibbon.classList.add('hidden');
@@ -1112,136 +1326,7 @@ permalink: /flashcards/
             return array;
         }
 
-        // --- Drag & Drop (Desktop) handlers ---
-        function handleDragStart(e) {
-            // Ensure only the drag handle triggers the drag, not the entire item
-            if (!e.target.classList.contains('drag-handle')) {
-                e.preventDefault();
-                return;
-            }
-
-            draggedItem = e.target.closest('.draggable-item');
-            dragStartIndex = parseInt(draggedItem.dataset.index);
-            
-            e.dataTransfer.setDragImage(draggedItem, 20, 20);
-            e.dataTransfer.effectAllowed = 'move';
-            
-            draggedItem.classList.add('dragging', 'opacity-50');
-            
-            // Create ghost element for visual feedback
-            ghostElement = draggedItem.cloneNode(true);
-            ghostElement.classList.add('ghost-drag');
-            document.body.appendChild(ghostElement);
-            
-            const rect = draggedItem.getBoundingClientRect();
-            ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
-            ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
-            ghostElement.style.left = `${e.clientX - rect.width / 2}px`;
-            ghostElement.style.top = `${e.clientY - rect.height / 2}px`;
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-            
-            const targetItem = e.target.closest('.draggable-item');
-            if (!targetItem || targetItem === draggedItem) {
-                return;
-            }
-
-            // Remove previous indicators
-            if (dragOverElement && dragOverElement !== targetItem) {
-                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-            }
-
-            const rect = targetItem.getBoundingClientRect();
-            const middleX = rect.left + rect.width / 2;
-            
-            if (e.clientX < middleX) {
-                targetItem.classList.add('drag-over-left-indicator');
-                targetItem.classList.remove('drag-over-right-indicator');
-            } else {
-                targetItem.classList.add('drag-over-right-indicator');
-                targetItem.classList.remove('drag-over-left-indicator');
-            }
-            dragOverElement = targetItem; // Update the element being dragged over
-            
-            if (ghostElement) {
-                ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
-                ghostElement.style.top = `${e.clientY - ghostElement.offsetHeight / 2}px`;
-            }
-        }
-
-        function handleDragEnter(e) {
-            e.preventDefault();
-        }
-
-        function handleDragLeave() {
-            if (dragOverElement) {
-                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-                dragOverElement = null;
-            }
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            
-            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
-            items.forEach(item => {
-                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator', 'drag-over');
-            });
-            
-            let dropTarget = null;
-            if (dragOverElement) {
-                dropTarget = dragOverElement;
-            } else {
-                // Fallback: if dropped outside any specific item, append to end
-                const lastItem = items[items.length - 1];
-                if (lastItem && draggedItem !== lastItem) {
-                    draggableContentList.appendChild(draggedItem);
-                    updateContentOrder();
-                    displayCurrentCard();
-                    return;
-                }
-            }
-
-            if (dropTarget && draggedItem !== dropTarget) {
-                const rect = dropTarget.getBoundingClientRect();
-                const middleX = rect.left + rect.width / 2;
-                
-                if (e.clientX < middleX) {
-                    draggableContentList.insertBefore(draggedItem, dropTarget);
-                } else {
-                    draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
-                }
-            }
-            
-            updateContentOrder();
-            displayCurrentCard();
-        }
-
-        function handleDragEnd() {
-            if (draggedItem) {
-                draggedItem.classList.remove('dragging', 'opacity-50');
-                draggedItem = null;
-            }
-            
-            if (ghostElement) {
-                document.body.removeChild(ghostElement);
-                ghostElement = null;
-            }
-            
-            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
-            items.forEach((item, index) => {
-                item.dataset.index = index;
-            });
-            
-            if (dragOverElement) {
-                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-                dragOverElement = null;
-            }
-        }
-
+        // Helper function for drag-over detection (used by both desktop and mobile drag)
         function getDragAfterElement(container, x) {
             const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
             
@@ -1260,112 +1345,6 @@ permalink: /flashcards/
         function updateContentOrder() {
             const items = [...draggableContentList.querySelectorAll('.draggable-item')];
             cardContentOrder = items.map(item => item.dataset.key);
-        }
-
-        // --- Touch (Mobile) handlers ---
-        function handleTouchStart(e) {
-            // Only initiate drag if the touch started on the drag handle
-            if (!e.target.classList.contains('drag-handle')) {
-                return;
-            }
-
-            e.preventDefault(); // Prevent scrolling
-            
-            draggedItem = e.target.closest('.draggable-item');
-            dragStartIndex = parseInt(draggedItem.dataset.index);
-            
-            draggedItem.classList.add('dragging', 'opacity-50');
-            
-            ghostElement = draggedItem.cloneNode(true);
-            ghostElement.classList.add('ghost-drag');
-            document.body.appendChild(ghostElement);
-            
-            const touch = e.touches[0];
-            const rect = draggedItem.getBoundingClientRect();
-            ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
-            ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
-            ghostElement.style.left = `${touch.clientX - rect.width / 2}px`;
-            ghostElement.style.top = `${touch.clientY - rect.height / 2}px`;
-        }
-
-        function handleTouchMove(e) {
-            if (!draggedItem) return;
-
-            e.preventDefault(); // Prevent scrolling while dragging
-            
-            const touch = e.touches[0];
-            
-            if (ghostElement) {
-                ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
-                ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
-            }
-            
-            const targetItem = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
-
-            // Remove previous indicators
-            if (dragOverElement && dragOverElement !== targetItem) {
-                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-            }
-
-            if (targetItem && targetItem !== draggedItem) {
-                const rect = targetItem.getBoundingClientRect();
-                const middleX = rect.left + rect.width / 2;
-                
-                if (touch.clientX < middleX) {
-                    targetItem.classList.add('drag-over-left-indicator');
-                    targetItem.classList.remove('drag-over-right-indicator');
-                } else {
-                    targetItem.classList.add('drag-over-right-indicator');
-                    targetItem.classList.remove('drag-over-left-indicator');
-                }
-                dragOverElement = targetItem; // Update the element being dragged over
-            } else {
-                dragOverElement = null; // No item being dragged over
-            }
-        }
-
-        function handleTouchEnd(e) {
-            e.preventDefault();
-            
-            if (!draggedItem) return;
-            
-            const touch = e.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
-            
-            if (dragOverElement) {
-                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-                dragOverElement = null;
-            }
-
-            if (dropTarget && draggedItem !== dropTarget) {
-                const rect = dropTarget.getBoundingClientRect();
-                const middleX = rect.left + rect.width / 2;
-                
-                if (touch.clientX < middleX) {
-                    draggableContentList.insertBefore(draggedItem, dropTarget);
-                } else {
-                    draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
-                }
-            } else if (!dropTarget) {
-                // If dropped outside any item, append to the end of the list
-                draggableContentList.appendChild(draggedItem);
-            }
-            
-            draggedItem.classList.remove('dragging', 'opacity-50');
-            draggedItem = null;
-            
-            if (ghostElement) {
-                document.body.removeChild(ghostElement);
-                ghostElement = null;
-            }
-            
-            const updatedItems = [...draggableContentList.querySelectorAll('.draggable-item')];
-            updatedItems.forEach((item, index) => {
-                item.dataset.index = index;
-            });
-            
-            updateContentOrder();
-            displayCurrentCard();
         }
 
         document.addEventListener('DOMContentLoaded', init);
