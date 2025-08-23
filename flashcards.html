@@ -152,7 +152,6 @@ permalink: /flashcards/
         }
 
         .draggable-item {
-            cursor: grab;
             user-select: none;
             background-color: white;
             padding: 0.875rem 1.25rem;
@@ -230,6 +229,7 @@ permalink: /flashcards/
             place-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            flex-shrink: 0; /* Prevent checkbox from shrinking */
         }
 
         input[type="checkbox"]:hover {
@@ -255,6 +255,22 @@ permalink: /flashcards/
             transform: scale(1);
         }
         
+        .drag-handle {
+            cursor: grab;
+            padding: 0.5rem;
+            margin-right: 0.5rem;
+            color: #94a3b8;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Prevent drag handle from shrinking */
+        }
+
+        .drag-handle:hover {
+            color: #3b82f6;
+        }
+
         .btn-primary {
             background: linear-gradient(to right, #3b82f6, #6366f1);
             color: white;
@@ -656,7 +672,7 @@ permalink: /flashcards/
         let draggedItem = null;
         let ghostElement = null;
         let dragStartIndex = -1;
-        let dragOverIndex = -1;
+        let dragOverElement = null; // Changed to store the element that's being dragged over
 
         async function init() {
             try {
@@ -790,7 +806,17 @@ permalink: /flashcards/
                 itemDiv.className = 'draggable-item';
                 itemDiv.dataset.key = key;
                 itemDiv.dataset.index = index;
-                itemDiv.draggable = true;
+                // itemDiv.draggable is handled by the drag handle
+                
+                const dragHandle = document.createElement('div');
+                dragHandle.className = 'drag-handle';
+                dragHandle.draggable = true; // Make only the handle draggable
+                dragHandle.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>`;
+
+                dragHandle.addEventListener('dragstart', handleDragStart);
+                dragHandle.addEventListener('touchstart', handleTouchStart, { passive: false });
                 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -807,21 +833,20 @@ permalink: /flashcards/
                 
                 const label = document.createElement('label');
                 label.htmlFor = `checkbox-${key}`;
-                label.className = 'cursor-pointer select-none flex items-center';
-                label.innerHTML = `${contentIcons[key]} ${contentLabels[key]}`;
+                label.className = 'cursor-pointer select-none flex items-center flex-grow'; // flex-grow to take available space
+                label.innerHTML = `${contentIcons[key]} <span class="ml-1">${contentLabels[key]}</span>`;
                 
+                itemDiv.appendChild(dragHandle); // Add drag handle first
                 itemDiv.appendChild(checkbox);
                 itemDiv.appendChild(label);
                 draggableContentList.appendChild(itemDiv);
                 
-                itemDiv.addEventListener('dragstart', handleDragStart);
                 itemDiv.addEventListener('dragover', handleDragOver);
                 itemDiv.addEventListener('dragenter', handleDragEnter);
                 itemDiv.addEventListener('dragleave', handleDragLeave);
                 itemDiv.addEventListener('drop', handleDrop);
                 itemDiv.addEventListener('dragend', handleDragEnd);
                 
-                itemDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
                 itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
                 itemDiv.addEventListener('touchend', handleTouchEnd);
             });
@@ -1075,20 +1100,28 @@ permalink: /flashcards/
             return array;
         }
 
+        // --- Drag & Drop (Desktop) handlers ---
         function handleDragStart(e) {
-            draggedItem = this;
-            dragStartIndex = parseInt(this.dataset.index);
+            // Ensure only the drag handle triggers the drag, not the entire item
+            if (!e.target.classList.contains('drag-handle')) {
+                e.preventDefault();
+                return;
+            }
+
+            draggedItem = e.target.closest('.draggable-item');
+            dragStartIndex = parseInt(draggedItem.dataset.index);
             
-            e.dataTransfer.setDragImage(this, 20, 20);
+            e.dataTransfer.setDragImage(draggedItem, 20, 20);
             e.dataTransfer.effectAllowed = 'move';
             
-            this.classList.add('dragging', 'opacity-50');
+            draggedItem.classList.add('dragging', 'opacity-50');
             
-            ghostElement = this.cloneNode(true);
+            // Create ghost element for visual feedback
+            ghostElement = draggedItem.cloneNode(true);
             ghostElement.classList.add('ghost-drag');
             document.body.appendChild(ghostElement);
             
-            const rect = this.getBoundingClientRect();
+            const rect = draggedItem.getBoundingClientRect();
             ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
             ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
             ghostElement.style.left = `${e.clientX - rect.width / 2}px`;
@@ -1099,26 +1132,27 @@ permalink: /flashcards/
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
             
-            const afterElement = getDragAfterElement(draggableContentList, e.clientX);
-            const items = [...draggableContentList.querySelectorAll('.draggable-item:not(.dragging)')];
-            
-            items.forEach(item => {
-                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-            });
-            
-            if (afterElement == null) {
-                const lastItem = items[items.length - 1];
-                if (lastItem) lastItem.classList.add('drag-over-right-indicator');
-            } else {
-                const rect = afterElement.getBoundingClientRect();
-                const middleX = rect.left + rect.width / 2;
-                
-                if (e.clientX < middleX) {
-                    afterElement.classList.add('drag-over-left-indicator');
-                } else {
-                    afterElement.classList.add('drag-over-right-indicator');
-                }
+            const targetItem = e.target.closest('.draggable-item');
+            if (!targetItem || targetItem === draggedItem) {
+                return;
             }
+
+            // Remove previous indicators
+            if (dragOverElement && dragOverElement !== targetItem) {
+                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+            }
+
+            const rect = targetItem.getBoundingClientRect();
+            const middleX = rect.left + rect.width / 2;
+            
+            if (e.clientX < middleX) {
+                targetItem.classList.add('drag-over-left-indicator');
+                targetItem.classList.remove('drag-over-right-indicator');
+            } else {
+                targetItem.classList.add('drag-over-right-indicator');
+                targetItem.classList.remove('drag-over-left-indicator');
+            }
+            dragOverElement = targetItem; // Update the element being dragged over
             
             if (ghostElement) {
                 ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
@@ -1128,11 +1162,13 @@ permalink: /flashcards/
 
         function handleDragEnter(e) {
             e.preventDefault();
-            this.classList.add('drag-over');
         }
 
         function handleDragLeave() {
-            this.classList.remove('drag-over');
+            if (dragOverElement) {
+                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                dragOverElement = null;
+            }
         }
 
         function handleDrop(e) {
@@ -1143,12 +1179,29 @@ permalink: /flashcards/
                 item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator', 'drag-over');
             });
             
-            const afterElement = getDragAfterElement(draggableContentList, e.clientX);
-            
-            if (afterElement == null) {
-                draggableContentList.appendChild(draggedItem);
+            let dropTarget = null;
+            if (dragOverElement) {
+                dropTarget = dragOverElement;
             } else {
-                draggableContentList.insertBefore(draggedItem, afterElement);
+                // Fallback: if dropped outside any specific item, append to end
+                const lastItem = items[items.length - 1];
+                if (lastItem && draggedItem !== lastItem) {
+                    draggableContentList.appendChild(draggedItem);
+                    updateContentOrder();
+                    displayCurrentCard();
+                    return;
+                }
+            }
+
+            if (dropTarget && draggedItem !== dropTarget) {
+                const rect = dropTarget.getBoundingClientRect();
+                const middleX = rect.left + rect.width / 2;
+                
+                if (e.clientX < middleX) {
+                    draggableContentList.insertBefore(draggedItem, dropTarget);
+                } else {
+                    draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
+                }
             }
             
             updateContentOrder();
@@ -1156,7 +1209,10 @@ permalink: /flashcards/
         }
 
         function handleDragEnd() {
-            this.classList.remove('dragging', 'opacity-50');
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging', 'opacity-50');
+                draggedItem = null;
+            }
             
             if (ghostElement) {
                 document.body.removeChild(ghostElement);
@@ -1167,6 +1223,11 @@ permalink: /flashcards/
             items.forEach((item, index) => {
                 item.dataset.index = index;
             });
+            
+            if (dragOverElement) {
+                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                dragOverElement = null;
+            }
         }
 
         function getDragAfterElement(container, x) {
@@ -1189,19 +1250,26 @@ permalink: /flashcards/
             cardContentOrder = items.map(item => item.dataset.key);
         }
 
+        // --- Touch (Mobile) handlers ---
         function handleTouchStart(e) {
-            e.preventDefault();
+            // Only initiate drag if the touch started on the drag handle
+            if (!e.target.classList.contains('drag-handle')) {
+                return;
+            }
+
+            e.preventDefault(); // Prevent scrolling
             
-            this.classList.add('dragging', 'opacity-50');
-            draggedItem = this;
-            dragStartIndex = parseInt(this.dataset.index);
+            draggedItem = e.target.closest('.draggable-item');
+            dragStartIndex = parseInt(draggedItem.dataset.index);
             
-            ghostElement = this.cloneNode(true);
+            draggedItem.classList.add('dragging', 'opacity-50');
+            
+            ghostElement = draggedItem.cloneNode(true);
             ghostElement.classList.add('ghost-drag');
             document.body.appendChild(ghostElement);
             
             const touch = e.touches[0];
-            const rect = this.getBoundingClientRect();
+            const rect = draggedItem.getBoundingClientRect();
             ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
             ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
             ghostElement.style.left = `${touch.clientX - rect.width / 2}px`;
@@ -1209,9 +1277,9 @@ permalink: /flashcards/
         }
 
         function handleTouchMove(e) {
-            e.preventDefault();
-            
             if (!draggedItem) return;
+
+            e.preventDefault(); // Prevent scrolling while dragging
             
             const touch = e.touches[0];
             
@@ -1220,25 +1288,27 @@ permalink: /flashcards/
                 ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
             }
             
-            const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
-            const items = [...draggableContentList.querySelectorAll('.draggable-item:not(.dragging)')];
-            
-            items.forEach(item => {
-                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-            });
-            
-            if (afterElement == null) {
-                const lastItem = items[items.length - 1];
-                if (lastItem) lastItem.classList.add('drag-over-right-indicator');
-            } else {
-                const rect = afterElement.getBoundingClientRect();
+            const targetItem = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
+
+            // Remove previous indicators
+            if (dragOverElement && dragOverElement !== targetItem) {
+                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+            }
+
+            if (targetItem && targetItem !== draggedItem) {
+                const rect = targetItem.getBoundingClientRect();
                 const middleX = rect.left + rect.width / 2;
                 
                 if (touch.clientX < middleX) {
-                    afterElement.classList.add('drag-over-left-indicator');
+                    targetItem.classList.add('drag-over-left-indicator');
+                    targetItem.classList.remove('drag-over-right-indicator');
                 } else {
-                    afterElement.classList.add('drag-over-right-indicator');
+                    targetItem.classList.add('drag-over-right-indicator');
+                    targetItem.classList.remove('drag-over-left-indicator');
                 }
+                dragOverElement = targetItem; // Update the element being dragged over
+            } else {
+                dragOverElement = null; // No item being dragged over
             }
         }
 
@@ -1248,18 +1318,25 @@ permalink: /flashcards/
             if (!draggedItem) return;
             
             const touch = e.changedTouches[0];
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.draggable-item');
             
-            const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
-            
-            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
-            items.forEach(item => {
-                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
-            });
-            
-            if (afterElement == null) {
+            if (dragOverElement) {
+                dragOverElement.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+                dragOverElement = null;
+            }
+
+            if (dropTarget && draggedItem !== dropTarget) {
+                const rect = dropTarget.getBoundingClientRect();
+                const middleX = rect.left + rect.width / 2;
+                
+                if (touch.clientX < middleX) {
+                    draggableContentList.insertBefore(draggedItem, dropTarget);
+                } else {
+                    draggableContentList.insertBefore(draggedItem, dropTarget.nextElementSibling);
+                }
+            } else if (!dropTarget) {
+                // If dropped outside any item, append to the end of the list
                 draggableContentList.appendChild(draggedItem);
-            } else {
-                draggableContentList.insertBefore(draggedItem, afterElement);
             }
             
             draggedItem.classList.remove('dragging', 'opacity-50');
