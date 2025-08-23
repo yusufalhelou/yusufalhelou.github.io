@@ -13,10 +13,6 @@ defaults:
       path: "assets/**" 
     values:
       sitemap: false
-  - scope:
-      path: "push/**"
-    values:
-      sitemap: false
 
 sitemap:
   exclude:
