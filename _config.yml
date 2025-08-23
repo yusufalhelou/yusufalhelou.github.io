@@ -7,6 +7,11 @@ permalink: /:title/
 
 plugins:
   - jekyll-sitemap 
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-titles-from-headings
+
 
 defaults:
   - scope:
