@@ -1,0 +1,1285 @@
+---
+title: "Drug Flashcards | Study the Pharmacy with Interactive Cards"
+permalink: /flashcards/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drug Flashcards | Study the Pharmacy with Interactive Cards</title>
+    <meta name="description" content="Interactive flashcards to help you study and memorize drugs in the market, administration routes, and pricing. Filter by terms and routes, customize card content, and shuffle for effective learning.">
+    <meta name="keywords" content="drug flashcards, pharmacology, pharmacy, medication, study, interactive, online learning, drug routes, drug prices, medical education">
+    <meta name="author" content="Yusuf Alhelou">
+    <meta name="robots" content="index, follow">
+    
+	<!-- Open Graph / Facebook / LinkedIn Meta Tags -->
+	<meta property="og:title" content="Drug Flashcards | Study the Pharmacy with Interactive Cards">
+    <meta property="og:description" content="Interactive flashcards to help you study and memorize drugs in the market, administration routes, and pricing. Filter by terms and routes, customize card content, and shuffle for effective learning.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yusufalhelou.com/flashcards">
+    <meta property="og:image" content="https://www.yusufalhelou.com/images/drug-flashcards-preview.jpg">
+    <meta property="og:image:alt" content="Screenshot of Drug Flashcards application">
+    <link rel="canonical" href="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/assets/website/DrugFlashcardsBanner.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Drug Flashcards | Study the Pharmacy with Interactive Cards">
+    <meta name="twitter:description" content="Interactive flashcards to help you study and memorize drugs in the market, administration routes, and pricing. Filter by terms and routes, customize card content, and shuffle for effective learning.">
+    <meta property="twitter:image" content="https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/assets/website/DrugFlashcardsBanner.png"> 
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+            min-height: 450px;
+            transition: height 0.3s ease-out; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 1rem;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            cursor: pointer;
+        }
+        .flashcard-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        .flashcard-face-front {
+            border: 1px solid #e2e8f0;
+        }
+        .flashcard-face-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            color: #0c4a6e;
+        }
+        
+        .pharmacology-tag {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+            transition: all 0.2s ease;
+        }
+        .pharmacology-tag:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.4);
+        }
+        .pharmacology-tag-remove {
+            margin-left: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+        .pharmacology-tag-remove:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .draggable-item {
+            cursor: grab;
+            user-select: none;
+            background-color: white;
+            padding: 0.875rem 1.25rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            position: relative;
+            min-width: 140px;
+        }
+
+        .draggable-item:hover {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .draggable-item.dragging {
+            opacity: 0.6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .draggable-item.selected {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+
+        .draggable-item.drag-over-left-indicator {
+            border-left: 2px solid #3b82f6;
+            padding-left: calc(0.875rem - 2px);
+        }
+        .draggable-item.drag-over-right-indicator {
+            border-right: 2px solid #3b82f6;
+            padding-right: calc(0.875rem - 2px);
+        }
+
+        .ghost-drag {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.9;
+            background: linear-gradient(to right, #eff6ff, #dbeafe);
+            border: 1px solid #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            transform: rotate(3deg);
+            width: var(--ghost-width);
+            height: var(--ghost-height);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.75rem;
+            padding: 0.875rem 1.25rem;
+        }
+        
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: #d1d5db;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            transform: translateY(-0.075em);
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        input[type="checkbox"]:hover {
+            border-color: #9ca3af;
+        }
+
+        input[type="checkbox"]:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.65rem;
+            height: 0.65rem;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em white;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #3b82f6, #6366f1);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #4b5563;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #f9fafb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-field {
+            padding: 0.875rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .select-field {
+            padding: 0.875rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .select-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .card-content-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            width: 100%;
+        }
+        
+        .card-content-item:last-child {
+            border-bottom: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 0.75rem;
+            background: #1f2937;
+            color: white;
+            font-size: 0.75rem;
+            border-radius: 0.375rem;
+            white-space: nowrap;
+            z-index: 10;
+            margin-bottom: 0.5rem;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .card-counter {
+            background: #3b82f6;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            margin-left: 0.5rem;
+        }
+
+        #card-lastname {
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        #card-optional-content-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .spinner {
+            border: 8px solid #e0e0e0;
+            border-top: 8px solid #3b82f6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex flex-col items-center p-4 min-h-screen">
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <p class="text-xl text-gray-700 font-semibold">Loading flashcards...</p>
+    </div>
+
+    <div class="container mx-auto p-6 bg-white rounded-2xl shadow-lg w-full max-w-4xl mb-8 mt-4 border border-gray-100">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Drug Flashcards</h1>
+        <p class="text-center text-gray-600 mb-6">Study the pharmacy's drugs with interactive flashcards</p>
+
+        <!-- New notice for market scope -->
+        <div id="market-scope-notice" class="mb-6 p-3 bg-indigo-50 border-l-4 border-indigo-500 text-indigo-700 rounded-lg text-sm text-center">
+            <strong>🌍 Market Notice:</strong> Support is currently mainly confined to the Egyptian market with some limited scope of the global market.
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="flex flex-col">
+                <label for="pharmacology-input" class="text-lg font-semibold text-gray-700 mb-2 flex items-center">
+                    Pharmacology Terms
+                    <span class="tooltip ml-1" data-tooltip="Add terms to filter drugs by their pharmacology">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
+                </label>
+                <div class="flex items-center space-x-2 flex-wrap">
+                    <input type="text" id="pharmacology-input" placeholder="Type pharmacology term..." class="input-field flex-grow">
+                    <button id="add-pharmacology-btn" class="btn-primary whitespace-nowrap flex items-center m-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add
+                    </button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Leave empty to show all pharmacologies</p>
+                
+                <div id="selected-pharmacologies-container" class="mt-3 flex flex-wrap gap-2 min-h-[48px] p-2 border border-gray-200 rounded-lg bg-gray-50 transition-all duration-200">
+                    <span class="text-gray-400 text-sm flex items-center h-full" id="no-terms-message">No terms selected</span>
+                </div>
+                 <p id="pharmacology-hint" class="text-sm font-medium mt-2 text-center"></p>
+            </div>
+
+            <div class="flex flex-col">
+                <label for="route-select" class="text-lg font-semibold text-gray-700 mb-2">Administration Route</label>
+                <select id="route-select" class="select-field">
+                    <option value="">All Routes</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-8 p-5 border border-gray-200 rounded-xl bg-gray-50">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center flex items-center justify-center">
+                Customize Card Content
+                <span class="tooltip ml-1" data-tooltip="Drag to reorder, check to include">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </span>
+            </h2>
+            <div id="draggable-content-list" class="flex flex-row flex-wrap justify-center gap-3">
+            </div>
+            
+            <div id="price-notice-ribbon" class="mt-6 p-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 rounded-lg text-sm text-center hidden">
+                <strong>💡 Price Notice:</strong> Prices are in EGP and may not reflect current market values. They are provided to give an idea of the relative expense of the drug.
+            </div>
+        </div>
+
+        <div class="flex justify-center mb-8">
+            <button id="apply-filters-btn" class="btn-primary flex items-center text-lg px-8 py-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Apply Filters & Content
+            </button>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center w-full max-w-4xl">
+        <div id="flashcard-message" class="text-gray-600 text-lg mb-6 p-4 bg-white rounded-xl shadow-sm border border-gray-200 text-center hidden w-full max-w-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p>No drugs match your criteria.</p>
+            <p class="text-sm text-gray-500 mt-1">Try adjusting your filters</p>
+        </div>
+        
+        <div id="card-counter" class="mb-4 text-sm text-gray-600 font-medium flex items-center">
+            <span>Card</span>
+            <span id="current-card-number" class="card-counter">1</span>
+            <span class="mx-1">of</span>
+            <span id="total-cards" class="font-semibold text-gray-800">0</span>
+        </div>
+        
+        <div class="flashcard-container mb-8">
+            <div id="flashcard" class="flashcard">
+                <div class="flashcard-face flashcard-face-front p-6 flex flex-col justify-between items-center text-center">
+                    <div class="w-full">
+                        <p class="text-2xl font-bold text-gray-900 mb-2" id="card-firstname"></p>
+                        <p class="text-xl text-gray-700 mb-6" id="card-lastname"></p>
+                    </div>
+                    <div id="card-optional-content-container" class="space-y-3 text-gray-700 text-base w-full fade-in">
+                    </div>
+                    <p class="mt-6 text-sm text-gray-500 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Click to search images & flip card
+                    </p>
+                </div>
+                <div class="flashcard-face flashcard-face-back p-6 flex flex-col justify-center items-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </div>
+                    <p class="font-bold text-gray-800 text-xl mb-2">Image Search Opened!</p>
+                    <p class="text-blue-700">Check your new browser tab for results.</p>
+                    <p class="mt-6 text-sm text-blue-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+                        </svg>
+                        Click to flip card
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex space-x-4 mb-10">
+            <button id="prev-card-btn" class="btn-secondary flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+            </button>
+            <button id="shuffle-cards-btn" class="btn-secondary flex items-center" title="Reshuffle current cards">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+            </button>
+            <button id="next-card-btn" class="btn-primary flex items-center">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <hr class="w-full max-w-4xl border-t border-gray-300 my-8">
+
+    <footer class="mt-8 mb-6 text-center text-gray-600 text-sm space-y-1">
+        <p class="font-bold text-gray-700">Made with ❤️ by <a href="https://www.yusufalhelou.com" target="_blank" class="text-blue-600 hover:underline">Yusuf Alhelou</a></p>
+        <p>Made possible thanks to <a href="https://www.pharorg.com/drugeye" target="_blank" class="text-blue-600 hover:underline">Drug Eye</a></p>
+    </footer>
+
+    <script>
+        const DRUGS_JSON_URL = 'https://raw.githubusercontent.com/yusufalhelou/yusufalhelou.github.io/main/_data/Drugs.json';
+        let allDrugsData = [];
+        let filteredDrugs = [];
+        let shuffledFilteredDrugs = [];
+        let currentCardIndex = 0;
+        let selectedPharmacologiesArray = [];
+        
+        let cardContentOrder = ['company', 'pharmacology', 'route', 'price'];
+
+        const contentLabels = {
+            company: 'Company',
+            pharmacology: 'Pharmacology',
+            route: 'Route',
+            price: 'Price'
+        };
+
+        const contentIcons = {
+            company: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>`,
+            pharmacology: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>`,
+            route: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>`,
+            price: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>`
+        };
+
+        const pharmacologyInput = document.getElementById('pharmacology-input');
+        const addPharmacologyBtn = document.getElementById('add-pharmacology-btn');
+        const selectedPharmacologiesContainer = document.getElementById('selected-pharmacologies-container');
+        const noTermsMessage = document.getElementById('no-terms-message');
+        const pharmacologyHint = document.getElementById('pharmacology-hint');
+        const routeSelect = document.getElementById('route-select');
+        const checkboxStates = {
+            company: false,
+            pharmacology: false,
+            route: false,
+            price: false
+        };
+
+        const applyFiltersBtn = document.getElementById('apply-filters-btn');
+        const flashcardContainer = document.querySelector('.flashcard-container');
+        const flashcardElement = document.getElementById('flashcard');
+        const cardFrontFace = document.querySelector('.flashcard-face-front');
+        const cardBackFace = document.querySelector('.flashcard-face-back');
+        const cardFirstname = document.getElementById('card-firstname');
+        const cardLastname = document.getElementById('card-lastname');
+        const priceNoticeRibbon = document.getElementById('price-notice-ribbon');
+        const prevCardBtn = document.getElementById('prev-card-btn');
+        const nextCardBtn = document.getElementById('next-card-btn');
+        const shuffleCardsBtn = document.getElementById('shuffle-cards-btn');
+        const flashcardMessage = document.getElementById('flashcard-message');
+        const cardOptionalContentContainer = document.getElementById('card-optional-content-container');
+        const draggableContentList = document.getElementById('draggable-content-list');
+        const currentCardNumber = document.getElementById('current-card-number');
+        const totalCards = document.getElementById('total-cards');
+        const cardCounter = document.getElementById('card-counter');
+        const loadingScreen = document.getElementById('loading-screen');
+
+        let draggedItem = null;
+        let ghostElement = null;
+        let dragStartIndex = -1;
+        let dragOverIndex = -1;
+
+        async function init() {
+            try {
+                loadingScreen.classList.remove('hidden');
+
+                const data = await fetchAndCacheJSON(DRUGS_JSON_URL);
+                
+                const personsTableDefinition = data.objects.find(obj => obj.name === 'persons');
+                if (!personsTableDefinition) {
+                    flashcardMessage.textContent = 'Error: Drug data structure unexpected.';
+                    flashcardContainer.classList.add('hidden');
+                    return;
+                }
+
+                const columnNames = personsTableDefinition.columns.map(col => col.name);
+
+                const rawDataRows = personsTableDefinition.rows;
+
+                if (!rawDataRows || rawDataRows.length === 0) {
+                    flashcardMessage.textContent = 'No drug data found in the provided JSON.';
+                    flashcardContainer.classList.add('hidden');
+                    return;
+                }
+
+                allDrugsData = rawDataRows.map(row => {
+                    const drug = {};
+                    columnNames.forEach((name, index) => {
+                        if (index < row.length) {
+                            drug[name.toLowerCase()] = row[index];
+                        } else {
+                            drug[name.toLowerCase()] = '';
+                        }
+                    });
+                    return drug;
+                });
+
+                populateRouteDropdown();
+                initializeDraggableContentList();
+                updateCardCounter(0, 0);
+                
+                applyFilters();
+                
+                setupEventListeners();
+
+            } catch (error) {
+                flashcardMessage.textContent = 'Error loading drug data. Please try again later.';
+                flashcardMessage.classList.remove('hidden');
+            } finally {
+                loadingScreen.classList.add('hidden');
+            }
+        }
+
+        async function fetchAndCacheJSON(url) {
+            const cacheName = 'drug-flashcards-data';
+            const cacheExpiration = 48 * 60 * 60 * 1000;
+
+            try {
+                const cache = await caches.open(cacheName);
+                const cachedResponse = await cache.match(url);
+
+                if (cachedResponse) {
+                    const cachedData = await cachedResponse.json();
+                    const cacheTimestamp = cachedResponse.headers.get('x-cache-timestamp');
+
+                    if (cacheTimestamp && (Date.now() - parseInt(cacheTimestamp) < cacheExpiration)) {
+                        return cachedData;
+                    } else {
+                        await cache.delete(url);
+                    }
+                }
+
+                const networkResponse = await fetch(url);
+                if (!networkResponse.ok) {
+                    throw new Error(`HTTP error! status: ${networkResponse.status}`);
+                }
+                const data = await networkResponse.json();
+
+                const responseToCache = new Response(JSON.stringify(data), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-cache-timestamp': Date.now().toString()
+                    }
+                });
+                await cache.put(url, responseToCache);
+                return data;
+
+            } catch (error) {
+                const cache = await caches.open(cacheName);
+                const cachedResponse = await cache.match(url);
+                if (cachedResponse) {
+                    return await cachedResponse.json();
+                }
+                throw error;
+            }
+        }
+
+        function populateRouteDropdown() {
+            const routes = new Set();
+            let hasUnknown = false;
+
+            allDrugsData.forEach(drug => {
+                const route = drug.route ? drug.route.trim() : '';
+                if (route !== '') {
+                    if (route.toUpperCase() === 'UNKNOWN') {
+                        hasUnknown = true;
+                    } else {
+                        routes.add(route);
+                    }
+                }
+            });
+
+            let sortedRoutes = Array.from(routes).sort();
+            if (hasUnknown) {
+                sortedRoutes.push('UNKNOWN');
+            }
+
+            routeSelect.innerHTML = '<option value="">All Routes</option>';
+            sortedRoutes.forEach(route => {
+                const option = document.createElement('option');
+                option.value = route;
+                option.textContent = route;
+                routeSelect.appendChild(option);
+            });
+        }
+
+        function initializeDraggableContentList() {
+            draggableContentList.innerHTML = '';
+            
+            cardContentOrder.forEach((key, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'draggable-item';
+                itemDiv.dataset.key = key;
+                itemDiv.dataset.index = index;
+                itemDiv.draggable = true;
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `checkbox-${key}`;
+                checkbox.checked = checkboxStates[key];
+                
+                checkbox.addEventListener('change', (e) => {
+                    checkboxStates[key] = e.target.checked;
+                    if (key === 'price') {
+                        priceNoticeRibbon.classList.toggle('hidden', !e.target.checked);
+                    }
+                    displayCurrentCard(); 
+                });
+                
+                const label = document.createElement('label');
+                label.htmlFor = `checkbox-${key}`;
+                label.className = 'cursor-pointer select-none flex items-center';
+                label.innerHTML = `${contentIcons[key]} ${contentLabels[key]}`;
+                
+                itemDiv.appendChild(checkbox);
+                itemDiv.appendChild(label);
+                draggableContentList.appendChild(itemDiv);
+                
+                itemDiv.addEventListener('dragstart', handleDragStart);
+                itemDiv.addEventListener('dragover', handleDragOver);
+                itemDiv.addEventListener('dragenter', handleDragEnter);
+                itemDiv.addEventListener('dragleave', handleDragLeave);
+                itemDiv.addEventListener('drop', handleDrop);
+                itemDiv.addEventListener('dragend', handleDragEnd);
+                
+                itemDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+                itemDiv.addEventListener('touchmove', handleTouchMove, { passive: false });
+                itemDiv.addEventListener('touchend', handleTouchEnd);
+            });
+            
+            priceNoticeRibbon.classList.add('hidden');
+        }
+
+        function setupEventListeners() {
+            addPharmacologyBtn.addEventListener('click', addPharmacologyTerm);
+            pharmacologyInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addPharmacologyTerm();
+                }
+            });
+            
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            
+            prevCardBtn.addEventListener('click', showPreviousCard);
+            nextCardBtn.addEventListener('click', showNextCard);
+            shuffleCardsBtn.addEventListener('click', shuffleCurrentCards);
+            
+            cardFrontFace.addEventListener('click', () => {
+                if (shuffledFilteredDrugs.length > 0 && currentCardIndex >= 0) {
+                    const currentDrug = shuffledFilteredDrugs[currentCardIndex];
+                    searchDrugImages(currentDrug.firstname, currentDrug.lastname);
+                    flashcardElement.classList.add('flipped');
+                }
+            });
+            
+            cardBackFace.addEventListener('click', () => {
+                flashcardElement.classList.remove('flipped');
+            });
+        }
+
+        function addPharmacologyTerm() {
+            const term = pharmacologyInput.value.trim();
+            
+            if (term && !selectedPharmacologiesArray.includes(term.toLowerCase())) {
+                selectedPharmacologiesArray.push(term.toLowerCase());
+                updateSelectedPharmacologiesDisplay();
+                pharmacologyInput.value = '';
+            } else if (selectedPharmacologiesArray.includes(term.toLowerCase())) {
+                pharmacologyInput.classList.add('border-red-500');
+                setTimeout(() => {
+                    pharmacologyInput.classList.remove('border-red-500');
+                }, 1000);
+            }
+        }
+
+        function updateSelectedPharmacologiesDisplay() {
+            selectedPharmacologiesContainer.innerHTML = '';
+            
+            if (selectedPharmacologiesArray.length === 0) {
+                selectedPharmacologiesContainer.appendChild(noTermsMessage);
+                noTermsMessage.classList.remove('hidden');
+                pharmacologyHint.textContent = '';
+            } else {
+                noTermsMessage.classList.add('hidden');
+                
+                selectedPharmacologiesArray.forEach(term => {
+                    const tagSpan = document.createElement('span');
+                    tagSpan.className = 'pharmacology-tag';
+                    tagSpan.textContent = term;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'pharmacology-tag-remove';
+                    removeBtn.textContent = '×';
+                    removeBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        removePharmacologyTerm(term);
+                    });
+                    
+                    tagSpan.appendChild(removeBtn);
+                    selectedPharmacologiesContainer.appendChild(tagSpan);
+                });
+                
+                pharmacologyHint.textContent = `Showing drugs matching ${selectedPharmacologiesArray.length} term(s)`;
+            }
+        }
+
+        function removePharmacologyTerm(term) {
+            selectedPharmacologiesArray = selectedPharmacologiesArray.filter(t => t !== term);
+            updateSelectedPharmacologiesDisplay();
+        }
+
+        function applyFilters() {
+            const selectedRoute = routeSelect.value;
+            
+            filteredDrugs = allDrugsData.filter(drug => {
+                const matchesRoute = selectedRoute === '' || drug.route === selectedRoute;
+                
+                let matchesPharmacology = true;
+                if (selectedPharmacologiesArray.length > 0) {
+                    const drugPharmacologyLower = (drug.pharmacology || '').toLowerCase();
+                    matchesPharmacology = selectedPharmacologiesArray.some(selectedTerm =>
+                        drugPharmacologyLower.includes(selectedTerm)
+                    );
+                }
+                
+                return matchesRoute && matchesPharmacology;
+            });
+            
+            shuffledFilteredDrugs = [...filteredDrugs];
+            shuffleArray(shuffledFilteredDrugs);
+            
+            if (shuffledFilteredDrugs.length === 0) {
+                flashcardContainer.classList.add('hidden');
+                flashcardMessage.classList.remove('hidden');
+                cardCounter.classList.add('hidden');
+            } else {
+                flashcardContainer.classList.remove('hidden');
+                flashcardMessage.classList.add('hidden');
+                cardCounter.classList.remove('hidden');
+                currentCardIndex = 0;
+                displayCurrentCard();
+            }
+            
+            updateCardCounter(shuffledFilteredDrugs.length > 0 ? 1 : 0, shuffledFilteredDrugs.length);
+        }
+
+        function displayCurrentCard() {
+            if (shuffledFilteredDrugs.length === 0 || currentCardIndex < 0 || currentCardIndex >= shuffledFilteredDrugs.length) {
+                flashcardContainer.classList.add('hidden');
+                flashcardMessage.classList.remove('hidden');
+                cardCounter.classList.add('hidden');
+                return;
+            } else {
+                flashcardContainer.classList.remove('hidden');
+                flashcardMessage.classList.add('hidden');
+                cardCounter.classList.remove('hidden');
+            }
+            
+            const drug = shuffledFilteredDrugs[currentCardIndex];
+            
+            cardFirstname.textContent = drug.firstname || 'N/A';
+            cardLastname.textContent = drug.lastname || '';
+            
+            cardOptionalContentContainer.innerHTML = '';
+            
+            cardContentOrder.forEach(key => {
+                let drugValue;
+                let labelText;
+
+                switch (key) {
+                    case 'company':
+                        drugValue = drug.company;
+                        labelText = contentLabels.company;
+                        break;
+                    case 'pharmacology':
+                        drugValue = drug.pharmacology;
+                        labelText = contentLabels.pharmacology;
+                        break;
+                    case 'route':
+                        drugValue = drug.route;
+                        labelText = contentLabels.route;
+                        break;
+                    case 'price':
+                        drugValue = drug.price; 
+                        labelText = contentLabels.price;
+                        break;
+                    default:
+                        return;
+                }
+
+                if (checkboxStates[key] && drugValue) {
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'card-content-item fade-in';
+                    
+                    if (key === 'price') {
+                        contentDiv.innerHTML = `${contentIcons[key]} <span class="font-medium">${labelText}:</span> ${drugValue} EGP`;
+                    } else {
+                        contentDiv.innerHTML = `${contentIcons[key]} <span class="font-medium">${labelText}:</span> ${drugValue}`;
+                    }
+                    
+                    cardOptionalContentContainer.appendChild(contentDiv);
+                }
+            });
+            
+            const originalPosition = cardFrontFace.style.position;
+            const originalHeight = cardFrontFace.style.height;
+            const originalMinHeight = cardFrontFace.style.minHeight;
+
+            cardFrontFace.style.position = 'static'; 
+            cardFrontFace.style.height = 'auto';     
+            cardFrontFace.style.minHeight = 'auto';  
+
+            cardFrontFace.offsetHeight; 
+
+            const measuredHeight = cardFrontFace.scrollHeight; 
+            
+            cardFrontFace.style.position = originalPosition;
+            cardFrontFace.style.height = originalHeight;
+            cardFrontFace.style.minHeight = originalMinHeight;
+
+            const MIN_CARD_HEIGHT = 450; 
+            const finalHeight = Math.max(MIN_CARD_HEIGHT, measuredHeight);
+            
+            flashcardContainer.style.height = `${finalHeight}px`;
+
+            updateCardCounter(currentCardIndex + 1, shuffledFilteredDrugs.length);
+        }
+
+        function showNextCard() {
+            if (shuffledFilteredDrugs.length === 0) return;
+            
+            flashcardElement.classList.remove('flipped');
+            currentCardIndex = (currentCardIndex + 1) % shuffledFilteredDrugs.length;
+            displayCurrentCard();
+        }
+
+        function showPreviousCard() {
+            if (shuffledFilteredDrugs.length === 0) return;
+            
+            flashcardElement.classList.remove('flipped');
+            currentCardIndex = (currentCardIndex - 1 + shuffledFilteredDrugs.length) % shuffledFilteredDrugs.length;
+            displayCurrentCard();
+        }
+
+        function shuffleCurrentCards() {
+            if (shuffledFilteredDrugs.length === 0) return;
+            
+            shuffledFilteredDrugs = [...shuffledFilteredDrugs];
+            shuffleArray(shuffledFilteredDrugs);
+            
+            currentCardIndex = 0;
+            flashcardElement.classList.remove('flipped');
+            displayCurrentCard();
+            
+            shuffleCardsBtn.classList.add('text-blue-600', 'scale-110');
+            setTimeout(() => {
+                shuffleCardsBtn.classList.remove('text-blue-600', 'scale-110');
+            }, 300);
+        }
+
+        function searchDrugImages(firstname, lastname) {
+            const searchQuery = encodeURIComponent(`${firstname} drug`);
+            const searchUrl = `https://www.google.com/search?tbm=isch&q=${searchQuery}`;
+            window.open(searchUrl, '_blank');
+        }
+
+        function updateCardCounter(current, total) {
+            currentCardNumber.textContent = current;
+            totalCards.textContent = total;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function handleDragStart(e) {
+            draggedItem = this;
+            dragStartIndex = parseInt(this.dataset.index);
+            
+            e.dataTransfer.setDragImage(this, 20, 20);
+            e.dataTransfer.effectAllowed = 'move';
+            
+            this.classList.add('dragging', 'opacity-50');
+            
+            ghostElement = this.cloneNode(true);
+            ghostElement.classList.add('ghost-drag');
+            document.body.appendChild(ghostElement);
+            
+            const rect = this.getBoundingClientRect();
+            ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
+            ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
+            ghostElement.style.left = `${e.clientX - rect.width / 2}px`;
+            ghostElement.style.top = `${e.clientY - rect.height / 2}px`;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            const afterElement = getDragAfterElement(draggableContentList, e.clientX);
+            const items = [...draggableContentList.querySelectorAll('.draggable-item:not(.dragging)')];
+            
+            items.forEach(item => {
+                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+            });
+            
+            if (afterElement == null) {
+                const lastItem = items[items.length - 1];
+                if (lastItem) lastItem.classList.add('drag-over-right-indicator');
+            } else {
+                const rect = afterElement.getBoundingClientRect();
+                const middleX = rect.left + rect.width / 2;
+                
+                if (e.clientX < middleX) {
+                    afterElement.classList.add('drag-over-left-indicator');
+                } else {
+                    afterElement.classList.add('drag-over-right-indicator');
+                }
+            }
+            
+            if (ghostElement) {
+                ghostElement.style.left = `${e.clientX - ghostElement.offsetWidth / 2}px`;
+                ghostElement.style.top = `${e.clientY - ghostElement.offsetHeight / 2}px`;
+            }
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave() {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            
+            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
+            items.forEach(item => {
+                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator', 'drag-over');
+            });
+            
+            const afterElement = getDragAfterElement(draggableContentList, e.clientX);
+            
+            if (afterElement == null) {
+                draggableContentList.appendChild(draggedItem);
+            } else {
+                draggableContentList.insertBefore(draggedItem, afterElement);
+            }
+            
+            updateContentOrder();
+            displayCurrentCard();
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging', 'opacity-50');
+            
+            if (ghostElement) {
+                document.body.removeChild(ghostElement);
+                ghostElement = null;
+            }
+            
+            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
+            items.forEach((item, index) => {
+                item.dataset.index = index;
+            });
+        }
+
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function updateContentOrder() {
+            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
+            cardContentOrder = items.map(item => item.dataset.key);
+        }
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            
+            this.classList.add('dragging', 'opacity-50');
+            draggedItem = this;
+            dragStartIndex = parseInt(this.dataset.index);
+            
+            ghostElement = this.cloneNode(true);
+            ghostElement.classList.add('ghost-drag');
+            document.body.appendChild(ghostElement);
+            
+            const touch = e.touches[0];
+            const rect = this.getBoundingClientRect();
+            ghostElement.style.setProperty('--ghost-width', `${rect.width}px`);
+            ghostElement.style.setProperty('--ghost-height', `${rect.height}px`);
+            ghostElement.style.left = `${touch.clientX - rect.width / 2}px`;
+            ghostElement.style.top = `${touch.clientY - rect.height / 2}px`;
+        }
+
+        function handleTouchMove(e) {
+            e.preventDefault();
+            
+            if (!draggedItem) return;
+            
+            const touch = e.touches[0];
+            
+            if (ghostElement) {
+                ghostElement.style.left = `${touch.clientX - ghostElement.offsetWidth / 2}px`;
+                ghostElement.style.top = `${touch.clientY - ghostElement.offsetHeight / 2}px`;
+            }
+            
+            const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
+            const items = [...draggableContentList.querySelectorAll('.draggable-item:not(.dragging)')];
+            
+            items.forEach(item => {
+                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+            });
+            
+            if (afterElement == null) {
+                const lastItem = items[items.length - 1];
+                if (lastItem) lastItem.classList.add('drag-over-right-indicator');
+            } else {
+                const rect = afterElement.getBoundingClientRect();
+                const middleX = rect.left + rect.width / 2;
+                
+                if (touch.clientX < middleX) {
+                    afterElement.classList.add('drag-over-left-indicator');
+                } else {
+                    afterElement.classList.add('drag-over-right-indicator');
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            e.preventDefault();
+            
+            if (!draggedItem) return;
+            
+            const touch = e.changedTouches[0];
+            
+            const afterElement = getDragAfterElement(draggableContentList, touch.clientX);
+            
+            const items = [...draggableContentList.querySelectorAll('.draggable-item')];
+            items.forEach(item => {
+                item.classList.remove('drag-over-left-indicator', 'drag-over-right-indicator');
+            });
+            
+            if (afterElement == null) {
+                draggableContentList.appendChild(draggedItem);
+            } else {
+                draggableContentList.insertBefore(draggedItem, afterElement);
+            }
+            
+            draggedItem.classList.remove('dragging', 'opacity-50');
+            draggedItem = null;
+            
+            if (ghostElement) {
+                document.body.removeChild(ghostElement);
+                ghostElement = null;
+            }
+            
+            const updatedItems = [...draggableContentList.querySelectorAll('.draggable-item')];
+            updatedItems.forEach((item, index) => {
+                item.dataset.index = index;
+            });
+            
+            updateContentOrder();
+            displayCurrentCard();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
