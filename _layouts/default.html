@@ -3447,11 +3447,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const highlightedTruncatedDescription = highlightText(truncatedDescription, searchQuery);
             const highlightedFullDescription = highlightText(post.description, searchQuery);
 
-            // Conditional rendering for the image, now placed at the top of the card
+/*            // Conditional rendering for the image, now placed at the top of the card
             const imageHtml = post.image ? 
               `<div class="relative overflow-hidden rounded-xl mb-4">
                   <img src="${post.image}" alt="${post.title}" class="w-full h-auto object-cover aspect-ratio-16-9">
                </div>` : '';
+*/
+
+			// Conditional rendering for the image, now placed at the top of the card AND made clickable
+            const imageHtml = post.image ? 
+              `<a href="${post.url}" class="block"> <div class="relative overflow-hidden rounded-xl mb-4 transition-transform duration-300 ease-in-out group-hover:scale-105"> <img src="${post.image}" alt="${post.title}" class="w-full h-auto object-cover aspect-ratio-16-9">
+                   </div>
+               </a>` : '';
 
 
             return `
