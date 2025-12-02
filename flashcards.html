@@ -562,7 +562,7 @@ permalink: /flashcards/
     <!-- DEDICATED SEARCH BAR CONTAINER -->
     <div class="w-full max-w-4xl mb-6 px-1 relative z-40">
         <div class="bg-white p-4 rounded-xl shadow-md border border-gray-100 relative">
-            <div class="flex justify-between items-center mb-2">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2">
                 <label for="drug-search" class="text-lg font-semibold text-gray-700 flex items-center">
                     Search Drugs
                     <span class="tooltip ml-1" data-tooltip="Directly search by Trade Name or Generic Name to find a specific card">
@@ -572,12 +572,22 @@ permalink: /flashcards/
                     </span>
                 </label>
                 
-                <!-- Auto-Search Toggle -->
-                <label class="flex items-center cursor-pointer relative">
-                    <input type="checkbox" id="auto-search-toggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                    <span class="ml-3 text-sm font-medium text-gray-700">Auto-Search Images</span>
-                </label>
+                <div class="flex flex-wrap items-center gap-4">
+                    <span class="text-sm font-medium text-gray-400 select-none">For Images |</span>
+                    <!-- New Tab Toggle -->
+                    <label class="flex items-center cursor-pointer relative" title="Toggle between opening search in a new tab or the same tab">
+                        <input type="checkbox" id="new-tab-toggle" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <span class="ml-2 text-sm font-medium text-gray-700">New Tab</span>
+                    </label>
+
+                    <!-- Auto-Search Toggle -->
+                    <label class="flex items-center cursor-pointer relative">
+                        <input type="checkbox" id="auto-search-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <span class="ml-2 text-sm font-medium text-gray-700">Auto-Search</span>
+                    </label>
+                </div>
             </div>
 
             <div class="relative">
@@ -743,6 +753,7 @@ permalink: /flashcards/
         const searchSuggestionsContainer = document.getElementById('search-suggestions');
         const clearSearchBtn = document.getElementById('clear-search-btn');
         const autoSearchToggle = document.getElementById('auto-search-toggle');
+        const newTabToggle = document.getElementById('new-tab-toggle');
         let selectedSuggestionIndex = -1;
 
         // Global state for drag operations
@@ -1540,7 +1551,8 @@ permalink: /flashcards/
         function searchDrugImages(firstname, lastname) {
             const searchQuery = encodeURIComponent(`${firstname} drug`);
             const searchUrl = `https://www.google.com/search?tbm=isch&q=${searchQuery}`;
-            window.open(searchUrl, '_blank');
+            const target = (newTabToggle && newTabToggle.checked) ? '_blank' : '_self';
+            window.open(searchUrl, target);
         }
 
         function updateCardCounter(current, total) {
