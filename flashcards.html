@@ -1408,8 +1408,10 @@ permalink: /flashcards/
                 let matchesPharmacology = true;
                 if (selectedPharmacologiesArray.length > 0) {
                     const drugPharmacologyLower = (drug.pharmacology || '').toLowerCase();
+                    const drugGenericLower = (drug.lastname || '').toLowerCase();
+                    
                     matchesPharmacology = selectedPharmacologiesArray.some(selectedTerm =>
-                        drugPharmacologyLower.includes(selectedTerm)
+                        drugPharmacologyLower.includes(selectedTerm) || drugGenericLower.includes(selectedTerm)
                     );
                 }
                 
