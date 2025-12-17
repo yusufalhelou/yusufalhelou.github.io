@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts (Cairo) -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     
     <script>
         tailwind.config = {
@@ -46,19 +48,19 @@
         .timer-shadow {
             text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
         }
-        /* Custom Scrollbar for Leaderboard */
-        .custom-scroll::-webkit-scrollbar {
-            width: 6px;
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Scanner Specific Styles */
+        #qr-reader {
+            width: 100%;
+            border: none !important;
         }
-        .custom-scroll::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        .custom-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 10px;
-        }
-        .custom-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
+        #qr-reader__scan_region img {
+            display: none; /* Hide default placeholder icon */
         }
     </style>
 </head>
@@ -83,6 +85,29 @@
             <p class="text-sm">حدث خطأ في الاتصال بـ Firebase.</p>
         </div>
 
+        <!-- SCANNER OVERLAY (Hidden by default) -->
+        <div id="scanner-overlay" class="hidden fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden relative">
+                <div class="p-4 bg-gray-900 text-white flex justify-between items-center">
+                    <h3 class="font-bold"><i class="fa-solid fa-camera mr-2"></i>امسح الكود</h3>
+                    <button onclick="stopScanner()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+                <div class="p-0 bg-black h-80 relative flex items-center justify-center">
+                    <div id="qr-reader"></div>
+                    <!-- Loading Indicator inside scanner -->
+                    <div id="scanner-loading" class="absolute inset-0 flex items-center justify-center text-white pointer-events-none">
+                        <div class="text-center">
+                            <i class="fa-solid fa-spinner fa-spin text-3xl mb-2"></i>
+                            <p class="text-sm">جاري تشغيل الكاميرا...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 text-center">
+                    <p class="text-sm text-gray-500" id="scanner-instruction">وجه الكاميرا نحو كود البداية</p>
+                </div>
+            </div>
+        </div>
+
         <!-- VIEWS -->
 
         <!-- 1. LOGIN / WELCOME VIEW -->
@@ -92,13 +117,13 @@
                     <i class="fa-solid fa-user-astronaut"></i>
                 </div>
                 <h2 class="text-xl font-bold text-gray-800">سجل دخولك للتحدي</h2>
-                <p class="text-gray-500 text-sm mt-1">حتى نحتفظ بترتيبك ونتايجك</p>
+                <p class="text-gray-500 text-sm mt-1">عشان نتحفظ بترتيبك ونتايجك</p>
             </div>
             
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-1">الاسم أو اللقب</label>
-                    <input type="text" id="usernameInput" required placeholder="مثلاً: البطل يوسف" 
+                    <input type="text" id="usernameInput" required placeholder="مثلاً: البطل عبدالله" 
                         class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition bg-gray-50 text-center text-lg font-semibold">
                 </div>
                 <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-1">
@@ -107,7 +132,7 @@
             </form>
         </div>
 
-        <!-- 2. SCAN SIMULATION (WAITING FOR START QR) -->
+        <!-- 2. READY VIEW (WAITING FOR START QR) -->
         <div id="view-ready" class="hidden w-full bg-white rounded-3xl shadow-xl p-6 text-center">
             <div class="mb-6">
                 <h2 class="text-xl font-bold text-gray-800" id="welcomeUserMsg">أهلاً يا بطل</h2>
@@ -120,8 +145,8 @@
                 <p class="text-sm text-gray-400 relative z-10">امسح الكود أسفل السلم</p>
             </div>
 
-            <button onclick="simulateQR('start')" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-expand"></i> (محاكاة) مسح كود البداية
+            <button onclick="startScanner('start')" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-camera"></i> امسح كود البداية
             </button>
             
             <button onclick="showLeaderboard()" class="mt-4 w-full text-brand-600 font-bold py-2 text-sm hover:bg-brand-50 rounded-lg transition">
@@ -149,8 +174,8 @@
 
             <p class="text-gray-500 text-sm mb-6 animate-pulse">واصل الصعود.. أنت تقترب!</p>
 
-            <button onclick="simulateQR('end')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 transition transform active:scale-95 flex items-center justify-center gap-2">
-                <i class="fa-solid fa-flag-checkered"></i> (محاكاة) مسح كود النهاية
+            <button onclick="startScanner('end')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-camera"></i> امسح كود النهاية
             </button>
         </div>
 
@@ -219,21 +244,13 @@
 
     <!-- Logic -->
     <script type="module">
-        // Import essential Firebase functions using CDN
-        // Note: Using version 11.0.2 to ensure stability and compatibility
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, where } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
-        // --- Firebase Configuration Setup ---
-        
-        // 1. Try to get config from the environment (Canvas/Preview)
+        // --- Firebase Config ---
         let firebaseConfig = JSON.parse(new URLSearchParams(window.location.search).get('__firebase_config') || '{}');
-
-        // 2. IMPORTANT: If running externally (GitHub, Localhost), use this config:
         if (!firebaseConfig.apiKey) {
-            
-            // --- YOUR FIREBASE CONFIG (FROM CDN SETUP) ---
             firebaseConfig = {
                 apiKey: "AIzaSyBPmq3v_3tWogJ-otMskTb6QYPRmbrKdHM",
                 authDomain: "stair-challenge-afab1.firebaseapp.com",
@@ -244,19 +261,14 @@
             };
         }
 
-        // 3. Initialize App
         let app, auth, db, RUNS_COLLECTION;
-        
         try {
             app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
             const appId = (typeof __app_id !== 'undefined') ? __app_id : 'default-app';
             RUNS_COLLECTION = collection(db, 'artifacts', appId, 'public', 'data', 'stair_runs');
-            
-            // Initialize Auth logic only if app init succeeded
             initAuth();
-            
         } catch (error) {
             console.error("Firebase Initialization Error:", error);
             document.getElementById('config-error').classList.remove('hidden');
@@ -269,11 +281,13 @@
         let timerInterval = null;
         let currentFilter = 'today';
         let allRunsData = [];
+        let html5QrcodeScanner = null;
+        let isScanning = false;
+        let currentScanMode = null; // 'start' or 'end'
 
         // --- Auth ---
         async function initAuth() {
-            if (!auth) return; // Guard if init failed
-            
+            if (!auth) return;
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -288,15 +302,11 @@
         if (auth) {
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
-                if(user) {
-                    if (userName) {
-                        showReadyScreen();
-                    }
-                }
+                if(user && userName) checkAppStatus();
             });
         }
 
-        // --- Navigation Views ---
+        // --- Views & Login ---
         window.switchView = (viewId) => {
             ['view-welcome', 'view-ready', 'view-active', 'view-result', 'view-leaderboard'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
@@ -304,46 +314,122 @@
             document.getElementById(viewId).classList.remove('hidden');
         }
 
-        // --- Core Functions ---
-
         window.handleLogin = (e) => {
             e.preventDefault();
             const input = document.getElementById('usernameInput');
             if(input.value.trim().length > 0) {
                 userName = input.value.trim();
                 localStorage.setItem('stair_username', userName);
-                showReadyScreen();
+                checkAppStatus();
             }
         };
 
-        function showReadyScreen() {
+        function checkAppStatus() {
             document.getElementById('welcomeUserMsg').innerText = `أهلاً يا ${userName}`;
-            switchView('view-ready');
             
-            // Check URL for actions
+            // Check LocalStorage for Active Run
+            const storedStart = localStorage.getItem('stair_startTime');
+            if (storedStart) {
+                startTime = new Date(storedStart);
+                switchView('view-active');
+                startTimerInterval();
+            } else {
+                switchView('view-ready');
+            }
+
+            // URL Actions (Backup)
             const urlParams = new URLSearchParams(window.location.search);
-            const action = urlParams.get('action'); // ?action=start
-            if (action === 'start') simulateQR('start');
+            const action = urlParams.get('action');
+            if (action === 'start') startChallenge();
+            else if (action === 'end' && startTime) finishChallenge();
         }
 
-        window.simulateQR = (type) => {
-            if(type === 'start') {
-                startChallenge();
-            } else if (type === 'end') {
-                finishChallenge();
+        // --- REAL SCANNER LOGIC ---
+
+        window.startScanner = (mode) => {
+            currentScanMode = mode;
+            document.getElementById('scanner-overlay').classList.remove('hidden');
+            document.getElementById('scanner-instruction').innerText = 
+                mode === 'start' ? "وجه الكاميرا نحو كود البداية (أسفل السلم)" : "وجه الكاميرا نحو كود النهاية (أعلى السلم)";
+
+            // Initialize Scanner if not already done
+            if (!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5Qrcode("qr-reader");
+            }
+
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            
+            html5QrcodeScanner.start(
+                { facingMode: "environment" }, // Back camera
+                config,
+                onScanSuccess,
+                onScanFailure
+            ).then(() => {
+                document.getElementById('scanner-loading').classList.add('hidden');
+                isScanning = true;
+            }).catch(err => {
+                console.error("Error starting scanner", err);
+                alert("تعذر تشغيل الكاميرا. تأكد من منح الصلاحيات.");
+                stopScanner();
+            });
+        };
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Stop scanning immediately on success
+            if(isScanning) {
+                html5QrcodeScanner.stop().then(() => {
+                    isScanning = false;
+                    document.getElementById('scanner-overlay').classList.add('hidden');
+                    handleScanResult(decodedText);
+                }).catch(err => console.error("Failed to stop scanner", err));
+            }
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // console.warn(`Code scan error = ${error}`);
+        }
+
+        window.stopScanner = () => {
+            if (html5QrcodeScanner && isScanning) {
+                html5QrcodeScanner.stop().then(() => {
+                    isScanning = false;
+                    document.getElementById('scanner-overlay').classList.add('hidden');
+                }).catch(err => console.error("Failed to stop scanner", err));
+            } else {
+                document.getElementById('scanner-overlay').classList.add('hidden');
             }
         };
 
-        function startChallenge() {
-            startTime = new Date();
-            switchView('view-active');
+        function handleScanResult(text) {
+            console.log("Scanned Text:", text);
             
-            // Start Timer UI
-            const display = document.getElementById('timerDisplay');
-            display.innerText = "00:00";
-            
-            if(timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
+            // Check keywords (Robust matching)
+            const isStartCode = text.includes('start') || text.includes('Start') || text.includes('START');
+            const isEndCode = text.includes('end') || text.includes('End') || text.includes('END');
+
+            if (currentScanMode === 'start') {
+                if (isStartCode) {
+                    startChallenge();
+                } else {
+                    alert("هذا ليس كود البداية! تأكد من مسح الكود أسفل السلم.");
+                }
+            } else if (currentScanMode === 'end') {
+                if (isEndCode) {
+                    finishChallenge();
+                } else {
+                    alert("هذا ليس كود النهاية! تأكد من مسح الكود أعلى السلم.");
+                }
+            }
+        }
+
+        // --- Challenge Logic ---
+
+        function startTimerInterval() {
+             if(timerInterval) clearInterval(timerInterval);
+             const display = document.getElementById('timerDisplay');
+             timerInterval = setInterval(() => {
+                if(!startTime) return;
                 const now = new Date();
                 const diff = Math.floor((now - startTime) / 1000);
                 const mins = Math.floor(diff / 60).toString().padStart(2, '0');
@@ -352,15 +438,21 @@
             }, 1000);
         }
 
+        function startChallenge() {
+            startTime = new Date();
+            localStorage.setItem('stair_startTime', startTime.toISOString());
+            switchView('view-active');
+            startTimerInterval();
+        }
+
         async function finishChallenge() {
-            if (!startTime) {
-                alert("يجب مسح كود البداية (أسفل السلم) أولاً!");
-                return;
-            }
+            if (!startTime) return;
 
             clearInterval(timerInterval);
             const endTime = new Date();
             const durationSeconds = Math.floor((endTime - startTime) / 1000);
+            
+            localStorage.removeItem('stair_startTime');
             
             let calories = Math.round(durationSeconds * 0.35); 
             if (calories < 1) calories = 1;
@@ -371,7 +463,11 @@
             document.getElementById('resultTime').innerText = `${mins > 0 ? mins + ' دقيقة و ' : ''}${secs} ثانية`;
 
             switchView('view-result');
-            startTime = null; 
+            
+            // Clean URL if needed
+            if (window.location.search.includes('action=')) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
 
             if(currentUser && db) {
                 try {
@@ -383,6 +479,8 @@
                         timestamp: serverTimestamp(),
                         clientDate: new Date().toISOString()
                     });
+                    // Refresh local var
+                    startTime = null; 
                 } catch (err) {
                     console.error("Error saving run:", err);
                 }
@@ -393,8 +491,7 @@
             switchView('view-ready');
         };
 
-        // --- Leaderboard Logic ---
-
+        // --- Leaderboard ---
         window.showLeaderboard = () => {
             switchView('view-leaderboard');
             loadLeaderboardData();
@@ -416,22 +513,16 @@
         };
 
         async function loadLeaderboardData() {
-            if (!db) return; // Guard if init failed
-
+            if (!db) return;
             const list = document.getElementById('leaderboardList');
             list.innerHTML = '<div class="text-center py-10 text-gray-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>جاري تحميل البيانات...</p></div>';
 
             try {
                 const q = query(RUNS_COLLECTION, orderBy('timestamp', 'desc')); 
                 const snapshot = await getDocs(q);
-                
                 allRunsData = [];
-                snapshot.forEach(doc => {
-                    allRunsData.push({ id: doc.id, ...doc.data() });
-                });
-
+                snapshot.forEach(doc => allRunsData.push({ id: doc.id, ...doc.data() }));
                 renderLeaderboard();
-
             } catch (err) {
                 console.error(err);
                 list.innerHTML = '<div class="text-center text-red-400 mt-10">فشل تحميل البيانات</div>';
@@ -441,7 +532,6 @@
         function renderLeaderboard() {
             const list = document.getElementById('leaderboardList');
             list.innerHTML = '';
-
             const now = new Date();
             const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); 
@@ -449,12 +539,8 @@
             let filteredRuns = allRunsData.filter(run => {
                 if (!run.timestamp) return false;
                 const runDate = run.timestamp.toDate ? run.timestamp.toDate() : new Date(run.timestamp);
-                
-                if (currentFilter === 'today') {
-                    return runDate >= startOfDay;
-                } else if (currentFilter === 'week') {
-                    return runDate >= startOfWeek;
-                }
+                if (currentFilter === 'today') return runDate >= startOfDay;
+                if (currentFilter === 'week') return runDate >= startOfWeek;
                 return true;
             });
 
@@ -464,8 +550,8 @@
                     userStats[run.userId] = { 
                         name: run.userName, 
                         totalCalories: 0, 
-                        runsCount: 0,
-                        userId: run.userId
+                        runsCount: 0, 
+                        userId: run.userId 
                     };
                 }
                 userStats[run.userId].totalCalories += (run.calories || 0);
@@ -477,24 +563,14 @@
             leaderboard = leaderboard.slice(0, 100);
 
             if (leaderboard.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-10 flex flex-col items-center">
-                        <div class="bg-gray-100 p-4 rounded-full mb-3 text-gray-400 text-2xl"><i class="fa-solid fa-wind"></i></div>
-                        <p class="text-gray-500">لا توجد نتائج في هذه الفترة.<br>كن أول من يصعد!</p>
-                    </div>`;
+                list.innerHTML = `<div class="text-center py-10 flex flex-col items-center"><div class="bg-gray-100 p-4 rounded-full mb-3 text-gray-400 text-2xl"><i class="fa-solid fa-wind"></i></div><p class="text-gray-500">لا توجد نتائج في هذه الفترة.<br>كن أول من يصعد!</p></div>`;
             }
 
-            let myRank = -1;
-            let myScore = 0;
-
+            let myRank = -1, myScore = 0;
             leaderboard.forEach((user, index) => {
                 const rank = index + 1;
                 const isMe = currentUser && user.userId === currentUser.uid;
-                
-                if (isMe) {
-                    myRank = rank;
-                    myScore = user.totalCalories;
-                }
+                if (isMe) { myRank = rank; myScore = user.totalCalories; }
 
                 let medal = '';
                 if (rank === 1) medal = '<i class="fa-solid fa-medal text-yellow-400 text-xl"></i>';
@@ -504,19 +580,7 @@
 
                 const item = document.createElement('div');
                 item.className = `flex items-center justify-between p-4 rounded-xl ${isMe ? 'bg-brand-50 border border-brand-200' : 'bg-white border border-gray-100'} shadow-sm`;
-                item.innerHTML = `
-                    <div class="flex items-center gap-4">
-                        <div class="w-8 flex justify-center">${medal}</div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 ${isMe ? 'text-brand-700' : ''}">${escapeHtml(user.name)} ${isMe ? '(أنت)' : ''}</h3>
-                            <p class="text-xs text-gray-400">${user.runsCount} صعود</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="font-bold text-lg text-brand-600">${user.totalCalories}</div>
-                        <div class="text-[10px] text-gray-400 font-bold">سعرة</div>
-                    </div>
-                `;
+                item.innerHTML = `<div class="flex items-center gap-4"><div class="w-8 flex justify-center">${medal}</div><div><h3 class="font-bold text-gray-800 ${isMe ? 'text-brand-700' : ''}">${escapeHtml(user.name)} ${isMe ? '(أنت)' : ''}</h3><p class="text-xs text-gray-400">${user.runsCount} صعود</p></div></div><div class="text-right"><div class="font-bold text-lg text-brand-600">${user.totalCalories}</div><div class="text-[10px] text-gray-400 font-bold">سعرة</div></div>`;
                 list.appendChild(item);
             });
 
@@ -534,7 +598,6 @@
             if (!text) return "Unknown";
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         }
-
     </script>
 </body>
 </html>
