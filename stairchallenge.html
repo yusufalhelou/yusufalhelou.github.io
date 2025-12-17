@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحدي السلم - صحتك في حركتك</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
+        }
+        .timer-shadow {
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        /* Custom Scrollbar for Leaderboard */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col relative overflow-hidden">
+
+    <!-- Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-64 bg-gradient-to-br from-brand-500 to-brand-700 rounded-b-[3rem] shadow-lg z-0"></div>
+    <div class="absolute top-10 left-10 text-white opacity-10 text-9xl z-0"><i class="fa-solid fa-person-running"></i></div>
+
+    <!-- App Container -->
+    <main class="relative z-10 container mx-auto px-4 py-6 flex flex-col items-center flex-grow max-w-md w-full">
+        
+        <!-- Header -->
+        <header class="w-full text-center text-white mb-8">
+            <h1 class="text-3xl font-black tracking-wide mb-1">تحدي السلم</h1>
+            <p class="text-brand-100 text-sm font-medium">استخدم السلم.. احرق سعرات.. اكسب صحتك</p>
+        </header>
+
+        <!-- CONFIG ERROR ALERT -->
+        <div id="config-error" class="hidden w-full bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded shadow-md">
+            <p class="font-bold">تنبيه هام!</p>
+            <p class="text-sm">حدث خطأ في الاتصال بـ Firebase.</p>
+        </div>
+
+        <!-- VIEWS -->
+
+        <!-- 1. LOGIN / WELCOME VIEW -->
+        <div id="view-welcome" class="w-full bg-white rounded-3xl shadow-xl p-6 transition-all duration-300">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800">سجل دخولك للتحدي</h2>
+                <p class="text-gray-500 text-sm mt-1">حتى نحتفظ بترتيبك ونتايجك</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-1">الاسم أو اللقب</label>
+                    <input type="text" id="usernameInput" required placeholder="مثلاً: البطل يوسف" 
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 outline-none transition bg-gray-50 text-center text-lg font-semibold">
+                </div>
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-1">
+                    دخول وبدء التحدي <i class="fa-solid fa-arrow-left mr-2"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. SCAN SIMULATION (WAITING FOR START QR) -->
+        <div id="view-ready" class="hidden w-full bg-white rounded-3xl shadow-xl p-6 text-center">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-800" id="welcomeUserMsg">أهلاً يا بطل</h2>
+                <p class="text-gray-500 text-sm">أنت الآن أمام السلم.</p>
+            </div>
+
+            <div class="py-8 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50 mb-6 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-brand-50 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <i class="fa-solid fa-qrcode text-6xl text-gray-300 mb-3 group-hover:scale-110 transition duration-300 relative z-10"></i>
+                <p class="text-sm text-gray-400 relative z-10">امسح الكود أسفل السلم</p>
+            </div>
+
+            <button onclick="simulateQR('start')" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-expand"></i> (محاكاة) مسح كود البداية
+            </button>
+            
+            <button onclick="showLeaderboard()" class="mt-4 w-full text-brand-600 font-bold py-2 text-sm hover:bg-brand-50 rounded-lg transition">
+                <i class="fa-solid fa-trophy"></i> عرض قائمة المتصدرين
+            </button>
+        </div>
+
+        <!-- 3. ACTIVE RUN (TIMER) -->
+        <div id="view-active" class="hidden w-full bg-white rounded-3xl shadow-xl p-8 text-center relative overflow-hidden">
+            <!-- Animation Background -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gray-100">
+                <div class="h-full bg-brand-500 animate-pulse-slow w-full"></div>
+            </div>
+
+            <h2 class="text-lg font-bold text-gray-600 mb-6">اصعد السلم الآن! <i class="fa-solid fa-stairs text-brand-500"></i></h2>
+            
+            <div class="mb-8 relative">
+                <div class="w-48 h-48 rounded-full border-8 border-brand-100 flex items-center justify-center mx-auto bg-white shadow-inner">
+                    <div>
+                        <div id="timerDisplay" class="text-5xl font-black text-brand-600 timer-shadow">00:00</div>
+                        <div class="text-xs text-gray-400 mt-1 font-bold">وقت الصعود</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-gray-500 text-sm mb-6 animate-pulse">واصل الصعود.. أنت تقترب!</p>
+
+            <button onclick="simulateQR('end')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-green-500/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-flag-checkered"></i> (محاكاة) مسح كود النهاية
+            </button>
+        </div>
+
+        <!-- 4. RESULT -->
+        <div id="view-result" class="hidden w-full bg-white rounded-3xl shadow-xl p-6 text-center">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl animate-bounce">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800 mb-2">ممتاز!</h2>
+            <p class="text-gray-500 mb-6">أنهيت الصعود بنجاح</p>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <div class="text-3xl font-bold text-brand-600" id="resultCalories">0</div>
+                    <div class="text-xs text-gray-400 font-bold">سعرة حرارية</div>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <div class="text-3xl font-bold text-gray-700" id="resultTime">00:00</div>
+                    <div class="text-xs text-gray-400 font-bold">الوقت المستغرق</div>
+                </div>
+            </div>
+
+            <div class="text-sm text-gray-400 mb-6 bg-brand-50 p-3 rounded-lg">
+                <i class="fa-solid fa-info-circle ml-1"></i> تم إضافة نتيجتك لقائمة المتصدرين
+            </div>
+
+            <button onclick="showLeaderboard()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow-md mb-3">
+                عرض الترتيب <i class="fa-solid fa-trophy mr-1"></i>
+            </button>
+            <button onclick="resetApp()" class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-50">
+                العودة للرئيسية
+            </button>
+        </div>
+
+        <!-- 5. LEADERBOARD -->
+        <div id="view-leaderboard" class="hidden w-full h-[600px] flex flex-col bg-white rounded-3xl shadow-xl overflow-hidden relative">
+            <div class="p-5 bg-gray-900 text-white flex justify-between items-center sticky top-0 z-20">
+                <h2 class="font-bold text-lg"><i class="fa-solid fa-medal text-yellow-400 mr-2"></i>الأبطال</h2>
+                <button onclick="resetApp()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex p-2 bg-gray-100 gap-2">
+                <button onclick="filterLeaderboard('today')" id="tab-today" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-brand-600 transition">اليومي</button>
+                <button onclick="filterLeaderboard('week')" id="tab-week" class="flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 hover:bg-white transition">الأسبوعي</button>
+                <button onclick="filterLeaderboard('all')" id="tab-all" class="flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 hover:bg-white transition">الكل</button>
+            </div>
+
+            <!-- List -->
+            <div id="leaderboardList" class="flex-grow overflow-y-auto custom-scroll p-4 space-y-3 pb-20">
+                <!-- Items injected here -->
+                <div class="text-center py-10 text-gray-400">
+                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i>
+                    <p>جاري تحميل البيانات...</p>
+                </div>
+            </div>
+
+            <!-- My Rank Sticky Footer -->
+            <div id="myRankFooter" class="absolute bottom-0 w-full bg-brand-600 text-white p-4 text-sm flex justify-between font-bold shadow-lg transform translate-y-full transition duration-300">
+                <span>ترتيبك الحالي: #<span id="myRankDisplay">-</span></span>
+                <span id="myScoreDisplay">0 سعرة</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Logic -->
+    <script type="module">
+        // Import essential Firebase functions using CDN
+        // Note: Using version 11.0.2 to ensure stability and compatibility
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, where } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+        // --- Firebase Configuration Setup ---
+        
+        // 1. Try to get config from the environment (Canvas/Preview)
+        let firebaseConfig = JSON.parse(new URLSearchParams(window.location.search).get('__firebase_config') || '{}');
+
+        // 2. IMPORTANT: If running externally (GitHub, Localhost), use this config:
+        if (!firebaseConfig.apiKey) {
+            
+            // --- YOUR FIREBASE CONFIG (FROM CDN SETUP) ---
+            firebaseConfig = {
+                apiKey: "AIzaSyBPmq3v_3tWogJ-otMskTb6QYPRmbrKdHM",
+                authDomain: "stair-challenge-afab1.firebaseapp.com",
+                projectId: "stair-challenge-afab1",
+                storageBucket: "stair-challenge-afab1.firebasestorage.app",
+                messagingSenderId: "308280306924",
+                appId: "1:308280306924:web:8a3e139e3ceed1789609c9"
+            };
+        }
+
+        // 3. Initialize App
+        let app, auth, db, RUNS_COLLECTION;
+        
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            const appId = (typeof __app_id !== 'undefined') ? __app_id : 'default-app';
+            RUNS_COLLECTION = collection(db, 'artifacts', appId, 'public', 'data', 'stair_runs');
+            
+            // Initialize Auth logic only if app init succeeded
+            initAuth();
+            
+        } catch (error) {
+            console.error("Firebase Initialization Error:", error);
+            document.getElementById('config-error').classList.remove('hidden');
+        }
+
+        // State
+        let currentUser = null;
+        let userName = localStorage.getItem('stair_username') || '';
+        let startTime = null;
+        let timerInterval = null;
+        let currentFilter = 'today';
+        let allRunsData = [];
+
+        // --- Auth ---
+        async function initAuth() {
+            if (!auth) return; // Guard if init failed
+            
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth Error:", error);
+            }
+        }
+
+        if (auth) {
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if(user) {
+                    if (userName) {
+                        showReadyScreen();
+                    }
+                }
+            });
+        }
+
+        // --- Navigation Views ---
+        window.switchView = (viewId) => {
+            ['view-welcome', 'view-ready', 'view-active', 'view-result', 'view-leaderboard'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        // --- Core Functions ---
+
+        window.handleLogin = (e) => {
+            e.preventDefault();
+            const input = document.getElementById('usernameInput');
+            if(input.value.trim().length > 0) {
+                userName = input.value.trim();
+                localStorage.setItem('stair_username', userName);
+                showReadyScreen();
+            }
+        };
+
+        function showReadyScreen() {
+            document.getElementById('welcomeUserMsg').innerText = `أهلاً يا ${userName}`;
+            switchView('view-ready');
+            
+            // Check URL for actions
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action'); // ?action=start
+            if (action === 'start') simulateQR('start');
+        }
+
+        window.simulateQR = (type) => {
+            if(type === 'start') {
+                startChallenge();
+            } else if (type === 'end') {
+                finishChallenge();
+            }
+        };
+
+        function startChallenge() {
+            startTime = new Date();
+            switchView('view-active');
+            
+            // Start Timer UI
+            const display = document.getElementById('timerDisplay');
+            display.innerText = "00:00";
+            
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const now = new Date();
+                const diff = Math.floor((now - startTime) / 1000);
+                const mins = Math.floor(diff / 60).toString().padStart(2, '0');
+                const secs = (diff % 60).toString().padStart(2, '0');
+                display.innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        async function finishChallenge() {
+            if (!startTime) {
+                alert("يجب مسح كود البداية (أسفل السلم) أولاً!");
+                return;
+            }
+
+            clearInterval(timerInterval);
+            const endTime = new Date();
+            const durationSeconds = Math.floor((endTime - startTime) / 1000);
+            
+            let calories = Math.round(durationSeconds * 0.35); 
+            if (calories < 1) calories = 1;
+
+            document.getElementById('resultCalories').innerText = calories;
+            const mins = Math.floor(durationSeconds / 60);
+            const secs = durationSeconds % 60;
+            document.getElementById('resultTime').innerText = `${mins > 0 ? mins + ' دقيقة و ' : ''}${secs} ثانية`;
+
+            switchView('view-result');
+            startTime = null; 
+
+            if(currentUser && db) {
+                try {
+                    await addDoc(RUNS_COLLECTION, {
+                        userId: currentUser.uid,
+                        userName: userName,
+                        durationSeconds: durationSeconds,
+                        calories: calories,
+                        timestamp: serverTimestamp(),
+                        clientDate: new Date().toISOString()
+                    });
+                } catch (err) {
+                    console.error("Error saving run:", err);
+                }
+            }
+        }
+
+        window.resetApp = () => {
+            switchView('view-ready');
+        };
+
+        // --- Leaderboard Logic ---
+
+        window.showLeaderboard = () => {
+            switchView('view-leaderboard');
+            loadLeaderboardData();
+        };
+
+        window.filterLeaderboard = (filter) => {
+            currentFilter = filter;
+            ['today', 'week', 'all'].forEach(f => {
+                const btn = document.getElementById(`tab-${f}`);
+                if(f === filter) {
+                    btn.classList.remove('text-gray-500', 'hover:bg-white');
+                    btn.classList.add('bg-white', 'shadow-sm', 'text-brand-600');
+                } else {
+                    btn.classList.add('text-gray-500', 'hover:bg-white');
+                    btn.classList.remove('bg-white', 'shadow-sm', 'text-brand-600');
+                }
+            });
+            renderLeaderboard();
+        };
+
+        async function loadLeaderboardData() {
+            if (!db) return; // Guard if init failed
+
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '<div class="text-center py-10 text-gray-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><p>جاري تحميل البيانات...</p></div>';
+
+            try {
+                const q = query(RUNS_COLLECTION, orderBy('timestamp', 'desc')); 
+                const snapshot = await getDocs(q);
+                
+                allRunsData = [];
+                snapshot.forEach(doc => {
+                    allRunsData.push({ id: doc.id, ...doc.data() });
+                });
+
+                renderLeaderboard();
+
+            } catch (err) {
+                console.error(err);
+                list.innerHTML = '<div class="text-center text-red-400 mt-10">فشل تحميل البيانات</div>';
+            }
+        }
+
+        function renderLeaderboard() {
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
+
+            const now = new Date();
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); 
+
+            let filteredRuns = allRunsData.filter(run => {
+                if (!run.timestamp) return false;
+                const runDate = run.timestamp.toDate ? run.timestamp.toDate() : new Date(run.timestamp);
+                
+                if (currentFilter === 'today') {
+                    return runDate >= startOfDay;
+                } else if (currentFilter === 'week') {
+                    return runDate >= startOfWeek;
+                }
+                return true;
+            });
+
+            const userStats = {};
+            filteredRuns.forEach(run => {
+                if(!userStats[run.userId]) {
+                    userStats[run.userId] = { 
+                        name: run.userName, 
+                        totalCalories: 0, 
+                        runsCount: 0,
+                        userId: run.userId
+                    };
+                }
+                userStats[run.userId].totalCalories += (run.calories || 0);
+                userStats[run.userId].runsCount += 1;
+            });
+
+            let leaderboard = Object.values(userStats);
+            leaderboard.sort((a, b) => b.totalCalories - a.totalCalories);
+            leaderboard = leaderboard.slice(0, 100);
+
+            if (leaderboard.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-10 flex flex-col items-center">
+                        <div class="bg-gray-100 p-4 rounded-full mb-3 text-gray-400 text-2xl"><i class="fa-solid fa-wind"></i></div>
+                        <p class="text-gray-500">لا توجد نتائج في هذه الفترة.<br>كن أول من يصعد!</p>
+                    </div>`;
+            }
+
+            let myRank = -1;
+            let myScore = 0;
+
+            leaderboard.forEach((user, index) => {
+                const rank = index + 1;
+                const isMe = currentUser && user.userId === currentUser.uid;
+                
+                if (isMe) {
+                    myRank = rank;
+                    myScore = user.totalCalories;
+                }
+
+                let medal = '';
+                if (rank === 1) medal = '<i class="fa-solid fa-medal text-yellow-400 text-xl"></i>';
+                else if (rank === 2) medal = '<i class="fa-solid fa-medal text-gray-400 text-xl"></i>';
+                else if (rank === 3) medal = '<i class="fa-solid fa-medal text-orange-400 text-xl"></i>';
+                else medal = `<span class="font-bold text-gray-400 text-lg w-6 text-center">${rank}</span>`;
+
+                const item = document.createElement('div');
+                item.className = `flex items-center justify-between p-4 rounded-xl ${isMe ? 'bg-brand-50 border border-brand-200' : 'bg-white border border-gray-100'} shadow-sm`;
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 flex justify-center">${medal}</div>
+                        <div>
+                            <h3 class="font-bold text-gray-800 ${isMe ? 'text-brand-700' : ''}">${escapeHtml(user.name)} ${isMe ? '(أنت)' : ''}</h3>
+                            <p class="text-xs text-gray-400">${user.runsCount} صعود</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-lg text-brand-600">${user.totalCalories}</div>
+                        <div class="text-[10px] text-gray-400 font-bold">سعرة</div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+
+            const footer = document.getElementById('myRankFooter');
+            if (currentUser && myRank > 0) {
+                document.getElementById('myRankDisplay').innerText = myRank;
+                document.getElementById('myScoreDisplay').innerText = myScore + ' سعرة';
+                footer.classList.remove('translate-y-full');
+            } else {
+                footer.classList.add('translate-y-full');
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "Unknown";
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+    </script>
+</body>
+</html>
