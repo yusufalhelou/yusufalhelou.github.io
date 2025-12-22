@@ -245,6 +245,8 @@
             const [isLoading, setIsLoading] = useState(true); 
             const [greeting, setGreeting] = useState('');
             const [egyptTime, setEgyptTime] = useState('');
+            // New state for the dynamic title
+            const [mainTitle, setMainTitle] = useState('أحلى يمنى في الدنيا كلها');
 
             // --- CLOCK LOGIC ---
             useEffect(() => {
@@ -261,11 +263,12 @@
                 return () => clearInterval(timer);
             }, []);
 
-            // --- DYNAMIC GREETING LOGIC ---
+            // --- DYNAMIC GREETING & TITLE LOGIC ---
             useEffect(() => {
                 const hour = new Date().getHours();
                 const isMorning = hour >= 6 && hour < 15; // 6 AM to 3 PM approx
 
+                // 1. Logic for Greeting
                 const morningGreetings = [
                     "صباح الفُل 🌸",
                     "صباح الخير ☀️",
@@ -282,6 +285,17 @@
                 const list = isMorning ? morningGreetings : eveningGreetings;
                 const randomMsg = list[Math.floor(Math.random() * list.length)];
                 setGreeting(randomMsg + "");
+
+                // 2. Logic for Main Title (تغيير الجملة الرئيسية)
+                const titleOptions = [
+                    "أحلى يمنى في الدنيا كلها",
+                    "بحبك"
+                ];
+                
+                // اختيار جملة عشوائية
+                const randomTitle = titleOptions[Math.floor(Math.random() * titleOptions.length)];
+                setMainTitle(randomTitle);
+
             }, []);
 
             // Helper to format date key
@@ -485,8 +499,9 @@
                                     <Heart className="w-8 h-8 text-pink-500 fill-pink-500" />
                                 </div>
                                 <div>
+                                    {/* HERE IS THE DYNAMIC TITLE */}
                                     <h2 className="text-2xl font-bold mb-1 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
-                                        أحلى يمنى في الدنيا كلها
+                                        {mainTitle}
                                     </h2>
                                     <p className="text-gray-600 text-sm font-bold leading-relaxed">
                                         {greeting}
@@ -602,7 +617,6 @@
                 return () => unsubscribe();
             }, []);
 
-            // دالة الخروج (جديدة)
             const handleLogout = () => {
                 localStorage.removeItem('yomna_app_auth');
                 setIsAuthenticated(false);
@@ -610,7 +624,6 @@
 
             if (!isAuthenticated) return <LoginScreen onLogin={() => setIsAuthenticated(true)} />;
             
-            // بنبعت دالة الخروج للداشبورد عشان نستخدمها هناك
             return <Dashboard user={user} onLogout={handleLogout} />;
         }
 
