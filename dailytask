@@ -1,0 +1,585 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { initializeApp } from 'firebase/app';
+import { 
+  getAuth, 
+  signInAnonymously, 
+  onAuthStateChanged
+} from 'firebase/auth';
+import { 
+  getFirestore, 
+  collection, 
+  doc, 
+  setDoc, 
+  onSnapshot
+} from 'firebase/firestore';
+import { 
+  Heart, 
+  Lock,
+  Eye,
+  EyeOff,
+  Check, 
+  X, 
+  ChevronRight, 
+  ChevronLeft,
+  Trophy,
+  Sparkles,
+  Flame,
+  LogIn,
+  AlertCircle,
+  Loader2,
+  Sun,
+  Moon,
+  Clock,
+  CloudRain
+} from 'lucide-react';
+
+// --- Firebase Configuration ---
+const firebaseConfig = {
+  apiKey: "AIzaSyCGnQ_NtPrNEoQNVoG2p_0u_18vVVZcZLc",
+  authDomain: "yomna-challenge.firebaseapp.com",
+  projectId: "yomna-challenge",
+  storageBucket: "yomna-challenge.firebasestorage.app",
+  messagingSenderId: "639434172856",
+  appId: "1:639434172856:web:08bcb6bed0d4baaca3c74d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+// FIX: Hardcoded App ID to ensure data consistency
+const appId = 'yomna-forever';
+
+// --- Styles for Animation & Font ---
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&display=swap');
+
+  :root {
+    --font-cairo: 'Cairo', sans-serif;
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif !important;
+  }
+
+  /* Hide default browser password reveal button */
+  input::-ms-reveal,
+  input::-ms-clear {
+    display: none;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  @keyframes burn {
+    0% { transform: scale(1); filter: brightness(100%); }
+    50% { transform: scale(1.1); filter: brightness(120%); }
+    100% { transform: scale(1); filter: brightness(100%); }
+  }
+  @keyframes drop {
+    0% { transform: translateY(-20px); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(20px); opacity: 0; }
+  }
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  .glass-button {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-burn { animation: burn 1.5s ease-in-out infinite; }
+  .animate-drop { animation: drop 2s ease-in-out infinite; }
+  .animate-gradient {
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #ffd1ff, #fbc2eb);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+  /* Animation for hearts pulsing */
+  .heart-beat {
+    animation: pop 1s infinite;
+  }
+`;
+
+// --- Components ---
+
+// 1. Login Component
+const LoginScreen = ({ onLogin }) => {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
+  const SECRET_PASS = "yomna"; 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password.toLowerCase() === SECRET_PASS) {
+      localStorage.setItem('yomna_app_auth', 'true');
+      onLogin();
+    } else {
+      setError('مش صح.. جربي تاني 😉');
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center p-4 animate-gradient font-sans relative overflow-hidden" dir="rtl">
+      <style>{styles}</style>
+      
+      <div className="absolute top-20 left-20 opacity-20 animate-float" style={{animationDelay: '0s'}}>
+        <Heart size={100} fill="white" stroke="none" />
+      </div>
+      <div className="absolute bottom-20 right-20 opacity-20 animate-float" style={{animationDelay: '2s'}}>
+        <Sparkles size={80} color="white" />
+      </div>
+
+      <div className="glass-card rounded-3xl shadow-2xl p-8 max-w-md w-full text-center relative z-10">
+        <div className="flex justify-center mb-6">
+          <div className="bg-pink-100/50 p-4 rounded-full shadow-inner">
+            <Heart className="w-12 h-12 text-pink-500 fill-pink-500 animate-pulse" />
+          </div>
+        </div>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2"></h1>
+        
+        <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+          <div className="relative group">
+            
+            {/* --- VISUAL LAYER (Background + Hearts) --- */}
+            {!showPassword && (
+              <div className={`absolute inset-0 rounded-xl border transition-all pointer-events-none flex items-center justify-center z-0 ${isFocused ? 'bg-white border-pink-400 ring-2 ring-pink-100' : 'bg-white/50 border-white/60'}`}>
+                 <div className="flex justify-center items-center gap-1 overflow-hidden h-full px-12">
+                    {password.length === 0 && !isFocused && (
+                      <span className="text-gray-400 opacity-70 font-bold"></span>
+                    )}
+                    {password.split('').map((_, i) => (
+                      <Heart key={i} size={12} className="text-pink-500 fill-pink-500 heart-beat" style={{ animationDelay: `${i * 0.1}s` }} />
+                    ))}
+                    {/* Fake Cursor */}
+                    {isFocused && (
+                        <div className="w-0.5 h-5 bg-pink-500 animate-pulse ml-0.5" />
+                    )}
+                 </div>
+              </div>
+            )}
+
+            {/* --- ICON 1: LOCK (Right Side / Start) --- */}
+            <Lock className={`absolute right-4 top-3.5 w-5 h-5 transition-colors z-10 ${isFocused ? 'text-pink-500' : 'text-gray-400'}`} />
+
+            {/* --- ICON 2: TOGGLE EYE (Left Side / End) --- */}
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute left-4 top-3.5 z-30 text-gray-400 hover:text-pink-500 transition-colors focus:outline-none"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+
+            {/* --- REAL INPUT --- */}
+            <input 
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`w-full px-12 py-3.5 border-none rounded-xl focus:outline-none focus:ring-0 z-20 relative text-center font-bold font-mono tracking-widest
+                ${showPassword 
+                  ? 'bg-white/50 border border-white/60 text-gray-700 placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-pink-400' 
+                  : 'bg-transparent text-transparent caret-transparent cursor-text'
+                }`}
+              placeholder={showPassword ? "" : ""}
+              dir="ltr" 
+              autoComplete="off"
+            />
+          </div>
+          
+          {error && <p className="text-red-500 text-sm font-bold bg-red-50 py-1 px-3 rounded-lg inline-block">{error}</p>}
+          
+          <button 
+            type="submit"
+            className="w-full bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 text-white py-3.5 rounded-xl font-bold shadow-lg transform transition hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+          >
+            <LogIn size={24} strokeWidth={2.5} />
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// 2. Main Dashboard Component
+const Dashboard = ({ user }) => {
+  const [daysData, setDaysData] = useState({});
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showSadConfetti, setShowSadConfetti] = useState(false); // NEW STATE FOR SADNESS
+  const [dbError, setDbError] = useState(null); 
+  const [isLoading, setIsLoading] = useState(true); 
+  const [greeting, setGreeting] = useState('');
+  const [egyptTime, setEgyptTime] = useState('');
+
+  // --- CLOCK LOGIC ---
+  useEffect(() => {
+    const updateTime = () => {
+      setEgyptTime(new Date().toLocaleTimeString('ar-EG', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Africa/Cairo'
+      }));
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000 * 60); // Update every minute
+    return () => clearInterval(timer);
+  }, []);
+
+  // --- DYNAMIC GREETING LOGIC ---
+  useEffect(() => {
+    const hour = new Date().getHours();
+    const isMorning = hour >= 4 && hour < 15; // 4 AM to 3 PM approx
+
+    const morningGreetings = [
+      "صباح الفُل 🌸",
+      "صباح الخير ☀️",
+      "صباح جميل زي قلبك ❤️",
+    ];
+
+    const eveningGreetings = [
+      "مساء الفُل 🌙",
+      "مساء الخير ✨",
+      "مساء الفُل ❤️",
+      "تصبحي على كل حاجة جميلة شبهك 🌟"
+    ];
+
+    const list = isMorning ? morningGreetings : eveningGreetings;
+    const randomMsg = list[Math.floor(Math.random() * list.length)];
+    setGreeting(randomMsg + "");
+  }, []);
+
+  // Helper to format date key
+  const getDateKey = (date) => {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+
+  // Stats & Streak Calculation
+  const stats = useMemo(() => {
+    const values = Object.values(daysData);
+    const completed = values.filter(d => d.status === 'success').length;
+    
+    // --- STREAK LOGIC ---
+    let currentStreak = 0;
+    let checkDate = new Date(); 
+    
+    const todayKey = getDateKey(checkDate);
+    if (daysData[todayKey]?.status !== 'success') {
+      checkDate.setDate(checkDate.getDate() - 1);
+      const yesterdayKey = getDateKey(checkDate);
+      if (daysData[yesterdayKey]?.status !== 'success') {
+        currentStreak = 0;
+      } else {
+        currentStreak = 1;
+        checkDate.setDate(checkDate.getDate() - 1);
+      }
+    } else {
+      currentStreak = 1;
+      checkDate.setDate(checkDate.getDate() - 1);
+    }
+
+    if (currentStreak > 0) {
+      for (let i = 0; i < 365; i++) { 
+        const key = getDateKey(checkDate);
+        if (daysData[key]?.status === 'success') {
+          currentStreak++;
+          checkDate.setDate(checkDate.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+    }
+
+    return { completed, total: values.length, streak: currentStreak };
+  }, [daysData]);
+
+  // Firestore Sync
+  useEffect(() => {
+    if (!user) return;
+    
+    const q = collection(db, 'artifacts', appId, 'public', 'data', 'challenge_days');
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = {};
+      snapshot.forEach((doc) => {
+        data[doc.id] = doc.data();
+      });
+      setDaysData(data);
+      setIsLoading(false); 
+    }, (error) => {
+      console.error("Error fetching data:", error);
+      setDbError("مش عارف أجيب البيانات.. اتأكد من النت أو إعدادات فايربيس");
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
+  }, [user]);
+
+  // Toggle Day Status
+  const toggleStatus = async (dayKey) => {
+    setDbError(null); 
+    const currentStatus = daysData[dayKey]?.status;
+    let newStatus = 'success';
+    
+    if (currentStatus === 'success') newStatus = 'failed';
+    else if (currentStatus === 'failed') newStatus = null; 
+    
+    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'challenge_days', dayKey);
+    
+    if (newStatus === 'success') {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 2000);
+    } else if (newStatus === 'failed') {
+      setShowSadConfetti(true); // TRIGGER SAD ANIMATION
+      setTimeout(() => setShowSadConfetti(false), 2000);
+    }
+
+    try {
+      if (newStatus) {
+        await setDoc(docRef, { 
+          status: newStatus, 
+          timestamp: new Date().toISOString() 
+        }, { merge: true });
+      } else {
+        await setDoc(docRef, { status: 'pending' }, { merge: true });
+      }
+    } catch (err) {
+      console.error("Save failed:", err);
+      setDbError("مشكلة في الحفظ! اتأكد إنك فاتح الـ Rules في فايربيس للكل.");
+    }
+  };
+
+  // Calendar Helpers
+  const monthNames = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const days = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+    return { days, firstDay };
+  };
+  const { days, firstDay } = getDaysInMonth(currentDate);
+
+  const changeMonth = (offset) => {
+    const newDate = new Date(currentDate.setMonth(currentDate.getMonth() + offset));
+    setCurrentDate(new Date(newDate));
+  };
+
+  return (
+    <div className="min-h-screen animate-gradient pb-10 font-sans text-gray-800" dir="rtl">
+      <style>{styles}</style>
+      
+      {/* HAPPY CONFETTI */}
+      {showConfetti && (
+        <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center animate-bounce">
+             <div className="text-6xl absolute top-1/4 left-1/4 animate-spin">🎉</div>
+             <div className="text-6xl absolute top-1/3 right-1/4 animate-pulse">✨</div>
+             <div className="text-6xl absolute bottom-1/3 left-1/3 animate-ping">🎊</div>
+             <div className="text-6xl absolute top-1/2 right-1/3 animate-bounce">❤️</div>
+          </div>
+        </div>
+      )}
+
+      {/* SAD CONFETTI (NEW) */}
+      {showSadConfetti && (
+        <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 flex items-center justify-center">
+             <div className="text-6xl absolute top-1/4 left-1/4 animate-drop">💔</div>
+             <div className="text-6xl absolute top-1/3 right-1/4 animate-pulse delay-100">😢</div>
+             <div className="text-6xl absolute bottom-1/3 left-1/3 animate-drop delay-200">🌧️</div>
+             <div className="text-6xl absolute top-1/2 right-1/3 animate-pulse delay-300">😿</div>
+          </div>
+        </div>
+      )}
+
+      {/* ERROR TOAST */}
+      {dbError && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-red-50 border border-red-200 text-red-600 px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-pop">
+          <AlertCircle className="w-5 h-5" />
+          <span className="font-bold text-sm">{dbError}</span>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="glass-button sticky top-0 z-20 border-b-0 border-b-white/20">
+        <div className="max-w-2xl mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="bg-pink-500/10 p-2 rounded-xl border border-pink-200">
+              <Trophy className="w-6 h-6 text-pink-600" />
+            </div>
+            <div>
+              <h1 className="font-bold text-gray-800 text-lg">التاسك اليومي</h1>
+              <p className="text-xs text-gray-500 font-bold flex items-center gap-1">
+                 <Clock className="w-3 h-3" />
+                 {egyptTime}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            {/* Streak Counter */}
+            <div className="bg-orange-50 px-3 py-1.5 rounded-full border border-orange-200 shadow-sm flex items-center gap-1">
+               <span className="text-sm font-bold text-orange-600">{stats.streak}</span>
+               <Flame className="w-4 h-4 text-orange-500 fill-orange-500 animate-burn" />
+            </div>
+
+            {/* Total Stars Counter */}
+            <div className="bg-white/50 px-3 py-1.5 rounded-full border border-pink-100 shadow-sm flex items-center gap-2">
+               <span className="text-sm font-bold text-green-600">{stats.completed}</span>
+               <Sparkles className="w-4 h-4 text-yellow-500" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-4 py-6 space-y-6 relative z-10">
+        
+        {/* Welcome Card */}
+        <div className="glass-card rounded-3xl p-6 text-gray-800 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-4">
+            <div className="bg-pink-100 p-3 rounded-full shrink-0">
+               <Heart className="w-8 h-8 text-pink-500 fill-pink-500" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold mb-1 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+                أحلى يمنى في الدنيا كلها
+              </h2>
+              <p className="text-gray-600 text-sm font-bold leading-relaxed">
+                 {greeting}
+              </p>
+            </div>
+          </div>
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 group-hover:scale-110 transition-transform duration-700"></div>
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-purple-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 group-hover:scale-110 transition-transform duration-700"></div>
+        </div>
+
+        {/* Calendar Card */}
+        <div className="glass-card rounded-3xl shadow-sm p-5 relative min-h-[300px]">
+          
+          {/* Loading State Overlay */}
+          {isLoading && (
+            <div className="absolute inset-0 z-20 bg-white/50 backdrop-blur-sm rounded-3xl flex items-center justify-center flex-col gap-2">
+              <Loader2 className="w-8 h-8 text-pink-500 animate-spin" />
+              <p className="text-xs text-pink-500 font-bold">بنحمل البيانات...</p>
+            </div>
+          )}
+
+          {/* Controls */}
+          <div className="flex items-center justify-between mb-6">
+            <button 
+              onClick={() => changeMonth(-1)} 
+              className="p-2 hover:bg-white/50 rounded-full transition-colors text-gray-600"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+            
+            <h2 className="font-bold text-xl text-gray-800 flex items-center gap-2 font-serif">
+              {monthNames[currentDate.getMonth()]} <span className="text-pink-500">{currentDate.getFullYear()}</span>
+            </h2>
+
+            <button 
+              onClick={() => changeMonth(1)} 
+              className="p-2 hover:bg-white/50 rounded-full transition-colors text-gray-600"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-7 mb-2">
+            {['حد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'].map(day => (
+              <div key={day} className="text-center text-xs text-gray-400 font-bold py-2 opacity-70">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-7 gap-2">
+            {[...Array(firstDay)].map((_, i) => <div key={`empty-${i}`} />)}
+
+            {[...Array(days)].map((_, i) => {
+              const dayNum = i + 1;
+              const dateKey = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
+              const dayData = daysData[dateKey];
+              const status = dayData?.status || 'pending';
+              const isToday = new Date().toDateString() === new Date(currentDate.getFullYear(), currentDate.getMonth(), dayNum).toDateString();
+
+              return (
+                <button
+                  key={dayNum}
+                  onClick={() => toggleStatus(dateKey)}
+                  className={`
+                    aspect-square rounded-2xl flex flex-col items-center justify-center relative transition-all duration-300 transform
+                    ${status === 'success' ? 'bg-gradient-to-br from-green-400 to-green-500 shadow-lg shadow-green-200 scale-105' : 
+                      status === 'failed' ? 'bg-gradient-to-br from-red-400 to-red-500 shadow-lg shadow-red-200' : 
+                      'bg-white/40 hover:bg-white/80 border border-white/40'}
+                    ${isToday && !status.includes('success') && !status.includes('failed') ? 'ring-2 ring-pink-400 ring-offset-2 ring-offset-transparent' : ''}
+                  `}
+                >
+                  <span className={`text-sm font-bold mb-0.5 ${
+                    (status === 'success' || status === 'failed') ? 'text-white' : 'text-gray-600'
+                  }`}>
+                    {dayNum}
+                  </span>
+                  
+                  {status === 'success' && <Check className="w-5 h-5 text-white animate-[pop_0.3s_ease-out]" />}
+                  {status === 'failed' && <X className="w-5 h-5 text-white animate-[pop_0.3s_ease-out]" />}
+                  {!dayData && isToday && (
+                    <div className="absolute bottom-2 w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+      </main>
+    </div>
+  );
+};
+
+// 3. Main App Container
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('yomna_app_auth') === 'true';
+  });
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        await signInAnonymously(auth);
+      } catch (error) {
+        console.error("Auth failed:", error);
+      }
+    };
+    initAuth();
+    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
+    return () => unsubscribe();
+  }, []);
+
+  if (!isAuthenticated) return <LoginScreen onLogin={() => setIsAuthenticated(true)} />;
+  return <Dashboard user={user} />;
+}
