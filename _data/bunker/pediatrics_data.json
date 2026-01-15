@@ -1,0 +1,1772 @@
+[
+  {
+    "id": "_ai_constitution",
+    "category": "METADATA",
+    "version": "2025.12.26 (MASTER OMNI - Ultimate Dosing Edition V6)",
+    "target_specialty": "Pediatrics",
+    "description": "The Definitive Egyptian Pediatric Database. Now with 100% complete dosage frequency for all items and OTC Status.",
+    "rules": {
+      "safety": "Strict G6PD, Asthma, Reye's Syndrome, and Age checks. Absolute precision in mg/kg dosages.",
+      "pricing": "Low (<75 EGP), Medium (75-200 EGP), High (>200 EGP).",
+      "structure": "Mandatory Protocol Context, Counseling Points & Pediatric Calculator."
+    }
+  },
+  {
+    "id": "ped_formula_milk",
+    "category": "Pediatrics",
+    "condition_ar": "ألبان الأطفال (عادي وعلاجي)",
+    "condition_en": "Infant Formula (Regular & Specialty)",
+    "search_tags": ["لبن", "حليب", "bebelac", "hero", "nan", "aptamil", "AR", "LF", "s-26", "comp", "رضاعة"],
+    "protocols": [
+      {
+        "patient_type": "Regular Formula (Stages 1, 2, 3)",
+        "patient_scenario": [
+          "عايزة لبن صناعي للبيبي عشان اللبن خفيف عندي مش مكفيه",
+          "الدكتور كتبلي على هيرو بيبي بس مش لاقياه، فيه بديل؟"
+        ],
+        "instructions": "مكيال ممسوح لكل 30 مل ماء سبق غليه وتبريده. الرضعة صالحة لمدة ساعة واحدة فقط بعد التحضير.",
+        "context": {
+          "title": "خريطة بدائل الألبان في مصر",
+          "content": "سوق الألبان في مصر متقلب والنواقص كتير. لو الأم بتستعمل 'Bebelac' ولقيته ناقص، البديل المباشر في نفس الفئة السعرية هو 'Hero Baby' أو 'Nactalia'. لو عايزة حاجة أعلى (Premium) يبقى 'Aptamil' أو 'Nan' أو 'S-26 Gold'. لازم تطمنها إن التغيير مش هيضر الطفل طالما نفس المرحلة."
+        },
+        "drugs": [
+          {
+            "trade_name": "Hero Baby 1 / 2 / 3",
+            "scientific_name": "Infant Formula",
+            "form": "Milk Powder",
+            "price_level": "Medium",
+            "is_best_choice": true,
+            "is_otc": true,
+            "note": "متوفر غالباً وسعره معقول (Value for Money)",
+            "equivalents": [
+              {"name": "Bebelac 1/2/3", "price_level": "Medium", "is_otc": true},
+              {"name": "Nactalia 1/2/3", "price_level": "Low", "is_otc": true},
+              {"name": "France Lait", "price_level": "Medium", "is_otc": true}
+            ],
+            "alternatives": [
+              {"name": "Aptamil 1/2/3", "price_level": "High", "note": "يحتوي على Prebiotics (مريح للهضم)", "is_otc": true},
+              {"name": "Nan Optipro", "price_level": "High", "is_otc": true},
+              {"name": "S-26 Gold", "price_level": "High", "is_otc": true}
+            ]
+          }
+        ]
+      },
+      {
+        "patient_type": "Reflux Formula (AR)",
+        "patient_scenario": [
+          "البيبي بيرجع (قشط) كتير أوي بعد كل رضعة",
+          "الدكتور قاللي هاتي لبن للارتجاع"
+        ],
+        "instructions": "اللبن قوامه سميك، قد يحتاج حلمة (Teat) واسعة قليلاً. يترك دقيقتين في الببرونة ليزداد سمكاً قبل الإعطاء.",
+        "rationale": "Contains thickeners (Carob bean gum or Starch) to reduce regurgitation.",
+        "drugs": [
+          {
+            "trade_name": "Bebelac AR",
+            "scientific_name": "Anti-Regurgitation Formula",
+            "form": "Milk Powder",
+            "dose": "بالتبادل مع اللبن العادي أو حسب وصفة الطبيب",
+            "price_level": "Medium",
+            "is_best_choice": true,
+            "is_otc": true,
+            "equivalents": [
+                {"name": "Hero Baby AR", "price_level": "Medium", "is_otc": true},
+                {"name": "Aptamil AR", "price_level": "High", "is_otc": true}
+            ]
+          }
+        ]
+      },
+      {
+        "patient_type": "Lactose Free (LF) - Diarrhea",
+        "patient_scenario": [
+          "الولد عنده إسهال بقاله أسبوع ومش بيخف",
+          "الدكتور قاللي وقفي اللبن العادي واستخدمي لبن خالي من اللاكتوز"
+        ],
+        "instructions": "يستخدم فقط أثناء فترة الإسهال والنزلة المعوية ثم نعود للبن العادي بالتدريج (رضعة ورضعة لمدة يومين).",
+        "context": {
+          "title": "متى نستخدم LF؟",
+          "content": "مش أي إسهال نغير اللبن. بنستخدم LF لو الإسهال شديد ومطول (أكتر من أسبوع) أو فيه التهاب شديد مكان الحفاض (Acidic Stool) بسبب عدم هضم اللاكتوز المؤقت. غير كده الرضاعة الطبيعية أو اللبن العادي يستمر."
+        },
+        "drugs": [
+          {
+            "trade_name": "Hero Baby LF",
+            "scientific_name": "Lactose Free Formula",
+            "form": "Milk Powder",
+            "dose": "أثناء فترة الإسهال فقط",
+            "price_level": "Medium",
+            "is_otc": true,
+            "equivalents": [
+                {"name": "Bebelac LF", "price_level": "Medium", "is_otc": true},
+                {"name": "S-26 LF", "price_level": "High", "is_otc": true},
+                {"name": "Nan LF", "price_level": "High", "is_otc": true}
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ped_fever",
+    "category": "Pediatrics",
+    "condition_ar": "سخونية / حمى الأطفال",
+    "condition_en": "Pediatric Fever (Pyrexia)",
+    "search_tags": ["سخونية", "حرارة", "fever", "pyrexia", "cetal", "brufen", "paramol", "dolphin", "لبوس", "cataflam", "catafly"],
+    "protocols": [
+      {
+        "patient_type": "General Pediatrics (Oral Suspensions)",
+        "patient_scenario": [
+          "الولد جسمه سخن مولع ومش عندي خافض حرارة",
+          "عايزة سيتال نقط عشان السخونية"
+        ],
+        "instructions": "كمادات مياه فاترة (Tap Water) على الرقبة وتحت الإبطين وبين الفخذين. ممنوع استخدام الماء المثلج أو الخل.",
+        "rationale": "Paracetamol is the gold standard for safety, suitable for G6PD and neonates.",
+        "context": {
+          "title": "نواقص السوق وتريكات البدائل",
+          "content": "نقط 'سيتال' بتنقص كتير جداً في السوق. لو هتطلع 'بيرال' أو 'بارامول' شراب مكانها، خد بالك إن تركيزهم (125مجم) يعني نص تركيز السيتال شراب (250مجم)، فممكن تحتاج تضاعف حجم الجرعة عشان تجيب نفس المفعول."
+        },
+        "drugs": [
+          {
+            "trade_name": "Cetal",
+            "scientific_name": "Paracetamol",
+            "form": "Syrup",
+            "dose": "15 مجم/كجم كل 4-6 ساعات (عند اللزوم)",
+            "price_level": "Low",
+            "is_shortage": false,
+            "is_best_choice": true,
+            "is_otc": true,
+            "contraindications": ["LIVER FAILURE"],
+            "pregnancy_category": "B",
+            "lactation_category": "Safe",
+            "pediatric_calc": {
+              "is_calculable": true,
+              "type": "syrup",
+              "mg_per_kg": 15,
+              "concentration_mg": 250,
+              "concentration_ml": 5,
+              "frequency": 4,
+              "max_dose_ml": 0,
+              "note": "كل 4-6 ساعات، بحد أقصى 4 جرعات يومياً"
+            },
+            "equivalents": [
+              {
+                "trade_name": "Paramol",
+                "scientific_name": "Paracetamol",
+                "form": "Syrup",
+                "price_level": "Low",
+                "is_otc": true,
+                "pediatric_calc": {
+                  "is_calculable": true,
+                  "type": "syrup",
+                  "mg_per_kg": 15,
+                  "concentration_mg": 125,
+                  "concentration_ml": 5,
+                  "frequency": 4,
+                  "note": "تركيز 125مجم - الجرعة بالحجم ستكون الضعف مقارنة بسيتال"
+                }
+              },
+              {
+                "trade_name": "Pyral",
+                "scientific_name": "Paracetamol",
+                "form": "Syrup",
+                "price_level": "Low",
+                "is_otc": true,
+                "pediatric_calc": {
+                  "is_calculable": true,
+                  "type": "syrup",
+                  "mg_per_kg": 15,
+                  "concentration_mg": 120,
+                  "concentration_ml": 5,
+                  "frequency": 4
+                }
+              }
+            ]
+          },
+          {
+            "trade_name": "Cetal Drops",
+            "scientific_name": "Paracetamol",
+            "form": "Drops",
+            "dose": "الجرعة حسب الوزن (نقطتين لكل كيلو تقريباً)",
+            "price_level": "Low",
+            "is_shortage": true,
+            "is_best_choice": true,
+            "is_otc": true,
+            "contraindications": ["LIVER FAILURE"],
+            "pediatric_calc": {
+              "is_calculable": true,
+              "type": "drops",
+              "mg_per_kg": 15,
+              "concentration_mg": 100,
+              "concentration_ml": 1,
+              "frequency": 4,
+              "note": "القطارة عادة 1 مل = 20 نقطة (تأكد من العبوة)"
+            },
+            "equivalents": [
+               {
+                "trade_name": "Pyral Drops",
+                "price_level": "Low",
+                "is_otc": true,
+                 "pediatric_calc": {
+                  "is_calculable": true,
+                  "type": "drops",
+                  "mg_per_kg": 15,
+                  "concentration_mg": 100,
+                  "concentration_ml": 1,
+                  "frequency": 4
+                }
+               },
+               { "trade_name": "Otcet Drops", "price_level": "Low", "is_otc": true }
+            ]
+          }
+        ]
+      },
+      {
+         "patient_type": "High Fever (Ibuprofen / Diclofenac)",
+         "patient_scenario": [
+           "الحرارة مش بتنزل بالسيتال خالص بقالها ساعتين",
+           "عايزة حاجة قوية للسخونية والتهاب الزور"
+         ],
+         "rationale": "Ibuprofen is superior for high fever (>39C) and inflammation, but contraindicated < 6 months.",
+         "instructions": "يؤخذ بعد الأكل لتجنب التهاب المعدة. يجب شرب سوائل كثيرة.",
+         "drugs": [
+            {
+            "trade_name": "Brufen",
+            "scientific_name": "Ibuprofen",
+            "form": "Syrup",
+            "dose": "10 مجم/كجم كل 8 ساعات",
+            "price_level": "Low",
+            "is_shortage": false,
+            "is_best_choice": true,
+            "is_otc": true,
+            "contraindications": ["ASTHMA", "KIDNEY", "G6PD", "DEHYDRATION", "AGE < 6 MONTHS", "CHICKENPOX"],
+            "pediatric_calc": {
+              "is_calculable": true,
+              "type": "syrup",
+              "mg_per_kg": 10,
+              "concentration_mg": 100,
+              "concentration_ml": 5,
+              "frequency": 3,
+              "note": "كل 8 ساعات بعد الأكل"
+            },
+            "equivalents": [
+              {
+                "trade_name": "Marcofen",
+                "price_level": "Low",
+                "is_otc": true,
+                "pediatric_calc": { "is_calculable": true, "mg_per_kg": 10, "concentration_mg": 100, "concentration_ml": 5, "frequency": 3 }
+              },
+               {
+                "trade_name": "Contafever N",
+                "form": "Suspension",
+                "price_level": "Low",
+                "is_otc": true,
+                "warnings": ["تركيز عالي (200مجم/5مل) - انتبه للجرعة"],
+                "pediatric_calc": { "is_calculable": true, "mg_per_kg": 10, "concentration_mg": 200, "concentration_ml": 5, "frequency": 3, "note": "انتبه: تركيز 200مجم، الجرعة ستكون نصف حجم البروفين" }
+              }
+            ]
+            },
+            {
+                "trade_name": "Catafly",
+                "scientific_name": "Diclofenac Potassium",
+                "form": "Suspension",
+                "dose": "1 مجم/كجم كل 8-12 ساعة (عند الضرورة القصوى)",
+                "price_level": "Medium",
+                "is_otc": true,
+                "contraindications": ["AGE < 1 YEAR", "ASTHMA", "DEHYDRATION"],
+                "warnings": ["تستخدم فقط كمسكن قوي ومضاد للالتهاب", "ممنوع لأقل من سنة"],
+                "pediatric_calc": {
+                    "is_calculable": true,
+                    "type": "syrup",
+                    "mg_per_kg": 1,
+                    "concentration_mg": 2,
+                    "concentration_ml": 1,
+                    "frequency": 3,
+                    "note": "تركيز 2مجم/1مل"
+                },
+                "equivalents": [
+                    {"name": "Cataflam Drops", "form": "Drops", "price_level": "Medium", "is_otc": true}, 
+                    {"name": "Dolphin K", "form": "Syrup", "price_level": "Low", "is_otc": true}
+                ]
+            }
+         ]
+      },
+      {
+         "patient_type": "Rectal Antipyretics (Suppositories)",
+         "patient_scenario": [
+           "الولد بيرجع الدواء الشرب كله مش بيلحق يبلعه",
+           "عايزة لبوس للسخونية عشان يشتغل بسرعة"
+         ],
+         "rationale": "Fast acting for high fever or vomiting children.",
+         "context": {
+           "title": "تحذير اللبوس والجفاف",
+           "content": "لبوس 'دولفين' فعال جداً وسريع، لكن دكاترة الأطفال بيحذروا منه لو الطفل عنده جفاف (إسهال وترجيع) لأنه بيقلل تدفق الدم للكلى وممكن يسبب فشل كلوي حاد. خليك في الأمان (سيتال لبوس) لو الحالة فيها جفاف."
+         },
+         "drugs": [
+            {
+              "trade_name": "Cetal Suppositories",
+              "scientific_name": "Paracetamol",
+              "form": "Suppositories",
+              "dose": "لبوسة كل 6 ساعات (حسب التركيز والوزن)",
+              "price_level": "Low",
+              "is_best_choice": true,
+              "is_otc": true,
+              "note": "آمن لجميع الأعمار (اختر التركيز المناسب: 120مجم للرضع، 250مجم للأطفال)",
+              "equivalents": [{"name": "Paramol Supp", "price_level": "Low", "is_otc": true}]
+            },
+            {
+              "trade_name": "Dolphin",
+              "scientific_name": "Diclofenac Sodium",
+              "form": "Suppositories",
+              "dose": "لبوسة كل 12 ساعة (عند اللزوم القصوى)",
+              "price_level": "Low",
+              "is_otc": true,
+              "contraindications": ["ASTHMA", "KIDNEY", "AGE < 1 YEAR", "DEHYDRATION"],
+              "warnings": ["ممنوع لأقل من سنة", "خطر شديد على الكلى مع الجفاف"],
+              "equivalents": [{"name": "Baby Relief", "price_level": "Low", "is_otc": true}]
+            }
+         ]
+      },
+      {
+          "patient_type": "WARNING: Aspirin Prohibition",
+          "instructions": "ممنوع نهائياً للأطفال أقل من 16 سنة كخافض للحرارة.",
+          "rationale": "Risk of Reye's Syndrome (Brain & Liver damage).",
+          "drugs": [
+              {
+                  "trade_name": "Aspocid / Rivo",
+                  "scientific_name": "Aspirin",
+                  "form": "Tab",
+                  "dose": "CONTRAINDICATED",
+                  "price_level": "Low",
+                  "is_shortage": false,
+                  "is_otc": true,
+                  "contraindications": ["AGE < 16", "ASTHMA", "G6PD", "ULCER"],
+                  "warnings": ["قاتل للأطفال (Reye's Syndrome)"]
+              }
+          ]
+      }
+    ]
+  },
+  {
+    "id": "ped_antibiotics_comprehensive",
+    "category": "Pediatrics",
+    "condition_ar": "المضادات الحيوية (شراب وحقن)",
+    "condition_en": "Antibiotics (Suspension & Injectables)",
+    "search_tags": ["مضاد حيوي", "التهاب حلق", "لوز", "أذن", "augmentin", "curam", "hibiotic", "klacid", "zithrokan", "suprax", "cefotax", "cefaxone", "حقن", "emox", "e-mox"],
+    "protocols": [
+      {
+        "patient_type": "First Line (Amoxicillin / Co-amoxiclav)",
+        "patient_scenario": [
+          "الدكتور كتب أوجمنتين بس مش لاقياه خالص",
+          "عايزة مضاد حيوي للوز والتهاب الأذن"
+        ],
+        "context": {
+          "title": "أزمة الأوجمنتين والتركيزات",
+          "content": "الـ Augmentin ES بينقص كتير. لو هتطلع بديل زي Curam (457mg) أو Hibiotic (600mg)، لازم تضبط الجرعة. الأوجمنتين ES تركيزه 600، فلو أخذ الكورام 457 هيحتاج كمية أكبر (مل) عشان ياخد نفس الجرعة الفعالة."
+        },
+        "drugs": [
+          {
+            "trade_name": "E-Mox",
+            "scientific_name": "Amoxicillin",
+            "form": "Suspension",
+            "dose": "جرعة عالية (80-90 مجم/كجم) لالتهاب الأذن الوسطى والجيوب الأنفية",
+            "price_level": "Low",
+            "is_best_choice": true,
+            "is_otc": false,
+            "contraindications": ["PENICILLIN_ALLERGY"],
+            "pediatric_calc": {
+              "is_calculable": true,
+              "type": "syrup",
+              "mg_per_kg": 90,
+              "concentration_mg": 250,
+              "concentration_ml": 5,
+              "frequency": 2,
+              "note": "تقسم على جرعتين يومياً (كل 12 ساعة)"
+            }
+          },
+          {
+            "trade_name": "Augmentin ES",
+            "scientific_name": "Co-amoxiclav",
+            "form": "Suspension",
+            "dose": "90 مجم/كجم (للأذن الوسطى والالتهاب الرئوي)",
+            "price_level": "Medium",
+            "is_shortage": true,
+            "is_best_choice": true,
+            "is_otc": false,
+            "contraindications": ["PENICILLIN_ALLERGY", "LIVER HISTORY"],
+            "pediatric_calc": {
+              "is_calculable": true,
+              "type": "syrup",
+              "mg_per_kg": 90,
+              "concentration_mg": 600,
+              "concentration_ml": 5,
+              "frequency": 2,
+              "note": "كل 12 ساعة - يجب أن يؤخذ في بداية الأكل لتقليل المغص"
+            },
+            "equivalents": [
+              {
+                "trade_name": "Curam",
+                "form": "Suspension",
+                "price_level": "Medium",
+                "is_otc": false,
+                "warnings": ["التركيز مختلف (457مجم/5مل) - احسب الجرعة جيداً"],
+                "pediatric_calc": { "is_calculable": true, "mg_per_kg": 45, "concentration_mg": 457.1, "concentration_ml": 5, "frequency": 2, "note": "للجرعات المتوسطة" }
+              },
+              {
+                "trade_name": "Hibiotic N",
+                "form": "Suspension",
+                "price_level": "Medium",
+                "is_otc": false,
+                "pediatric_calc": { "is_calculable": true, "mg_per_kg": 90, "concentration_mg": 600, "concentration_ml": 5, "frequency": 2 }
+              },
+              {
+                "trade_name": "Megamox ES",
+                "price_level": "Medium",
+                "is_otc": false,
+                 "pediatric_calc": { "is_calculable": true, "mg_per_kg": 90, "concentration_mg": 600, "concentration_ml": 5, "frequency": 2 }
+              }
+            ]
+          }
+        ]
+      },
+      {
+          "patient_type": "Penicillin Allergy / Second Line (Cephalosporins)",
+          "patient_scenario": [
+            "ابني عنده حساسية من البنسلين والدكتور كتبله مضاد تاني",
+            "لون البراز بقى أحمر يا دكتور بعد الدواء، ده دم؟"
+          ],
+          "context": {
+            "title": "رعب البراز الأحمر (Red Stool)",
+            "content": "لو طلعت Omnicef (Cefdinir) أو بديله Dinercef، لازم لازم تقول للأم: 'الدواء ده بيتفاعل مع الحديد في الأكل وممكن يخلي لون البراز أحمر، ماتتخضيش ده مش دم'. الجملة دي بتوفر زيارة رعب للدكتور."
+          },
+          "drugs": [
+              {
+                  "trade_name": "Suprax",
+                  "scientific_name": "Cefixime",
+                  "form": "Suspension",
+                  "dose": "8 مجم/كجم مرة واحدة يومياً أو مقسمة على مرتين",
+                  "price_level": "Medium",
+                  "is_otc": false,
+                  "pediatric_calc": {
+                      "is_calculable": true,
+                      "type": "syrup",
+                      "mg_per_kg": 8,
+                      "concentration_mg": 100,
+                      "concentration_ml": 5,
+                      "frequency": 1,
+                      "note": "جرعة واحدة يومياً (اسأل عن التركيز، يوجد 100مجم)"
+                  },
+                  "equivalents": [{"name": "Cefix", "price_level": "Medium", "is_otc": false}, {"name": "Ximacef", "price_level": "Medium", "is_otc": false}]
+              },
+              {
+                  "trade_name": "Omnicef",
+                  "scientific_name": "Cefdinir",
+                  "form": "Suspension",
+                  "dose": "14 مجم/كجم مرة واحدة أو مقسمة",
+                  "price_level": "High",
+                  "is_otc": false,
+                  "warnings": ["يسبب تلون البراز باللون الأحمر (غير ضار)"],
+                  "equivalents": [{"name": "Dinercef", "price_level": "Medium", "is_otc": false}],
+                  "pediatric_calc": {
+                      "is_calculable": true,
+                      "type": "syrup",
+                      "mg_per_kg": 14,
+                      "concentration_mg": 125,
+                      "concentration_ml": 5,
+                      "frequency": 2,
+                      "note": "يمكن إعطاؤه مرة واحدة أو مرتين"
+                  }
+              },
+              {
+                  "trade_name": "Duricef",
+                  "scientific_name": "Cefadroxil",
+                  "form": "Suspension",
+                  "dose": "30 مجم/كجم مقسمة على جرعتين",
+                  "price_level": "Medium",
+                  "is_otc": false,
+                  "note": "الجيل الأول (ممتاز لالتهابات الجلد والتهاب الحلق البسيط)",
+                  "equivalents": [{"name": "Curisafe", "price_level": "Low", "is_otc": false}]
+              }
+          ]
+      },
+      {
+          "patient_type": "Macrolides (Atypical / Severe Allergy)",
+          "drugs": [
+              {
+                  "trade_name": "Zithrokan",
+                  "scientific_name": "Azithromycin",
+                  "form": "Suspension",
+                  "dose": "10 مجم/كجم مرة واحدة يومياً لمدة 3 أيام متتالية",
+                  "price_level": "Low",
+                  "is_best_choice": true,
+                  "is_otc": false,
+                  "note": "يؤخذ قبل الأكل بساعة أو بعده بساعتين (على معدة فارغة لامتصاص أفضل).",
+                  "equivalents": [{"name": "Zisrocin", "price_level": "Low", "is_otc": false}, {"name": "Azrolid", "price_level": "Medium", "is_otc": false}],
+                   "pediatric_calc": {
+                      "is_calculable": true,
+                      "type": "syrup",
+                      "mg_per_kg": 10,
+                      "concentration_mg": 200,
+                      "concentration_ml": 5,
+                      "frequency": 1,
+                      "note": "لمدة 3 أيام فقط"
+                  }
+              },
+              {
+                  "trade_name": "Klacid",
+                  "scientific_name": "Clarithromycin",
+                  "form": "Suspension",
+                  "dose": "15 مجم/كجم مقسمة على جرعتين لمدة 5-10 أيام",
+                  "price_level": "High",
+                  "is_otc": false,
+                  "note": "طعمه مر (Aftertaste)، يمكن إعطاء حلوى بعده مباشرة.",
+                  "pediatric_calc": {
+                      "is_calculable": true,
+                      "type": "syrup",
+                      "mg_per_kg": 15,
+                      "concentration_mg": 250,
+                      "concentration_ml": 5,
+                      "frequency": 2,
+                      "note": "15مجم/كجم يومياً تقسم على جرعتين"
+                  },
+                  "equivalents": [{"name": "Klarimix", "price_level": "Medium", "is_otc": false}]
+              }
+          ]
+      },
+      {
+          "patient_type": "Injectables (IM/IV) - Severe Cases",
+          "context": {
+            "title": "تحذير السيفترياكسون والكالسيوم (Ceftriaxone-Calcium)",
+            "content": "ممنوع نهائياً خلط حقن Cefaxone أو Ceftriaxone مع محاليل فيها كالسيوم (زي Ringer) أو إعطاؤها لطفل بياخد كالسيوم وريد في نفس الوقت، لأنه بيعمل راسب كريستالي قاتل في الرئة والكلى. الحقن ليدوكايين (مخدر) للعضل فقط، ومياه مقطرة للوريد."
+          },
+          "drugs": [
+              {
+                  "trade_name": "Cefotax",
+                  "scientific_name": "Cefotaxime",
+                  "form": "Vial",
+                  "dose": "50-100 مجم/كجم/يوم مقسمة على 3-4 مرات",
+                  "price_level": "Low",
+                  "is_otc": false,
+                  "note": "آمن لحديثي الولادة (Safe for Neonates) ولا يسبب مشاكل الصفراء.",
+                  "equivalents": [{"name": "Foxime", "price_level": "Low", "is_otc": false}]
+              },
+              {
+                  "trade_name": "Cefaxone",
+                  "scientific_name": "Ceftriaxone",
+                  "form": "Vial",
+                  "dose": "50-75 مجم/كجم مرة واحدة يومياً (بحد أقصى 2 جم)",
+                  "price_level": "Medium",
+                  "is_otc": false,
+                  "warnings": ["ممنوع مع الكالسيوم", "ممنوع لحديثي الولادة اللي عندهم صفرا (Jaundice) لأنه بيزودها"],
+                  "equivalents": [{"name": "Wintex", "price_level": "Medium", "is_otc": false}, {"name": "Epocephin", "price_level": "Low", "is_otc": false}, {"name": "Triaxone", "price_level": "Low", "is_otc": false}]
+              }
+          ]
+      }
+    ]
+  },
+  {
+      "id": "ped_resp_allergy",
+      "category": "Pediatrics",
+      "condition_ar": "حساسية الصدر والأنف والجلسات",
+      "condition_en": "Respiratory Allergy & Nebulizers",
+      "search_tags": ["بخار", "جلسة", "فاركولين", "nebulizer", "farcolin", "pulmicort", "singulair", "atrovent"],
+      "protocols": [
+          {
+              "patient_type": "Nebulizer Sessions (Acute)",
+              "patient_scenario": [
+                "صدره مقفول ومش عارف ياخد نفسه",
+                "عايزة محلول فاركولين للجلسة، الدكتور كتبه"
+              ],
+              "instructions": "تضاف الأدوية (الفاركولين/الأتروفنت) وتكمل بـ 3 مل محلول ملح (Saline).",
+              "context": {
+                "title": "نصائح الجلسات الهامة",
+                "content": "نبه على الأم: 1- الجلسة بتتعمل بمحلول ملح (Saline 0.9%) مش مياه مقطرة ولا مياه حنفية. 2- الفاركولين بيسرع ضربات القلب وده طبيعي ومؤقت. 3- بعد جلسة البلميكورت (الكورتيزون) لازم غسيل وش ومضمضة عشان مايطلعش فطريات في الفم."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Farcolin",
+                      "scientific_name": "Salbutamol Respirator Solution",
+                      "form": "Solution",
+                      "dose": "0.03 مل/كجم (تقريباً 0.5 مل للأطفال > 5 سنوات)",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": false,
+                      "warnings": ["يسبب Tachycardia (سرعة ضربات القلب)", "لا يستخدم بدون تخفيف"],
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "drops",
+                          "mg_per_kg": 0.15,
+                          "concentration_mg": 5,
+                          "concentration_ml": 1,
+                          "frequency": 4,
+                          "note": "الجرعة التقريبية الدارجة: 10 نقط للرضع، 1/2 مل للأطفال الأكبر. يكرر كل 20 دقيقة في الأزمات."
+                      }
+                  },
+                  {
+                      "trade_name": "Pulmicort",
+                      "scientific_name": "Budesonide",
+                      "form": "Respules",
+                      "dose": "0.25 - 0.5 مجم (نصف أمبول أو أمبول كامل تركيز 0.5) كل 12 ساعة",
+                      "price_level": "High",
+                      "is_otc": false,
+                      "note": "كورتيزون استنشاق - آمن ولا يمتص للجسم بكميات كبيرة.",
+                      "equivalents": [{"name": "Budecort", "price_level": "Medium", "is_otc": false}]
+                  },
+                  {
+                      "trade_name": "Atrovent",
+                      "scientific_name": "Ipratropium",
+                      "form": "Solution",
+                      "dose": "1 مل (20 نقطة) للأطفال < 12 سنة",
+                      "price_level": "Medium",
+                      "is_otc": false,
+                      "note": "موسع شعب يعمل بطريقة مختلفة عن الفاركولين، مفيد في الحالات الشديدة."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Asthma Prophylaxis (Long Term)",
+              "drugs": [
+                  {
+                      "trade_name": "Singulair",
+                      "scientific_name": "Montelukast",
+                      "form": "Sachets (4mg) / Chewable Tabs (5mg)",
+                      "dose": "مرة واحدة يومياً مساءً",
+                      "price_level": "High",
+                      "is_otc": false,
+                      "note": "الجرعة: 4مجم (أكياس) لعمر 6 شهور-5 سنوات. 5مجم (مضغ) لعمر 6-14 سنة.",
+                      "instructions": "الأكياس تخلط مع طعام لين بارد (زبادي/تفاح) وتؤكل فوراً. لا تذاب في الماء.",
+                      "equivalents": [
+                          {"name": "Kast", "price_level": "Medium", "is_otc": false},
+                          {"name": "Sedokast", "price_level": "Low", "is_otc": false},
+                          {"name": "Lukast", "price_level": "Low", "is_otc": false}
+                      ]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Nasal Sprays",
+              "drugs": [
+                  {
+                      "trade_name": "Physiomer / Baby Nadif",
+                      "scientific_name": "Isotonic Sea Water",
+                      "form": "Nasal Spray",
+                      "price_level": "High",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "آمن تماماً للرضع ويمكن استخدامه لفترات طويلة للنظافة اليومية."
+                  },
+                  {
+                      "trade_name": "Otrivin Child",
+                      "scientific_name": "Xylometazoline 0.05%",
+                      "form": "Drops/Spray",
+                      "dose": "نقطتين في كل فتحة مرتين يومياً (بحد أقصى 3-5 أيام)",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "warnings": ["ممنوع الاستمرار عليها أكثر من 5 أيام لتجنب احتقان الأنف الارتدادي (Rebound Congestion)"],
+                      "equivalents": [{"name": "Balkis 0.05%", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Nasonex",
+                      "scientific_name": "Mometasone",
+                      "form": "Spray",
+                      "dose": "بخة واحدة في كل فتحة يومياً",
+                      "price_level": "High",
+                      "is_otc": false,
+                      "warnings": ["لأكثر من سنتين"],
+                      "equivalents": [{"name": "Avamys", "price_level": "High", "is_otc": false}]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+    "id": "ped_cough",
+    "category": "Pediatrics",
+    "condition_ar": "السعال / الكحة",
+    "condition_en": "Cough Management",
+    "search_tags": ["كحة", "سعال", "بلغم", "ناشفة", "prospan", "sinecod", "bronchicum", "mucosolvan", "acetylcistein"],
+    "protocols": [
+      {
+        "patient_type": "Herbal / Safe Mucolytics (First Line)",
+        "patient_scenario": [
+          "الولد بيكح وصدره مليان بلغم",
+          "عايزة دواء كحة أعشاب عشان خايفة عليه"
+        ],
+        "rationale": "Ivy leaf & Thyme extracts are safe for infants (> 6 months) and children.",
+        "context": {
+          "title": "تفضيلات الأمهات",
+          "content": "الأمهات بتثق في الأعشاب وتخاف من الكيمياء للرضع. Prospan و Bronchicum خيارات ممتازة وآمنة. الـ Pentamix خيار اقتصادي كويس."
+        },
+        "drugs": [
+          {
+            "trade_name": "Prospan",
+            "scientific_name": "Dried Ivy Leaf Extract",
+            "form": "Syrup",
+            "dose": "2.5 مل (<6 سنوات) - 5 مل (>6 سنوات) 3 مرات يومياً",
+            "price_level": "Medium",
+            "is_best_choice": true,
+            "is_otc": true,
+            "equivalents": [{"name": "Ivypront", "price_level": "Medium", "is_otc": true}, {"name": "Ivyrospan", "price_level": "Low", "is_otc": true}]
+          },
+          {
+            "trade_name": "Bronchicum",
+            "scientific_name": "Thyme + Primula",
+            "form": "Syrup / Elixir",
+            "price_level": "Medium",
+            "is_otc": true,
+            "note": "Elixir للكبار والأطفال الكبار، Syrup (S) للصغار والرضع."
+          },
+          {
+              "trade_name": "Pentamix",
+              "scientific_name": "Guava Leaf + Thyme",
+              "form": "Syrup",
+              "price_level": "Low",
+              "is_otc": true,
+              "note": "خيار عشبي اقتصادي آمن"
+          },
+          {
+              "trade_name": "Balsam",
+              "scientific_name": "Guava Leaf + Tilia",
+              "form": "Syrup",
+              "price_level": "Low",
+              "is_otc": true,
+              "note": "مهدئ ومذيب طبيعي"
+          }
+        ]
+      },
+      {
+        "patient_type": "Chemical Mucolytics (Stronger)",
+        "drugs": [
+          {
+            "trade_name": "Mucosolvan",
+            "scientific_name": "Ambroxol",
+            "form": "Syrup",
+            "price_level": "Low",
+            "is_otc": true,
+            "warnings": ["يفضل فوق سنتين"],
+            "pediatric_calc": {"is_calculable": true, "mg_per_kg": 1.5, "concentration_mg": 15, "concentration_ml": 5, "frequency": 3, "note": "جرعة تقريبية: 2.5 مل مرتين للأطفال الصغار"}
+          },
+          {
+            "trade_name": "Acetylcistein",
+            "scientific_name": "Acetylcysteine",
+            "form": "Sachets (200mg)",
+            "dose": "كيس مرتين يومياً (للأطفال > 2 سنة)",
+            "price_level": "Low",
+            "is_otc": true,
+            "warnings": ["يمنع استخدامه لمرضى الربو النشط (Active Asthma) لأنه قد يسبب ضيق في الشعب (Bronchospasm)"],
+            "note": "أكياس فوارة، تذاب في نصف كوب ماء."
+          }
+        ]
+      },
+      {
+        "patient_type": "Dry Cough (Antitussive)",
+        "drugs": [
+          {
+            "trade_name": "Sinecod",
+            "scientific_name": "Butamirate Citrate",
+            "form": "Syrup / Drops",
+            "dose": "حسب العمر",
+            "price_level": "Medium",
+            "is_otc": true,
+            "equivalents": [{"name": "Selgon", "form": "Drops/Supp", "price_level": "Low", "is_otc": true}],
+            "pediatric_calc": {
+                "is_calculable": true,
+                "type": "syrup",
+                "mg_per_kg": 0,
+                "concentration_mg": 7.5,
+                "concentration_ml": 5,
+                "frequency": 3,
+                "note": "الجرعة حسب النشرة: 5مل (3-6 سنوات) 3 مرات. النقط للرضع: 10 نقط 3 مرات."
+            }
+          },
+          {
+            "trade_name": "Cyrinol",
+            "form": "Syrup",
+            "price_level": "Low",
+            "is_otc": true,
+            "note": "مهدئ للكحة"
+          }
+        ]
+      },
+      {
+          "patient_type": "WARNING: Sedating Complex Cough Syrups",
+          "instructions": "لا ينصح به للأطفال أقل من 6 سنوات عالمياً.",
+          "context": {
+            "title": "تحذير الأوليكس وتوسكان",
+            "content": "الـ Oplex فيه باراسيتامول (خطر الجرعة المكررة لو الطفل بياخد سيتال للسخونية في نفس الوقت). الـ Tusskan قوي جداً وبيسبب نعاس شديد وهلوسة بصرية نادرة. بلاش منهم للأطفال الصغار."
+          },
+          "drugs": [
+              {
+                  "trade_name": "Oplex",
+                  "scientific_name": "Oxomemazine + Paracetamol",
+                  "form": "Syrup",
+                  "price_level": "Low",
+                  "is_otc": true,
+                  "warnings": ["يسبب النعاس", "يحتوي على باراسيتامول (انتبه لجرعة السخونية)", "ممنوع أقل من سنتين"],
+                  "contraindications": ["AGE < 2", "LIVER"]
+              },
+              {
+                "trade_name": "Tusskan",
+                "scientific_name": "Dextromethorphan + Guaifenesin + Ephedrine",
+                "form": "Syrup",
+                "price_level": "Low",
+                "is_otc": true,
+                "warnings": ["يسبب النعاس", "ممنوع للأطفال أقل من 6 سنوات"],
+                "contraindications": ["AGE < 6"]
+              }
+          ]
+      }
+    ]
+  },
+  {
+      "id": "ped_cold_allergy",
+      "category": "Pediatrics",
+      "condition_ar": "البرد وحساسية الأنف",
+      "condition_en": "Cold & Allergic Rhinitis",
+      "search_tags": ["برد", "رشح", "زكام", "حساسية", "zyrtec", "levuhistam", "fenistil", "claritin"],
+      "protocols": [
+          {
+              "patient_type": "Infants & Toddlers (First Line)",
+              "rationale": "Dimetindene (Fenistil) is the standard for infants.",
+              "drugs": [
+                  {
+                      "trade_name": "Fenistil",
+                      "scientific_name": "Dimetindene Maleate",
+                      "form": "Drops",
+                      "dose": "نقطة لكل كجم 3 مرات يومياً",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "يسبب النعاس (Sedating)، ممتاز قبل النوم لتهدئة الطفل والهرش.",
+                      "pediatric_calc": {
+                        "is_calculable": true,
+                        "type": "drops",
+                        "mg_per_kg": 0.1,
+                        "concentration_mg": 1,
+                        "concentration_ml": 1,
+                        "frequency": 3
+                      }
+                  }
+              ]
+          },
+          {
+              "patient_type": "Children > 2 Years (Non-Sedating)",
+              "drugs": [
+                  {
+                      "trade_name": "Levuhistam",
+                      "scientific_name": "Levocetirizine",
+                      "form": "Syrup",
+                      "dose": "2.5 مل مرة واحدة مساءً (للأطفال 2-6 سنوات)",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "يؤخذ مساءً، أقل تسبباً للنعاس من الجيل الأول.",
+                      "equivalents": [{"name": "Zyrtec", "price_level": "Medium", "is_otc": true}, {"name": "Histazine", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Claritin",
+                      "scientific_name": "Loratadine",
+                      "form": "Syrup",
+                      "dose": "5 مل مرة يومياً (> 2 سنة)",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "لا يسبب النعاس (Non-sedating).",
+                      "equivalents": [{"name": "Mosedin", "price_level": "Low", "is_otc": true}]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Cold Preparation (Decongestant)",
+              "instructions": "ممنوع للأطفال أقل من 6 سنوات (لأنه يحتوي على Pseudoephedrine).",
+              "drugs": [
+                  {
+                      "trade_name": "123 Syrup",
+                      "scientific_name": "Paracetamol + Pseudoephedrine + Chlorpheniramine",
+                      "form": "Syrup",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "contraindications": ["AGE < 6 YEARS"],
+                      "equivalents": [{"name": "Congestal Syrup", "price_level": "Low", "is_otc": true}]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_gi_distress",
+      "category": "Pediatrics",
+      "condition_ar": "الجهاز الهضمي (مغص، ترجيع، إسهال، إمساك)",
+      "condition_en": "Gastrointestinal Disorders",
+      "search_tags": ["مغص", "إسهال", "ترجيع", "antinal", "dentinox", "zofran", "visceralgine", "picolax", "gast-reg", "lactulose"],
+      "protocols": [
+          {
+              "patient_type": "Colic & Spasms",
+              "patient_scenario": [
+                "البيبي بيصرخ بعد كل رضعة ورجليه بتترفع لبطنه",
+                "عايزة دواء للمغص والانتفاخ للرضع"
+              ],
+              "adjunct_advice": "تمارين العجلة للأرجل، وضع البطن (Tummy Time)، والتجشؤ (التقريع) بعد كل رضعة.",
+              "context": {
+                "title": "ماء غريب vs دواء",
+                "content": "الـ Gripe Water طلب كلاسيكي عند الجدات، لكن فعاليته مش مثبتة زي الـ Dentinox (Simethicone). لو الأم مصممة، عرفها إنه مكمل غذائي مش دواء أساسي."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Dentinox",
+                      "scientific_name": "Simethicone",
+                      "form": "Drops",
+                      "dose": "القطارة كاملة (حوالي 2.5 مل) بعد الرضعة",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "instructions": "يرج جيداً ويعطى بعد الرضاعة.",
+                      "equivalents": [{"name": "Simethicone Drops", "price_level": "Low", "is_otc": true}],
+                      "alternatives": [{"name": "Gripe Water", "note": "مكمل غذائي عشبي", "price_level": "Medium", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Visceralgine",
+                      "scientific_name": "Tiemonium Methylsulfate",
+                      "form": "Syrup",
+                      "dose": "1 مل/كجم مقسمة على 3 مرات",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "للمغص الشديد (Antispasmodic) والمغص الكلوي.",
+                      "equivalents": [{"name": "Spasmofree", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Gast-Reg",
+                      "scientific_name": "Trimebutine",
+                      "form": "Suspension",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "منظم لحركة الأمعاء (مفيد في حالات الإمساك والمغص معاً)."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Diarrhea Management",
+              "instructions": "الخط الأول والأهم هو تعويض السوائل بمحلول الجفاف (ORS).",
+              "context": {
+                "title": "كيفية إعطاء محلول الجفاف",
+                "content": "الأطفال بتكره طعم محلول الجفاف وممكن يرجعوه. نصيحة ذهبية: 1- خليه ساقع شوية. 2- اديه للطفل 'رشفة رشفة' (5 مل كل 5 دقايق) بسرنجة أو معلقة. لو شرب الكمية كلها مرة واحدة هيرجعها."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Hydrosafe / Rehydran",
+                      "scientific_name": "ORS (Low Osmolarity)",
+                      "form": "Sachets",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "rationale": "Prevents dehydration. Life-saving.",
+                      "dose": "كيس على 200 مل ماء (يعطى 10 مل/كجم بعد كل مرة إسهال)."
+                  },
+                  {
+                      "trade_name": "Zinc Origin",
+                      "scientific_name": "Zinc Sulfate",
+                      "form": "Syrup",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "dose": "5 مل (< 6 شهور: 2.5 مل) مرة يومياً لمدة 14 يوم",
+                      "note": "يقلل مدة وشدة الإسهال ويمنع تكراره.",
+                      "equivalents": [{"name": "Sulfozinc", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Antinal",
+                      "scientific_name": "Nifuroxazide",
+                      "form": "Suspension",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "dose": "5 مل كل 6-8 ساعات",
+                      "note": "مطهر معوي واسع المجال (لا ينصح به عالمياً في الإسهال الفيروسي، لكنه شائع جداً في مصر)."
+                  },
+                  {
+                      "trade_name": "Smecta",
+                      "scientific_name": "Diosmectite",
+                      "form": "Sachets/Suspension",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "يمتص السموم ويقلل سيولة البراز (Stool hardener)."
+                  },
+                  {
+                      "trade_name": "Linex",
+                      "scientific_name": "Probiotics",
+                      "form": "Sachets",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "بكتيريا نافعة، مفيدة جداً لاستعادة توازن الأمعاء بعد المضادات الحيوية."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Vomiting",
+              "context": {
+                "title": "حقن الترجيع بالفم",
+                "content": "في حالات الترجيع المستمر، الأمهات بتخاف من الحقن. Danset أو Zofran الأمبول ممكن يتكسر ويتحط على عصير ويتاخد بالفم، نتايجه ممتازة جداً وبيرحم الطفل من الشكة. الجرعة للأمبول: جزء يتناسب مع الوزن."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Danset",
+                      "scientific_name": "Ondansetron",
+                      "form": "Ampoule (Oral use) / Tab 4mg",
+                      "dose": "0.15 مجم/كجم (للأطفال > 6 شهور)",
+                      "price_level": "Medium",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "rationale": "Safe and effective antiemetic.",
+                      "equivalents": [{"name": "Zofran", "price_level": "High", "is_otc": true}, {"name": "Emerest", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Motinorm",
+                      "scientific_name": "Domperidone",
+                      "form": "Syrup / Supp",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "warnings": ["خطر على القلب (QT Prolongation) - التزم بالجرعة بدقة", "قد يسبب أعراض جانبية عصبية (تشنج بالرقبة) لو الجرعة زادت"],
+                      "pediatric_calc": {"is_calculable": true, "mg_per_kg": 0.25, "concentration_mg": 5, "concentration_ml": 5, "frequency": 3, "note": "0.25 مجم/كجم كل 8 ساعات بحد أقصى أسبوع"}
+                  }
+              ]
+          },
+          {
+              "patient_type": "Constipation",
+              "drugs": [
+                  {
+                      "trade_name": "Glycerin Suppositories (Infant)",
+                      "form": "Suppositories",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "حل سريع (SOS) لتفريغ المستقيم، لكن لا يعالج سبب الإمساك."
+                  },
+                  {
+                      "trade_name": "Duphalac",
+                      "scientific_name": "Lactulose",
+                      "form": "Syrup",
+                      "dose": "1-3 مل/كجم/يوم",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "ملين آمن للاستخدام الطويل (Prebiotic effect). قد يسبب غازات في البداية.",
+                      "equivalents": [{"name": "Sedulac", "price_level": "Low", "is_otc": true}, {"name": "Laxolac", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Picolax",
+                      "scientific_name": "Sodium Picosulfate",
+                      "form": "Drops",
+                      "dose": "5-10 نقط مساءً (للأطفال > 4 سنوات)",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "ملين قوي (نقط) - لا يستخدم لفترات طويلة لتجنب تعود الأمعاء."
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_motion",
+      "category": "Pediatrics",
+      "condition_ar": "دوار الحركة (السفر)",
+      "condition_en": "Motion Sickness",
+      "search_tags": ["دوار", "سفر", "ترجيع", "dramenex", "motion"],
+      "protocols": [
+          {
+              "patient_type": "Prevention (Before Travel)",
+              "instructions": "يؤخذ قبل ركوب المواصلات بـ 30-60 دقيقة.",
+              "context": {
+                "title": "توقيت الجرعة",
+                "content": "الدواء ده مالوش لازمة لو اتاخد والطفل بيرجع بالفعل في الطريق. لازم يتاخد قبل ما العربية تتحرك بنص ساعة عشان يلحق يشتغل."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Dramenex",
+                      "scientific_name": "Dimenhydrinate",
+                      "form": "Syrup",
+                      "dose": "حسب العمر والوزن (عادة 5 مل لسن 2-6 سنوات)",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "contraindications": ["AGE < 2 YEARS"],
+                      "warnings": ["يسبب النعاس", "ممنوع للرضع أقل من سنتين"],
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "syrup",
+                          "mg_per_kg": 1.25,
+                          "concentration_mg": 15,
+                          "concentration_ml": 5,
+                          "frequency": 3
+                      }
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_protozoa_parasites",
+      "category": "Pediatrics",
+      "condition_ar": "الطفيليات والديدان (بروتوكول كامل)",
+      "condition_en": "Intestinal Protozoa & Parasites",
+      "search_tags": ["اميبا", "جارديا", "ديدان", "nanazoxid", "flagyl", "alzental", "furazol"],
+      "protocols": [
+          {
+              "patient_type": "Protozoa (Amoeba/Giardia) - First Line",
+              "context": {
+                "title": "ميزة النتازود",
+                "content": "الأمهات بتحب 'نانازوكسيد' لسببين: طعمه مقبول جداً (فراولة) وكورسه قصير (3 أيام بس) وجرعته سهلة (مرتين في اليوم). الفلاجيل طعمه مر جداً (Metallic taste) والطفل ممكن يرفضه."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Nanazoxid",
+                      "scientific_name": "Nitazoxanide",
+                      "form": "Suspension",
+                      "dose": "1-3 سنوات: 5 مل (100مجم) مرتين. 4-11 سنة: 10 مل (200مجم) مرتين.",
+                      "price_level": "Medium",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "instructions": "يؤخذ مع الأكل لتجنب اضطراب المعدة. لمدة 3 أيام.",
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "syrup",
+                          "mg_per_kg": 0,
+                          "concentration_mg": 100,
+                          "concentration_ml": 5,
+                          "frequency": 2,
+                          "note": "5مل (1-3 سنوات)، 10مل (4-11 سنة)"
+                      }
+                  },
+                  {
+                      "trade_name": "Flagyl",
+                      "scientific_name": "Metronidazole",
+                      "form": "Suspension",
+                      "price_level": "Low",
+                      "is_otc": false,
+                      "note": "المعيار الذهبي للأميبا المتحوصلة (Cysts) لكن طعمه صعب.",
+                      "equivalents": [{"name": "Amrizole", "price_level": "Low", "is_otc": false}, {"name": "Entophar", "price_level": "Low", "is_otc": false}],
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "syrup",
+                          "mg_per_kg": 40,
+                          "concentration_mg": 125,
+                          "concentration_ml": 5,
+                          "frequency": 3,
+                          "note": "30-50 مجم/كجم/يوم مقسمة على 3 جرعات لمدة 5-10 أيام"
+                      }
+                  },
+                  {
+                      "trade_name": "Furazol",
+                      "scientific_name": "Metronidazole + Diloxanide",
+                      "form": "Suspension",
+                      "price_level": "Low",
+                      "is_otc": false,
+                      "note": "تركيبة مزدوجة للأميبا (تغطي الأكياس والطور النشط)."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Worms (Pinworms/Roundworms)",
+              "instructions": "علاج الديدان يجب أن يشمل الأسرة كلها. يجب قص الأظافر وغسل الملابس والملايات بالماء الساخن.",
+              "drugs": [
+                  {
+                      "trade_name": "Alzental",
+                      "scientific_name": "Albendazole",
+                      "form": "Suspension",
+                      "dose": "20 مل (400 مجم) جرعة واحدة، وتكرر بعد أسبوعين",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "يرج جيداً. يؤخذ مع وجبة دهنية لزيادة الامتصاص.",
+                      "equivalents": [{"name": "Vermizole", "price_level": "Low", "is_otc": true}, {"name": "Bendax", "price_level": "Low", "is_otc": true}],
+                      "pediatric_calc": {
+                          "is_calculable": false,
+                          "fixed_dose": "400mg (20ml) single dose, repeat in 2 weeks"
+                      }
+                  },
+                  {
+                      "trade_name": "Antiver",
+                      "scientific_name": "Mebendazole",
+                      "form": "Suspension",
+                      "dose": "ملعقة (5 مل) صباحاً ومساءً لمدة 3 أيام، تكرر بعد أسبوعين",
+                      "price_level": "Low",
+                      "is_otc": true
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_derma_comprehensive",
+      "category": "Pediatrics",
+      "condition_ar": "الجلدية (تسلخات، حروق، فطريات، حشرات)",
+      "condition_en": "Dermatology (Rash, Burns, Fungal, Bites)",
+      "search_tags": ["تسلخات", "حفاض", "حروق", "mebo", "sudocrem", "fusicort", "licid", "fucidin", "tinea", "grinif", "iverzine"],
+      "protocols": [
+          {
+              "patient_type": "Diaper Rash (Routine & Healing)",
+              "context": {
+                "title": "الاختيار الاقتصادي",
+                "content": "سودوكريم ممتاز بس غالي جداً على الاستخدام اليومي. 'زنك أوليف' أو 'كير باي كير' بدايل ممتازة واقتصادية جداً للروتين اليومي."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Zinc Olive",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "rationale": "Excellent barrier and soothing properties.",
+                      "instructions": "يدهن مع كل تغيير حفاض كعازل ومرطب.",
+                      "equivalents": [{"name": "Care By Care", "price_level": "Low", "note": "خيار اقتصادي ممتاز", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Sudocrem",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "يحتوي على مواد مطهرة وملطفة"
+                  },
+                  {
+                      "trade_name": "Miconaz / Daktarin",
+                      "form": "Cream",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "dose": "مرتين يومياً لمدة 7 أيام",
+                      "note": "للتسلخات الفطرية (لما تلاقي نقط حمراء متناثرة 'Satellite lesions')."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Infected Wounds / Severe Rash",
+              "drugs": [
+                  {
+                      "trade_name": "Fucidin",
+                      "scientific_name": "Fusidic Acid",
+                      "form": "Cream/Ointment",
+                      "dose": "2-3 مرات يومياً",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "equivalents": [{"name": "Fusi", "price_level": "Low", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Garamycin",
+                      "scientific_name": "Gentamicin",
+                      "form": "Cream",
+                      "price_level": "Low",
+                      "is_otc": true
+                  },
+                  {
+                      "trade_name": "Fusicort",
+                      "scientific_name": "Fusidic Acid + Betamethasone",
+                      "form": "Cream",
+                      "dose": "مرتين يومياً لمدة 5 أيام فقط",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "warnings": ["يحتوي على كورتيزون قوي - لا يستخدم لفترة طويلة (بحد أقصى 5-7 أيام) ولا يستخدم على الوجه"]
+                  },
+                  {
+                      "trade_name": "Kenacomb",
+                      "scientific_name": "Nystatin + Neomycin + Gramicidin + Steroid",
+                      "form": "Cream",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "warnings": ["يحتوي على 4 مواد فعالة. لا يستخدم للأطفال أقل من سنة إلا بحذر شديد ولأيام معدودة"]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Burns (First Aid)",
+              "drugs": [
+                  {
+                      "trade_name": "Mebo",
+                      "scientific_name": "Beta-sitosterol",
+                      "form": "Ointment",
+                      "price_level": "High",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "rationale": "Promotes tissue regeneration & pain relief.",
+                      "instructions": "يدهن طبقة سميكة 3-4 مرات يومياً (تغطى أو تترك مكشوفة)."
+                  },
+                  {
+                      "trade_name": "Dermazin",
+                      "scientific_name": "Silver Sulfadiazine",
+                      "form": "Cream",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "contraindications": ["G6PD", "NEONATES"],
+                      "warnings": ["ممنوع لمرضى أنيميا الفول (Sulfa drug)"]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Head Lice & Scabies",
+              "context": {
+                "title": "فرق السعر الرهيب",
+                "content": "اللايسيد رخيص جداً (حوالي 15 جنيه) بس ريحته قوية ومبيد حشري. النيتوليك غالي (فوق 200) بس فيزيائي (بيخنق القملة) وآمن ومالوش ريحة. الايفيرزين لوشن حل وسط وقوي جداً."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Licid",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "instructions": "يوضع على الشعر الجاف لمدة ساعة ثم يغسل."
+                  },
+                  {
+                      "trade_name": "Iverzine",
+                      "scientific_name": "Ivermectin 1%",
+                      "form": "Lotion",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "للدهان فقط. يوضع على الشعر الجاف لمدة 10 دقائق فقط ثم يغسل.",
+                      "warnings": ["لا يبلع"]
+                  },
+                  {
+                      "trade_name": "Nitolic",
+                      "scientific_name": "Dimethicone",
+                      "form": "Spray",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "آمن وخالي من المبيدات"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Tinea Capitis (Scalp Ringworm)",
+              "instructions": "لا بد من علاج بالفم. الكريمات وحدها لا تكفي لعلاج تينيا الرأس.",
+              "drugs": [
+                  {
+                      "trade_name": "Grinif",
+                      "scientific_name": "Griseofulvin",
+                      "form": "Suspension",
+                      "dose": "10-20 مجم/كجم يومياً لمدة 4-6 أسابيع",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": false,
+                      "note": "يجب رجه جيداً وأخذه مع طعام دسم (لبن كامل الدسم/شوكولاتة) لزيادة الامتصاص.",
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "syrup",
+                          "mg_per_kg": 15,
+                          "concentration_mg": 125,
+                          "concentration_ml": 5,
+                          "frequency": 1,
+                          "note": "جرعة واحدة يومياً بعد وجبة دسمة"
+                      }
+                  }
+              ]
+          },
+          {
+              "patient_type": "Insect Bites / Itching",
+              "drugs": [
+                  {
+                      "trade_name": "Phenergan",
+                      "scientific_name": "Promethazine",
+                      "form": "Cream",
+                      "dose": "2-3 مرات يومياً",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مضاد للحساسية موضعي",
+                      "warnings": ["قد يسبب حساسية ضوئية (تجنب الشمس بعد الدهان)"]
+                  },
+                  {
+                      "trade_name": "Calamyl D",
+                      "form": "Lotion",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "ملطف ومرطب (يرج جيداً قبل الاستخدام)",
+                      "equivalents": [{"name": "Kala Lotion", "price_level": "Low", "is_otc": true}]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_oral_care_extended",
+      "category": "Pediatrics",
+      "condition_ar": "العناية بالفم (فطريات، قرح، تسنين)",
+      "condition_en": "Oral Care (Thrush, Ulcers, Teething)",
+      "search_tags": ["فطريات", "فم", "تسنين", "miconaz", "bbc", "hexitol", "zovirax", "dentist"],
+      "protocols": [
+          {
+              "patient_type": "Oral Thrush (Fungal)",
+              "drugs": [
+                  {
+                      "trade_name": "Miconaz Oral Gel",
+                      "scientific_name": "Miconazole",
+                      "form": "Oral Gel",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "instructions": "يدهن بالفم واللسان بعد الرضاعة 4 مرات يومياً.",
+                      "warnings": ["خطر الاختناق: لا تضع كمية كبيرة في الحلق مباشرة، بل ادهن ببطء."]
+                  },
+                  {
+                      "trade_name": "Nystatin",
+                      "form": "Drops",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "dose": "2 مل (قطارتين) 4 مرات يومياً",
+                      "equivalents": [{"name": "Fungistatin", "price_level": "Low", "is_otc": true}, {"name": "Daktarin Oral Gel", "price_level": "Medium", "is_otc": true}]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Teething Pain",
+              "drugs": [
+                  {
+                      "trade_name": "Dentist Gel",
+                      "scientific_name": "Lidocaine + Chamomile",
+                      "form": "Oral Gel",
+                      "dose": "جزء صغير ويدلك به اللثة عند اللزوم (بحد أقصى 3-4 مرات يومياً)",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "note": "مخدر موضعي ومطهر"
+                  },
+                  {
+                      "trade_name": "Dentinox Teething Gel",
+                      "price_level": "Low",
+                      "is_otc": true
+                  }
+              ]
+          },
+          {
+              "patient_type": "Sore Throat & Ulcers",
+              "drugs": [
+                  {
+                      "trade_name": "BBC",
+                      "scientific_name": "Benzocaine",
+                      "form": "Spray",
+                      "dose": "بخة أو بختين كل 3-4 ساعات",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مخدر موضعي قوي",
+                      "warnings": ["ممنوع للأطفال الصغار (خطر الاختناق Aspiration بسبب التخدير) - يفضل فوق 6-12 سنة"]
+                  },
+                  {
+                      "trade_name": "Hexitol",
+                      "form": "Mouthwash",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "غرغرة (لا تبلع) - تستخدم مرتين يومياً"
+                  },
+                  {
+                      "trade_name": "Salivex",
+                      "form": "Paint",
+                      "dose": "يدهن بالفرشاة المرفقة على مكان القرحة 3 مرات يومياً",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مؤلم لحظياً (لسعة) لكن فعال جداً للقرح (Cauterizing effect)."
+                  },
+                  {
+                      "trade_name": "Oravex",
+                      "form": "Spray",
+                      "dose": "2-3 بخات كل 4 ساعات",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "مسكن للقرح (خالي من الكحول) وطعمه مقبول."
+                  }
+              ]
+          },
+          {
+              "patient_type": "Herpetic Stomatitis (Viral)",
+              "context": {
+                "title": "بداية العلاج",
+                "content": "زوفيراكس لازم يتاخد في أول 48-72 ساعة عشان يجيب نتيجة. لو الأم جاية متأخر (بعد 3-4 أيام) عرفها إن الدواء ممكن مايكونش فعال أوي وإن الدور هياخد وقته (Self-limiting)."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Zovirax",
+                      "scientific_name": "Acyclovir",
+                      "form": "Suspension",
+                      "price_level": "High",
+                      "is_otc": false,
+                      "note": "يجب البدء به مبكراً",
+                      "pediatric_calc": {
+                          "is_calculable": true,
+                          "type": "syrup",
+                          "mg_per_kg": 20,
+                          "concentration_mg": 200,
+                          "concentration_ml": 5,
+                          "frequency": 4,
+                          "note": "الجرعة المعتادة: 200مجم (5مل) 5 مرات يومياً"
+                      }
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_supplements_complete",
+      "category": "Pediatrics",
+      "condition_ar": "المكملات الغذائية (نمو، مناعة، حديد)",
+      "condition_en": "Pediatric Supplements (Growth, Immunity, Iron)",
+      "search_tags": ["فيتامين", "حديد", "vidrop", "sansovit", "calcium", "omega", "osteocare", "haemojet", "marnys", "ferrotron"],
+      "protocols": [
+          {
+              "patient_type": "Vitamin D (Routine)",
+              "instructions": "إلزامي من اليوم الأول للولادة.",
+              "drugs": [
+                  {
+                      "trade_name": "Vidrop",
+                      "scientific_name": "Vitamin D3",
+                      "form": "Drops",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "dose": "السنة الأولى: 4 نقط (400 وحدة) يومياً. السنة الثانية: 6 نقط (600 وحدة) يومياً."
+                  },
+                  {
+                      "trade_name": "Davalindi",
+                      "form": "Drops",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مكافئ للفي دروب"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Iron Deficiency Anemia",
+              "instructions": "يؤخذ مع عصير برتقال (فيتامين C) لزيادة الامتصاص. يفصل عن اللبن والكالسيوم بساعتين.",
+              "drugs": [
+                  {
+                      "trade_name": "Enrich",
+                      "scientific_name": "Iron Polymaltose",
+                      "form": "Drops",
+                      "dose": "الجرعة الوقائية: 2.5 مجم/كجم. الجرعة العلاجية: 10-20 نقطة يومياً حسب الوزن.",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "لا يسبب تصبغ الأسنان ولا إمساك شديد",
+                      "equivalents": [{"name": "Hydroferrin", "price_level": "Low", "is_otc": true}, {"name": "Ferrotron Sachets", "price_level": "Medium", "is_otc": true}]
+                  },
+                  {
+                      "trade_name": "Haemojet",
+                      "scientific_name": "Iron + Folic",
+                      "form": "Syrup",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "dose": "3-6 مجم/كجم حديد يومياً (عادة 5 مل مرة أو مرتين يومياً)"
+                  },
+                  {
+                      "trade_name": "Ferrose",
+                      "form": "Syrup",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "قديم - يصبغ الأسنان (اغسل الأسنان بعده) وطعمه معدني"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Calcium & Growth",
+              "drugs": [
+                  {
+                      "trade_name": "Osteocare",
+                      "form": "Syrup",
+                      "price_level": "High",
+                      "is_best_choice": true,
+                      "is_otc": true,
+                      "dose": "5 مل مرة أو مرتين يومياً",
+                      "note": "يحتوي على مغنيسيوم وزنك وفيتامين د."
+                  },
+                  {
+                      "trade_name": "Pedical",
+                      "form": "Syrup",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "dose": "2.5 - 5 مل مرة واحدة يومياً",
+                      "note": "كالسيوم للرضع (يحتوي على B12 أيضاً)"
+                  },
+                  {
+                      "trade_name": "Marnys Junior",
+                      "scientific_name": "Royal Jelly + Vitamins",
+                      "form": "Vials",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "رويال جيلي مستورد (للمناعة والنمو) - قارورة يومياً قبل الإفطار"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Omega-3 (Focus)",
+              "context": {
+                "title": "التركيز أيام الامتحانات",
+                "content": "ده التريند الدائم أيام المدارس. بنعتمد على Efalex كخيار أول لأنه الأشهر، لكن طعمه ليمون لاذع ممكن يضايق بعض الأطفال. حيلة: حطه على عصير جوافة أو زبادي عشان يداري الطعم."
+              },
+              "drugs": [
+                  {
+                      "trade_name": "Efalex",
+                      "form": "Syrup",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "الأشهر لزيادة التركيز وتأخر الكلام (يحتوي على DHA & EPA)",
+                      "dose": "5 مل مرتين يومياً (مع الأكل)"
+                  },
+                  {
+                      "trade_name": "Omega 3 Plus",
+                      "form": "Capsules",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "dose": "كبسولة مرة أو مرتين يومياً",
+                      "note": "للأطفال الكبار الذين يستطيعون بلع الكبسولات"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Immunity Boosters",
+              "drugs": [
+                  {
+                      "trade_name": "Broncho-Vaxom",
+                      "form": "Sachets",
+                      "price_level": "High",
+                      "is_otc": true,
+                      "note": "كورس وقائي: كيس يومياً على الريق لمدة 10 أيام شهرياً، لمدة 3 شهور متتالية."
+                  },
+                  {
+                      "trade_name": "Immulant",
+                      "scientific_name": "Echinacea",
+                      "form": "Syrup",
+                      "dose": "5 مل 3 مرات يومياً لمدة 14 يوم",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "لا يستخدم لأكثر من 8 أسابيع متصلة."
+                  },
+                  {
+                      "trade_name": "Sansovit",
+                      "scientific_name": "Multivitamins + Calcium",
+                      "form": "Syrup",
+                      "dose": "5-10 مل مرة يومياً",
+                      "price_level": "Medium",
+                      "is_otc": true,
+                      "note": "خيار آمن لفتح الشهية وتعويض الفيتامينات"
+                  }
+              ]
+          },
+          {
+              "patient_type": "Appetite Stimulant (Chemical)",
+              "instructions": "يستخدم بحذر شديد وللضرورة القصوى.",
+              "drugs": [
+                  {
+                      "trade_name": "Digectin",
+                      "scientific_name": "Cyproheptadine + Enzymes",
+                      "form": "Syrup",
+                      "dose": "مرة واحدة يومياً قبل الأكل",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "contraindications": ["AGE < 2 YEARS"],
+                      "warnings": ["ممنوع نهائياً للأطفال أقل من سنتين", "يسبب النعاس", "يؤثر على التركيز المدرسي"],
+                      "alternatives": [{"name": "Triactin", "price_level": "Low", "is_otc": true}]
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_eye_ear_drops",
+      "category": "Pediatrics",
+      "condition_ar": "قطرات العيون والأذن (موسع)",
+      "condition_en": "Eye & Ear Drops (Expanded)",
+      "search_tags": ["عين", "صديد", "tobrex", "vigamox", "isopto fenicol", "otol", "viotic", "ear wax"],
+      "protocols": [
+          {
+              "patient_type": "Eye Antibiotics",
+              "instructions": "تنظيف العين بقطنة مبللة بماء دافئ قبل وضع القطرة (من الداخل للخارج).",
+              "drugs": [
+                  {
+                      "trade_name": "Vigamox",
+                      "scientific_name": "Moxifloxacin",
+                      "form": "Eye Drops",
+                      "dose": "نقطة 3 مرات يومياً لمدة 7 أيام",
+                      "price_level": "High",
+                      "is_best_choice": true,
+                      "is_otc": false,
+                      "note": "قوي وآمن (Preservative Free) ومريح للعين.",
+                      "equivalents": [{"name": "Moxiflox", "price_level": "Medium", "is_otc": false}]
+                  },
+                  {
+                      "trade_name": "Tobrex",
+                      "scientific_name": "Tobramycin",
+                      "form": "Eye Drops",
+                      "price_level": "Medium",
+                      "is_otc": false,
+                      "dose": "نقطة كل 4 ساعات",
+                      "equivalents": [{"name": "Tobrin", "price_level": "Low", "is_otc": false}]
+                  },
+                  {
+                      "trade_name": "Isopto Fenicol",
+                      "scientific_name": "Chloramphenicol",
+                      "form": "Eye Drops",
+                      "dose": "نقطة كل ساعتين (أول يومين) ثم 4 مرات يومياً",
+                      "price_level": "Low",
+                      "is_otc": false,
+                      "note": "يحفظ في الثلاجة (Cold Chain). فعال جداً ورخيص."
+                  },
+                  {
+                      "trade_name": "Tobradex",
+                      "scientific_name": "Tobramycin + Dexamethasone",
+                      "form": "Eye Drops",
+                      "dose": "نقطة 4 مرات يومياً",
+                      "price_level": "Medium",
+                      "is_otc": false,
+                      "warnings": ["يحتوي على كورتيزون - لا يستخدم لفترة طويلة ولا يستخدم في حالات قرحة القرنية (Corneal Ulcer)"]
+                  }
+              ]
+          },
+          {
+              "patient_type": "Ear Drops (Infection & Pain)",
+              "instructions": "قم بتدفئة الزجاجة بين كفيك قليلاً قبل الاستخدام لتجنب الدوخة والألم.",
+              "drugs": [
+                  {
+                      "trade_name": "Ciprocort",
+                      "scientific_name": "Ciprofloxacin + Hydrocortisone",
+                      "form": "Ear Drops",
+                      "dose": "3 نقط في الأذن المصابة مرتين يومياً",
+                      "price_level": "Medium",
+                      "is_best_choice": true,
+                      "is_otc": false,
+                      "note": "مضاد حيوي + كورتيزون لعلاج الالتهاب والتورم."
+                  },
+                  {
+                      "trade_name": "Viotic",
+                      "scientific_name": "Antipyrine + Benzocaine",
+                      "form": "Ear Drops",
+                      "dose": "4 نقط 3-4 مرات يومياً لتسكين الألم",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مسكن ومخدر للألم (لا يعالج الالتهاب البكتيري، فقط يسكن)."
+                  },
+                  {
+                      "trade_name": "Otol",
+                      "scientific_name": "Glycerin + Antipyrine",
+                      "form": "Ear Drops",
+                      "dose": "4 نقط عند اللزوم",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مسكن للألم"
+                  },
+                  {
+                      "trade_name": "Ear Wax / Remowax",
+                      "scientific_name": "Carbamide Peroxide",
+                      "form": "Drops",
+                      "price_level": "Low",
+                      "is_otc": true,
+                      "note": "مذيب للشمع (يستخدم 3 مرات يومياً لمدة 3 أيام قبل الغسيل عند الطبيب)."
+                  }
+              ]
+          }
+      ]
+  },
+  {
+      "id": "ped_newborn",
+      "category": "Pediatrics",
+      "condition_ar": "العناية بحديثي الولادة (السرة)",
+      "condition_en": "Newborn Care (Umbilical Cord)",
+      "search_tags": ["سرة", "مولود", "كحول", "alcohol"],
+      "protocols": [
+          {
+              "patient_type": "Routine Cord Care",
+              "instructions": "رش الكحول حول السرة مع كل تغيير حفاض حتى تقع وتجف تماماً.",
+              "drugs": [
+                  {
+                      "trade_name": "Alcohol 70% Spray",
+                      "scientific_name": "Ethyl Alcohol 70%",
+                      "form": "Spray",
+                      "price_level": "Low",
+                      "is_best_choice": true,
+                      "is_otc": true
+                  }
+              ]
+          }
+      ]
+  }
+]
