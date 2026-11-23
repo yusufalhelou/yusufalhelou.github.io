@@ -47,7 +47,7 @@ sitemap: false
         <div class="space-y-4 mb-6">
             <div>
                 <label for="apiKey" class="block text-sm font-medium text-gray-300">YouTube Data API Key:</label>
-                <input type="text" id="apiKey" value="AIzaSyC-ffeEx9wu6ojbL2Ha-FZ4nVFWorVkVDc" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <input type="text" id="apiKey" placeholder="Enter your YouTube Data API Key" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
             </div>
             <div>
                 <label for="channelId" class="block text-sm font-medium text-gray-300">YouTube Channel ID:</label>
@@ -79,6 +79,12 @@ sitemap: false
             const statusMessage = document.getElementById('statusMessage');
             const resultContainer = document.getElementById('resultContainer');
             const jsonOutput = document.getElementById('jsonOutput');
+            const apiKeyInput = document.getElementById('apiKey');
+
+            const savedApiKey = localStorage.getItem('yt_api_key');
+            if (savedApiKey) {
+                apiKeyInput.value = savedApiKey;
+            }
 
             // Fetches the uploads playlist ID for the channel
             const fetchUploadsPlaylistId = async (channelId, apiKey) => {
@@ -184,6 +190,8 @@ sitemap: false
                     generateBtn.disabled = false;
                     return;
                 }
+
+                localStorage.setItem('yt_api_key', apiKey.trim());
 
                 statusMessage.textContent = 'Starting video data generation...';
 
